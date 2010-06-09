@@ -1,0 +1,45 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  eventday: 2009-12-04
+  lastregisterday: 2009-12-04
+  location: MyString
+  distance: 1
+  electronicservicequote: 9.99
+  showincarrusel: false
+  showresults: false
+  fichastart: 1
+  fichaend: 1
+  inscriptionopen: false
+  runtype_id: 1
+  flickrlink: MyString
+  convocatoria: MyText
+  descriptionadicional: MyText
+  mainphoto: MyString
+  diplomphoto: MyString
+  sponsoringphoto: MyString
+  mapphoto: MyString
+
+two:
+  name: MyString
+  description: MyText
+  eventday: 2009-12-04
+  lastregisterday: 2009-12-04
+  location: MyString
+  distance: 1
+  electronicservicequote: 9.99
+  showincarrusel: false
+  showresults: false
+  fichastart: 1
+  fichaend: 1
+  inscriptionopen: false
+  runtype_id: 1
+  flickrlink: MyString
+  convocatoria: MyText
+  descriptionadicional: MyText
+  mainphoto: MyString
+  diplomphoto: MyString
+  sponsoringphoto: MyString
+  mapphoto: MyString

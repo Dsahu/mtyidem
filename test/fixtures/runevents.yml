@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  run_id: 1
+  name: MyString
+  description: MyText
+  default_amount: 9.99
+  default_amount_extra: 9.99
+
+two:
+  run_id: 1
+  name: MyString
+  description: MyText
+  default_amount: 9.99
+  default_amount_extra: 9.99

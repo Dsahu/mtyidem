@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  upload_by_user_id: 1
+  path: MyString
+  run_id: 1
+  visible: false
+  counter: 1
+
+two:
+  name: MyString
+  description: MyText
+  upload_by_user_id: 1
+  path: MyString
+  run_id: 1
+  visible: false
+  counter: 1

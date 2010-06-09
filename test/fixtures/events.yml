@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  organizator_id: 1
+  idemserial: false
+  phone: MyString
+  location: MyString
+  visible: false
+  when: 2009-11-22
+
+two:
+  name: MyString
+  description: MyText
+  organizator_id: 1
+  idemserial: false
+  phone: MyString
+  location: MyString
+  visible: false
+  when: 2009-11-22

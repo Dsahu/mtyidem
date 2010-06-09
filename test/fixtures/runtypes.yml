@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  description: MyText
+  parts: 1
+  part_name_1: MyString
+  part_name_2: MyString
+  part_name_3: MyString
+  part_name_4: MyString
+  part_name_5: MyString
+  part_name_6: MyString
+  part_name_7: MyString
+  part_name_8: MyString
+  part_name_9: MyString
+  part_name_10: MyString
+
+two:
+  name: MyString
+  description: MyText
+  parts: 1
+  part_name_1: MyString
+  part_name_2: MyString
+  part_name_3: MyString
+  part_name_4: MyString
+  part_name_5: MyString
+  part_name_6: MyString
+  part_name_7: MyString
+  part_name_8: MyString
+  part_name_9: MyString
+  part_name_10: MyString

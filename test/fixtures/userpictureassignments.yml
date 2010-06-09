@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  picture_id: 1
+  user_id: 1
+  tagged_by_user_id: 1
+  cor_x: 1
+  cor_y: 1
+
+two:
+  picture_id: 1
+  user_id: 1
+  tagged_by_user_id: 1
+  cor_x: 1
+  cor_y: 1

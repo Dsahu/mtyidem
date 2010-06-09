@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  runevent_id: 1
+  amount: 9.99
+  amount_extra: 9.99
+  from_age: 1
+  to_age: 1
+
+two:
+  runevent_id: 1
+  amount: 9.99
+  amount_extra: 9.99
+  from_age: 1
+  to_age: 1
