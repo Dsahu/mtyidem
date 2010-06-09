@@ -1,0 +1,27 @@
+<h1>New diploma_schema</h1>
+
+<% form_for(@diploma_schema) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :run_id %><br />
+    <%= f.text_field :run_id %>
+  </p>
+  <p>
+    <%= f.label :size_x %><br />
+    <%= f.text_field :size_x %>
+  </p>
+  <p>
+    <%= f.label :size_y %><br />
+    <%= f.text_field :size_y %>
+  </p>
+  <p>
+    <%= f.label :photopath %><br />
+    <%= f.text_field :photopath %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', diploma_schemas_path %>

@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+ 		
+	<head> 
+		<title>IDEM Sport - Ideas Deportivas Monterrey</title> 
+		<%= javascript_include_tag :defaults  %>
+        <%= javascript_include_tag 'jquerytools/jquery.tools.min' if (params[:controller] == "home" && params[:action] == "about") || params[:controller] == "calender" %>
+        <%= javascript_include_tag "boxy/jquery.boxy", "jcarousel/jquery.jcarousel_res", "jquerytools/jquery.mousewheel-3.0.2.pack", "jquerytools/jquery.fancybox-1.3.0.pack", :cache => "others" %>
+
+
+
+       	<%= stylesheet_link_tag 'layout' %>
+		<%= stylesheet_link_tag 'idemsport' %>
+		<%= stylesheet_link_tag 'jquery.fancybox-1.3.0' %>
+		<%= stylesheet_link_tag 'humanity/jquery-ui-1.7.2.custom' %>
+		<%= stylesheet_link_tag 'boxy/boxy' %>
+		
+		
+		<script type="text/javascript"> 
+			$(document).ready(function() {
+								
+				$("#overlay2").fancybox({
+				
+					'width'				: '800px',
+					'height'			: '600px',
+					'scrolling'			: 'no',
+					'titleShow'			: false
+
+				});
+				
+				$("#overlay").fancybox({
+				
+					'width'				: '800px',
+					'height'			: '600px',
+					'scrolling'			: 'no',
+					'titleShow'			: false
+				
+				});
+				
+				$("#overlay2_2nd").fancybox({
+				
+					'width'				: '800px',
+					'height'			: '600px',
+					'scrolling'			: 'no',
+					'titleShow'			: false
+
+				});
+				
+				$("#overlay_2nd").fancybox({
+				
+					'width'				: '800px',
+					'height'			: '600px',
+					'scrolling'			: 'no',
+					'titleShow'			: false
+				
+				});
+				
+			});
+		</script> 
+	</head> 
+	 
+	
+	<body> 
+		<div class="container">
+		
+			<div class="header" style="vertical-align:baseline;">
+				<table width="100%">
+					<tr>
+						<td><a href="/"><img src="/images/logo_top.png" /></a></td>
+						<% if current_user %>
+						<td style="padding-bottom:15px; padding-right:5px; text-align:right; vertical-align:bottom;"><a style="color:white;" href="/profile"><%=h current_user.full_name + " (Socio: #{current_user.id})" %></a></td>
+						<% end %>
+					</tr>
+				</table>
+			</div>
+		
+			<div class="menu">
+				<ul id="menu">
+					<li><a href="/" title="">Inicio</a></li>
+					<% if current_user %>
+						<li><a href="/profile" title="">Perfil</a></li>
+					<% end %>
+					<li><a href="/home/about" title="">Nosotros</a></li>
+					<li><a href="/carreras" title="">Carreras</a></li>
+					<li><a href="/pictures" title="">Fotos</a></li>
+					<li><a href="/videos" title="">Videos</a></li>
+					<li><a href="/results" title="">Resultados</a></li>
+					<li><a href="/calender" title="">Calendario</a></li>
+					<li><a href="/home/contact" title="">Contacto</a></li>
+					<% unless current_user %>
+						<li><a href="/signup" title="">Registro</a></li>
+					<% end %>
+					<% if current_user %>
+						<li><a href="/logout" title="">Logout</a></li>
+					<% else %>
+						<li><a href="/login" title="">Login</a></li>
+					<% end %>
+				</ul>
+			</div>
+		
+		
+			<div id="content">
+				<%= flash[:notice] %>
+				<%= yield %>
+			</div>
+		
+			<div class="actions">
+				<div class="actions_col">
+					<h1 class="fh1">No te puedes perder</h1>
+					<a href="#promo_gran_premio" id="overlay"><img src="images/gp2.png" title="Gran Premio Nuevo León 2010"></a><br/><br/>
+					<p class="fp">Enterate de todas las noticias y de las mejores promociones.</p>
+					<ul id="btvg"><li class="vm"><a href="#promo_gran_premio" id="overlay_2nd"></a></li></ul> 
+					<br/><br/>
+					<h1 class="fh1">Idem Sport en tu correo</h1>
+					<p class="cpw">Enterate de todas las noticias y de las mejores promociones.</p><br /> 
+					<%= form_tag "/home/inscription_in_newsletter/0" %> 
+						<span class="textform">Nombre</span> 
+						<input type="textfield" name="name" class="text_field"/> 
+						<br />
+						<span class="textform">E-mail</span> 
+						<input type="textfield" name="email" class="text_field"/> 
+						<br /><br />
+						<label> 
+							<input type="submit" name="Enviar" Value="Enviar" class="send"/> 
+						</label> 
+					</form>
+				</div>
+			
+			
+			
+				<div class="actions_col">
+					<h1 class="fh1">Conviertete en Socio</h1>
+					<a href="#promo_socio" id="overlay2"><img src="images/socios.png" title="Conviertete en Socio Idem Sport"></a><br/><br/>
+					<p class="fp">Obtén la tarjeta de Socio Idem Sport y recibe grandes beneficios.</p>
+					<ul id="btvg"><li class="vm"><a href="#promo_socio" id="overlay2_2nd"></a></li></ul> 
+					<br/><br/>
+			
+					<h1 class="fh1">Qué pasa en la red de Idem Sport</h1>
+					
+					<% wallevents = Wallevent.find(:all, :conditions => ["we_type != 60"], :order => "created_at desc", :limit => 3) %>
+					<%= render :partial => 'profile/wall', :locals => {:wallevents => wallevents, :colormode => "white", :event_response => false} %>	
+					
+				</div>
+			
+				<div class="actions_col">
+					
+					<%
+						pics = Picture.find(:all, :order => "created_at desc", :limit => 6)
+					%>
+					
+					<h1 class="fh1">Las últimas galerías</h1>
+					<% pics.each do |pic| %>
+						<a href="/pictures?run=<%=pic.run_id%>&picture_id=<%=pic.id%>"><img src="<%=pic.html_s_path%>" class="ac" /></a>
+					<% end %>
+					<br/>
+					<ul id="btvg"><li class="vm"><a href="/pictures"></a></li></ul> 
+					<br/><br/>
+					<h1 class="fh1"><b>No olvides seguirnos en:</b></h1>
+					<p class="msn"><a href="#">Messenger <strong>idemsport@hotmail.com</strong></a></p>
+					
+				</div>
+			</div>
+			
+			<div class="footer">
+				<p class="pa"><b>® 2010 Idem Sport</b> - Ideas Deportivas Monterrey - <b>Todos los derechos reservados</b></p>
+			</div> 
+			
+			<div style="display:none;">
+				<div id="promo_socio" style="background-image:url(/images/bg_body_p.png);">
+					<div class="promos" style="height:500px; margin:20px; padding-top:20px;">
+						<img src="/images/socioidem.png" title="Socio Idem Sport" style="float:left; margin-right:20px;"><br/>
+						<h1 class="huge">Registrate y obten tu tarjeta<br/>Socio Idem Sport</h1><br/><br/><br/><br/>
+						<p class="fp"><b>La tarjeta de socio IDEM SPORT te permitirá disfrutar de numerosos
+						descuentos y promociones en las carreras organizadas<br/> por nosotros y con nuestros clientes 
+						y amigos afiliados.</b></p><br/>
+						
+						<h1 class="fh1">¿Cómo obtenerla?</h1>
+						<p class="fp">Para solicitar tu tarjeta de socio IDEM SPORT y así poder acceder 
+						a los beneficios especiales, deberás completar tu registro.</p><br/>
+						
+						<h1 class="fh1">Beneficios únicos</h1>
+						<p class="fp">Los socios IDEM SPORT podrán inscribirse con mayor facilidad, 
+						recoger su paquete de corredor en módulos exclusivos y tener <br/>la seguridad que sus datos 
+						estarán bien escritos en chip y diploma. Además, tendrán su perfil de corredor en línea, 
+						con <br/>resultados, estadísticas, fotos, videos y comentarios. Además de participar en la
+						rifa de artículos exclusivos y deportivos.</p><br/>
+						
+						<h1 class="fh1">¿Tiene algún costo?</h1>
+						<p class="fp">No, esta tarjeta es gratis para ti, mantente al pendiente ya que
+						pronto te daremos a conocer más información sobre promociones y ventajas.</p><br/>
+						
+						<ul id="btpromos"><li class="registrar"><a href="/signup"></a></li></ul> 
+						<ul id="btpromos"><li class="login"><a href="/login"></a></li></ul> 
+						
+					</div>
+				</div>
+				<div id="promo_gran_premio" style="background-image:url(/images/bg_body_p.png);">
+					<div class="promos" style="height:500px; margin:20px; padding-top:20px;">
+						<img src="/images/premionl.png" title="Gran Premio Nuevo León" style="float:left; margin-right:20px;"><br/>
+						<h1 class="huge">¡Participa en el <br/>Gran Premio Nuevo León!</h1><br/><br/><br/><br/>
+						<p class="fp">Corre, por lo menos nueve, de las 13 carreras participantes y tendrás la oportunidad de entrar en la rifa de dos motocicletas 125cc (una para cada rama) al final del año.</p><br/>
+						
+						<h1 class="fh1">Los eventos que participan son:</h1>
+						<div class="p_carreras">
+							<div class="carr_left">
+								<p class="fpromo"><b>10K Imagen</b></p>
+								<p class="fpromo"><b>10K Duendes</b></p>
+								<p class="fpromo"><b>10K Impuls</b></p>
+								<p class="fpromo"><b>21K Monterrey</b></p>
+								<p class="fpromo"><b>10K San Pedro</b></p> 
+								<p class="fpromo"><b>10K Sport City</b></p>
+								<p class="fpromo"><b>15K Contry</b></p>
+								<p class="fpromo"><b>10K Benavides</b></p>
+								<p class="fpromo"><b>10K San Agustín</b></p>
+								<p class="fpromo"><b>10K Soriana</b></p>
+								<p class="fpromo"><b>10K Ternium</b></p>
+								<p class="fpromo"><b>21K Nuevo León</b></p>
+								<p class="fpromo"><b>Maratón Powerade MTY.</b></p>
+							</div>
+						
+							<div class="carr_right">
+								14/ Feb.<br/>
+								14/Mar.<br/>
+								11/Abr.<br/>
+								25/Abr.<br/>
+								11/Jul.<br/>
+								1/Ago.<br/>
+								29/Ago.<br/>
+								26/Sep.<br/>
+								3/Oct.<br/>
+								24/Oct.<br/>
+								7/Nov.<br/>
+								21/Nov.<br/>
+								12/Dic.
+							</div>
+						
+						
+						</div>
+						
+						<div class="p_historial">
+							<p class="fp">Recuerda que solo en <b>www.idemsport.com</b> podrás seguir tu record personal de participación.</p>
+							<!--<ul id="btpromos"><li class="historial"><a href="#"></a></li></ul>-->
+							<br/><span style="color:white; font-weight:bold;"><a style="color:white;" href="/grandprixes/1"> >> Ve el historial ahora!</a></span> 
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		
+		</div>
+		
+		
+		<!-- GOOGLE ANALITICS -->
+		<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		
+		<script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-15048197-1");
+				pageTracker._trackPageview();
+			} catch(err) {}
+		</script>
+		<!-- GOOGLE ANALITICS -->
+		
+		
+	</body> 
+</html>

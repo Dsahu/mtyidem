@@ -1,0 +1,28 @@
+<h1>Listing payconds</h1>
+
+<table>
+  <tr>
+    <th>Runevent</th>
+    <th>Amount</th>
+    <th>Amount extra</th>
+    <th>From age</th>
+    <th>To age</th>
+  </tr>
+
+<% @payconds.each do |paycond| %>
+  <tr>
+    <td><%=h paycond.runevent.runname_plus_name if paycond.runevent %></td>
+    <td><%=h paycond.amount %></td>
+    <td><%=h paycond.amount_extra %></td>
+    <td><%=h paycond.from_age %></td>
+    <td><%=h paycond.to_age %></td>
+    <td><%= link_to 'Show', paycond %></td>
+    <td><%= link_to 'Edit', edit_paycond_path(paycond) %></td>
+    <td><%= link_to 'Destroy', paycond, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New paycond', new_paycond_path %>

@@ -1,0 +1,28 @@
+<h1>Listing camp_units</h1>
+
+<table>
+  <tr>
+    <th>Campaign</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Path</th>
+    <th>Image where</th>
+  </tr>
+
+<% @camp_units.each do |camp_unit| %>
+  <tr>
+    <td><%=h camp_unit.campaign_id %></td>
+    <td><%=h camp_unit.name %></td>
+    <td><%=h camp_unit.description %></td>
+    <td><%=h camp_unit.path %></td>
+    <td><%=h camp_unit.image_where %></td>
+    <td><%= link_to 'Show', camp_unit %></td>
+    <td><%= link_to 'Edit', edit_camp_unit_path(camp_unit) %></td>
+    <td><%= link_to 'Destroy', camp_unit, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New camp_unit', new_camp_unit_path %>

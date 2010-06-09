@@ -1,0 +1,15 @@
+<h1>Pictures updated and resized</h1>
+<table>
+	<tr>
+		<th>Id</th>
+		<th>Width Gal</th>
+		<th>Height Gal</th>
+	</tr>
+	<% @pictures.each do |pic| %>
+		<tr>
+			<td><%=h pic.id%></td>
+			<td><%=h pic.width%></td>
+			<td><%=h pic.height%></td>
+		</tr>
+	<% end %>
+</table>

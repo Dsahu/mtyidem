@@ -1,0 +1,50 @@
+<div style="padding:20px;">
+
+  <%= flash[:error]%><br/>
+
+<% if @inscription %>
+
+    <h1><%=h @run.name%> - Resumen de Inscripcion</h1>
+    <h3 style="color:gray;"><%=h @inscription.firstname %> <%=h @inscription.lastname %></h3>
+
+
+    Nombre Completo: <%=h @inscription.firstname %> <%=h @inscription.lastname %><br/>
+    Email: <%=h @inscription.user.email if @inscription.user_id %><br/>
+    Evento: <%=h @inscription.runevent.name %><br/>
+    Pago: <%=h @inscription.amount %><br/>
+    Ficha: <%=h @inscription.ficha %><br/>
+    Sexo: <%= @inscription.sex ? "Hombre" : "Mujer" %><br/>
+    Edad: <%= @inscription.get_age %><br/>
+    Talla: <%= Inscription::DRESS_SIZES.index(@inscription.dresssize).to_s %><br/>
+    Club: <%=h @inscription.club %><br/>
+    Categoria: <%=h @inscription.runner_category.name %> (<%=h @inscription.runner_category.color%>)<br/>
+    Ciudad: <%=h @inscription.city%><br/>
+    Telefono: <%=h @inscription.phone%> <br/>
+
+    <% if @newpass %>
+        <br /><br/>
+        <span style="font-weight:bold;">Socio: <%=@inscription.user_id%></span><br/>
+        <span style="font-weight:bold;">Email: <%=h @inscription.user.email if @inscription.user_id %></span><br/>
+        <span style="font-weight:bold;">Password: <%=@newpass%></span>
+        <br/>
+    <% end %>
+
+    <br/><br/>
+
+    <a href="/admin/up/<%=@run.id%>">Nueva Inscripción</a>
+
+    <br/><br/><br/>
+
+<% else %>
+
+
+      <br/><br/>
+
+      <a href="/admin/up/<%=@run.id%>">Nueva Inscripción</a>
+
+      <br/><br/><br/>
+            
+
+<% end %>
+
+</div>

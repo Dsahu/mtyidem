@@ -1,0 +1,44 @@
+<h1>Listing runtypes</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Parts</th>
+    <th>Part name 1</th>
+    <th>Part name 2</th>
+    <th>Part name 3</th>
+    <th>Part name 4</th>
+    <th>Part name 5</th>
+    <th>Part name 6</th>
+    <th>Part name 7</th>
+    <th>Part name 8</th>
+    <th>Part name 9</th>
+    <th>Part name 10</th>
+  </tr>
+
+<% @runtypes.each do |runtype| %>
+  <tr>
+    <td><%=h runtype.name %></td>
+    <td><%=h runtype.description %></td>
+    <td><%=h runtype.parts %></td>
+    <td><%=h runtype.part_name_1 %></td>
+    <td><%=h runtype.part_name_2 %></td>
+    <td><%=h runtype.part_name_3 %></td>
+    <td><%=h runtype.part_name_4 %></td>
+    <td><%=h runtype.part_name_5 %></td>
+    <td><%=h runtype.part_name_6 %></td>
+    <td><%=h runtype.part_name_7 %></td>
+    <td><%=h runtype.part_name_8 %></td>
+    <td><%=h runtype.part_name_9 %></td>
+    <td><%=h runtype.part_name_10 %></td>
+    <td><%= link_to 'Show', runtype %></td>
+    <td><%= link_to 'Edit', edit_runtype_path(runtype) %></td>
+    <td><%= link_to 'Destroy', runtype, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New runtype', new_runtype_path %>

@@ -1,0 +1,64 @@
+<h1>Editing runtype</h1>
+
+<% form_for(@runtype) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :parts %><br />
+    <%= f.text_field :parts %>
+  </p>
+  <p>
+    <%= f.label :part_name_1 %><br />
+    <%= f.text_field :part_name_1 %>
+  </p>
+  <p>
+    <%= f.label :part_name_2 %><br />
+    <%= f.text_field :part_name_2 %>
+  </p>
+  <p>
+    <%= f.label :part_name_3 %><br />
+    <%= f.text_field :part_name_3 %>
+  </p>
+  <p>
+    <%= f.label :part_name_4 %><br />
+    <%= f.text_field :part_name_4 %>
+  </p>
+  <p>
+    <%= f.label :part_name_5 %><br />
+    <%= f.text_field :part_name_5 %>
+  </p>
+  <p>
+    <%= f.label :part_name_6 %><br />
+    <%= f.text_field :part_name_6 %>
+  </p>
+  <p>
+    <%= f.label :part_name_7 %><br />
+    <%= f.text_field :part_name_7 %>
+  </p>
+  <p>
+    <%= f.label :part_name_8 %><br />
+    <%= f.text_field :part_name_8 %>
+  </p>
+  <p>
+    <%= f.label :part_name_9 %><br />
+    <%= f.text_field :part_name_9 %>
+  </p>
+  <p>
+    <%= f.label :part_name_10 %><br />
+    <%= f.text_field :part_name_10 %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @runtype %> |
+<%= link_to 'Back', runtypes_path %>

@@ -1,0 +1,44 @@
+<% if @run %>
+	<br/>
+	<% form_for(@inscription) do |f| %>
+		<%= f.hidden_field :run_id, :value => @run.id.to_s %>
+		<%= f.hidden_field :user_id, :value => "0" %>
+		<center>
+			
+			<table>
+				<tr>
+					<td style="padding-bottom:20px; text-align:left;"><img height="100px" src="<%=h @run.mainphoto%>" /></td>
+					<td style="text-align:left;"><h1><%=h @run.name%></h1></td>
+				</tr>
+				<tr>
+					<td><%=f.label :firstname%></td>
+					<td><%= f.text_field :firstname %></td>
+					<td><%= f.label :runevent_id%></td>
+					<td><%= f.collection_select :runevent_id, @inscription.runevents, :id, :name %></td>
+				</tr>
+				<tr>
+					<td><%= f.label :lastname%></td>
+					<td><%= f.text_field :lastname%></td>
+					<td><%= f.label :dresssize %></td>
+					<td><%= @inscription.dresssizes %></td>
+				</tr>
+				<tr>
+					<td><%= f.label :email %></td>
+					<td><%= f.text_field :email %></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><%= f.label :age %></td>
+					<td><%= f.text_field :age%></td>
+					<td></td>
+					<td></td>
+				</tr>
+				
+				<tr>
+					<td colspan="4" style="text-align:right;"><%= f.submit 'Ir a pagar' %></td>
+				</tr>
+			</table><br/><br/>
+		</center>
+	<% end %>
+<% end %>

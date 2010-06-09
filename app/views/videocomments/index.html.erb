@@ -1,0 +1,24 @@
+<h1>Listing videocomments</h1>
+
+<table>
+  <tr>
+    <th>Video</th>
+    <th>User</th>
+    <th>Description</th>
+  </tr>
+
+<% @videocomments.each do |videocomment| %>
+  <tr>
+    <td><%=h videocomment.video_id %></td>
+    <td><%=h videocomment.user_id %></td>
+    <td><%=h videocomment.description %></td>
+    <td><%= link_to 'Show', videocomment %></td>
+    <td><%= link_to 'Edit', edit_videocomment_path(videocomment) %></td>
+    <td><%= link_to 'Destroy', videocomment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New videocomment', new_videocomment_path %>

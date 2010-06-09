@@ -1,0 +1,51 @@
+<% if result.is_custom %>
+
+    <table id="result_<%=result.id%>">
+         <tr>
+			<td style="vertical-align:top;">
+				<img src="<%=Result::CUSTOM_RESULT_LOGO%>" width="50px" />
+			</td>
+			<td style="vertical-align:top;">
+				<%
+                    run_tot = result.custom_all_runners
+                    run_tot = 0 unless run_tot
+
+                    res_user = result.user
+                    (res_user && res_user.sex) ? rama_tot = result.custom_all_male : rama_tot = result.custom_all_female
+                    rama_tot = 0 unless rama_tot
+
+                    cat_tot = result.custom_all_category
+                    cat_tot = 0 unless cat_tot
+
+
+				%>
+
+				<b><%=result.custom_run_name%></b><br/>
+				Lugar General: <%="#{result.rank_general}/#{run_tot.to_s}"%><%= ", Rama: #{result.rank_rama}/#{rama_tot.to_s}" if result.rank_rama && result.rank_rama > 0 %><%= ", Categoria: #{result.rank_cat}/#{cat_tot}" if result.rank_cat && result.rank_cat > 0%><%= ", Paso: #{result.paso_civil}" if result.paso_in_seconds && result.paso_in_seconds > 0%><br/>
+				<%= "Tiempo: #{result.time_civil}" %><%= ", Tiempo Chip: #{result.time_chip_civil}" if result.time_chip_in_seconds && result.time_chip_in_seconds > 0%><%= ", Distancia: #{result.custom_run_distance}" if result.custom_run_distance && result.custom_run_distance > 0%><br/>
+				<span style="color:gray"><i><%=result.custom_date%></i></span> <% if result.user_id == current_user.id%><%=link_to_remote "Borrar", :url => {:controller => :results, :action => :destroy, :id => result.id}, :confirm => "Seguro?", :method => :delete%><% end %>
+			</td>
+		</tr>
+    </table>
+
+<% else %>
+      <table id="result_<%=result.id%>">
+		<tr>
+			<td style="vertical-align:top;">
+				<a href="/results?run_id=<%=result.run_id%>"><img src="<%=result.run.logophoto%>" width="50px" /></a>
+			</td>
+			<td style="vertical-align:top;">
+				<%
+					run_tot = run_totals.map {|x| x[:run_id] == result.run_id ? x[:total_res] : nil }.compact.first
+					rama_tot = result.cat.index('M') ? men_count.map {|x| x[:run_id] == result.run_id ? x[:men_count] : nil }.compact.first : women_count.map {|x| x[:run_id] == result.run_id ? x[:women_count] : nil }.compact.first
+					cat_tot = cats_count_res.map {|x| x[:run_id] == result.run_id && x[:cat] == result.cat ? x[:cat_count] : nil }.compact.first
+				%>
+
+				<a href="/results?run_id=<%=result.run_id%>"><b><%=result.run.name%></b></a><br/>
+				Lugar General: <%="#{result.rank_general}/#{run_tot.to_s}"%><%= ", Rama: #{result.rank_rama}/#{rama_tot.to_s}" if result.rank_rama && result.rank_rama > 0 %><%= ", Categoria: #{result.rank_cat}/#{cat_tot}" if result.rank_cat && result.rank_cat > 0%><%= ", Paso: #{result.paso_civil}" if result.paso_in_seconds && result.paso_in_seconds > 0%><br/>
+				<%= "Tiempo: #{result.time_civil}" %><%= ", Tiempo Chip: #{result.time_chip_civil}" if result.time_chip_in_seconds && result.time_chip_in_seconds > 0%><%=", <a target='_blank' href='/results/diploma/#{result.id}'>ver diploma</a>"%><br/>
+				<span style="color:gray"><i><%=result.run.eventday%></i></span>
+			</td>
+		</tr>
+      </table>
+<% end %>

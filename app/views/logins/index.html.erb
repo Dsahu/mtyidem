@@ -1,0 +1,29 @@
+<h1>Listing logins</h1>
+
+
+
+<table style="border-collapse:collapse;">
+  <tr>
+    <th>Email</th>
+    <th>Password</th>
+    <th>Failed</th>
+    <th>Ipaddr</th>
+    <th>User</th>
+  </tr>
+
+<% @logins.each do |login| %>
+
+  <% style_attr = "padding-right:10px; padding-bottom:3px;" %>
+  <% login.failed ? style_attr << "font-style:italic; color:#f00;" : style_attr << "color:green;" %>
+
+  <tr>
+    <td style="<%=style_attr%>"><%=h login.email %></td>
+    <td style="<%=style_attr%>"><%=h login.password %></td>
+    <td style="<%=style_attr%>"><%=h login.failed %></td>
+    <td style="<%=style_attr%>"><%=h login.ipaddr %></td>
+    <td style="<%=style_attr%>"><%=h login.user_id %></td>
+
+  </tr>
+<% end %>
+</table>
+

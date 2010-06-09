@@ -1,0 +1,119 @@
+<%
+	pages = total_count.to_i / max_per_page
+	if total_count.to_i.modulo(max_per_page).nonzero?
+		pages += 1
+    end
+
+%>
+
+
+<table style="border-collapse:collapse;" align="center">
+
+	<tr>
+		<td colspan="11" style="text-align:right;">Pagina <%= (1..pages).map do |x|
+				if x == pagenum
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params}, :html => {:class => 'page_helper_link'})}"
+				else 
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params})}"
+				end
+			end.join(" ") %></td>
+	</tr>
+
+	<tr>
+		<td class="restitle">Nombre</td> <!-- Nombre y apellido -->
+		<td class="restitle">Categoria</td>
+		<td class="restitle">Corredor</td>
+		<td class="restitle">Socio</td>
+		<td class="restitle">Club</td>
+		<td class="restitle">Edad</td>
+		<td class="restitle">Tiempo</td>
+		<td class="restitle">T. Chip</td>
+		<td class="restitle">Lug.<br/>Gen.</td>
+		<td class="restitle">Lug.<br/>Rama</td>
+		<td class="restitle">Lug.<br/>Cat.</td>
+		<td class="restitle">Paso</td>
+		<% if time_partial_count > 0 %>
+			<% (1..time_partial_count).each do |i| %>
+				<td class="restitle">
+				
+					<table width="100%">
+						<tr>
+							<td colspan="2"><%=run.send(:"partial_name_time#{i}")%></td>
+						</tr>
+						<tr>
+							<td>Tiempo</td>
+							<td>min/km</td>
+						</tr>
+					</table>
+				</td>
+			<% end %>
+		<% end %>
+		<td class="restitle">Video</td>
+		<td class="restitle"><img src="/images/diploma_icon.jpg" width="20px" /></td>
+        <% if ask_assign %>
+            <td class="restitle">Tu resultado?</td>
+        <% end %>
+	</tr>
+	<% if results.length > 0 %>
+
+		<% results.each do |res| %>
+			<tr id="result_row_<%=res.id%>" class="resrow<%=" is-user-result-row" if current_user_results.map {|x|x.id}.include?(res.id) %>">
+				<td class="resitem resitem_<%=res.id%>" style="text-align:left;"><%= res.user_id && res.user_id > 0 ? res.full_name : res.custom_full_name %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.cat %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.num %></td>
+				<td class="resitem resitem_<%=res.id%>"><%= res.user_id && res.user ? "<a href='#{res.user.profile_path}'>#{res.user_id}</a>" : "" %></td>
+				<td class="resitem resitem_<%=res.id%> style="text-align:left;"><%=h res.club %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.edad %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.time_civil %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.time_chip_civil %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.rank_general %> / <%=res_count%></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.rank_rama %> / <%= res.cat.index('M') ? men_count : women_count %></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.rank_cat %> / <%=cats_count[:"#{res.cat}"]%></td>
+				<td class="resitem resitem_<%=res.id%>"><%=h res.paso_civil %></td>
+				<% if time_partial_count > 0 %>
+					<% (1..time_partial_count).each do |i| %>
+						<td class="resitem resitem_<%=res.id%>">
+							<table width="100%">
+								<tr>
+									<td class="resitem_<%=res.id%>"><%=Result::secs_to_time(res.send(:"time_chip_in_seconds#{i}"))%></td>
+									<td class="resitem_<%=res.id%>"><%=Result::secs_to_time(res.send(:"paso_in_seconds#{i}"))%></td>
+								</tr>
+							</table>
+						</td>
+					<% end %>
+				<% end %>
+				<td class="resitem resitem_<%=res.id%>" style="text-align:center;">
+					<% vid_id = Video.get_minute_video(res.time_in_seconds/60, videos) %>
+					<% if vid_id %>
+						<a href="/videos/<%= vid_id%>">ver</a>
+					<% end %>
+				</td>
+				<td class="resitem resitem_#{res.id}" width="25px">
+					<a target="_blank" href="/results/diploma/<%=res.id%>">ver</a>
+				</td>
+                <% if ask_assign %>
+                    <td class="resitem">
+                      <% if res.user_id.nil? || res.user_id.zero? %>
+                        <%=link_to_remote "Este soy yo!", :url => {:controller => :user_result_assignments, :action => :assign, :id => res.id}%>
+                      <% end %>
+                    </td>
+
+                <% end %>
+			</tr>
+		<% end %>
+		
+	<% else %>
+		<tr>
+			<td colspan="12" style="text-align:center;"><br/><br/><i>No hay resultados bajo esas condiciones.</i></td>
+		</tr>
+	<% end %>
+	<tr>
+		<td colspan="11" style="text-align:right;"><br/>Pagina <%= (1..pages).map do |x|
+				if x == pagenum
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params}, :html => {:class => 'page_helper_link'})}"
+				else 
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params})}"
+				end
+			end.join(" ") %></td>
+	</tr>
+</table>

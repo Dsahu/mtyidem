@@ -1,0 +1,28 @@
+<p>
+  <b>Picture:</b>
+  <%=h @userpictureassignment.picture_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @userpictureassignment.user_id %>
+</p>
+
+<p>
+  <b>Tagged by user:</b>
+  <%=h @userpictureassignment.tagged_by_user_id %>
+</p>
+
+<p>
+  <b>Cor x:</b>
+  <%=h @userpictureassignment.cor_x %>
+</p>
+
+<p>
+  <b>Cor y:</b>
+  <%=h @userpictureassignment.cor_y %>
+</p>
+
+
+<%= link_to 'Edit', edit_userpictureassignment_path(@userpictureassignment) %> |
+<%= link_to 'Back', userpictureassignments_path %>

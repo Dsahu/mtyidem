@@ -1,0 +1,4 @@
+<% videos.sort! {|x,y| x.name.split(".").first.to_i <=> y.name.split(".").first.to_i} %>
+<% videos.each do |video| %>
+	<%= link_to video.name.split(".").first, url_for(video) %>
+<% end %>

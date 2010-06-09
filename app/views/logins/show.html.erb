@@ -1,0 +1,28 @@
+<p>
+  <b>Email:</b>
+  <%=h @login.email %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%=h @login.password %>
+</p>
+
+<p>
+  <b>Failed:</b>
+  <%=h @login.failed %>
+</p>
+
+<p>
+  <b>Ipaddr:</b>
+  <%=h @login.ipaddr %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @login.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_login_path(@login) %> |
+<%= link_to 'Back', logins_path %>

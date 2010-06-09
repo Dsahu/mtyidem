@@ -1,0 +1,111 @@
+<% if current_user.id == for_user.id %>
+
+    <div style="text-align:right;"><a style="color:blue;"  onClick="$('#custom_result_div').toggle();">Agregar nuevo resultado por ti mismo</a> <br/><br/></div>
+
+
+
+    <div id="custom_result_div" style="display:none;">
+
+      <br/><br/>
+
+      Agrega otro resultado. Si corriste una carrera, que no fue organizada por Idemsport.com, <br/>
+      puedes agregar el resultado de esa carrera aqui mismo. <br/><br/>
+
+      <% remote_form_for(Result.new, :url => {:controller => :results, :action => :create_custom}, :method => :post) do |f| %>
+        <table width="100%">
+          <tr>
+            <td width="40%" style="vertical-align:top;">
+              <table>
+                <tr>
+                  <td><%=f.label :custom_run_name, "Nombre Carrera"%></td>
+                  <td><%=f.text_field :custom_run_name, :size => 15%></td>
+                </tr>
+                <tr>
+                  <td><%= f.label :rank_general, "Lugar General"%></td>
+                  <td><%= f.text_field :rank_general, :size => 2%> <%= f.label :custom_all_runners, "de"%> <%= f.text_field :custom_all_runners, :size => 2%></td>
+                </tr>
+                <tr>
+                  <td><%= f.label :rank_rama, "Lugar Rama"%></td>
+                  <td>
+                    <%= f.text_field :rank_rama, :size => 2%> de
+                    <% if current_user.sex %>
+                        <%= f.text_field :custom_all_male, :size => 2%>
+                    <% else %>
+                        <%= f.text_field :custom_all_female, :size => 2%>
+                    <% end %>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td><%= f.label :rank_cat, "Lugar Categoria"%></td>
+                  <td><%= f.text_field :rank_cat, :size => 2%> <%= f.label :custom_all_category, "de"%> <%= f.text_field :custom_all_category, :size => 2%></td>
+
+                </tr>
+                <tr>
+                  <td><%= f.label :cat, "Categoria"%></td>
+                  <td><%= f.text_field :cat, :size => 15%></td>
+
+                </tr>
+              </table>
+
+            </td>
+            <td width="60%" style="vertical-align:top;">
+              <table>
+                <tr>
+                  <td><%= f.label :time_in_seconds, "Tiempo"%></td>
+                  <td><%= f.text_field :time_in_seconds, :size => 6%> <span style="color:gray; font-style:italic;">HH:MM:SS</span></td>
+                </tr>
+                <tr>
+                  <td><%= f.label :time_chip_in_seconds, "Tiempo Chip"%></td>
+                  <td><%= f.text_field :time_chip_in_seconds, :size => 6%> <span style="color:gray; font-style:italic;">HH:MM:SS</span></td>
+                </tr>
+                <tr>
+                  <td><%= f.label :custom_run_distance, "Distancia" %></td>
+                  <td><%= f.text_field :custom_run_distance, :size => 2%> km</td>
+                </tr>
+                <tr>
+                  <td><%= f.label :edad %></td>
+                  <td><%= f.text_field :edad, :size => 2%></td>
+                </tr>
+                <tr>
+                  <td><%= f.label :custom_date, "Fecha"%></td>
+                  <td><%= f.date_select :custom_date %></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><br/><%= f.submit "Agregar Resultado"%></td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
+      <br/><br/>
+    </div>
+
+    <div id="new_results">
+
+    </div>
+
+<% end %>
+
+<table width="100%">
+    <% if results.length > 0 %>
+        <% results.each do |res| %>
+
+            <tr>
+              <td>
+                <%= render :partial => "results/one_as_block", :locals => {:result => res, :run_totals => run_totals, :cats_count_res => cats_count_res, :men_count => men_count, :women_count => women_count} %>
+              </td>
+            </tr>
+
+        <% end %>
+    <% else %>
+       <tr>
+         <td style="text-align:center; padding:20px;">Aún no tienes ningun resultado.<br/><br/><a style="color:blue;" onClick="$('#custom_result_div').toggle();">Agrega uno a mano!!</a></td>
+       </tr>
+    <% end %>
+</table>
+
+

@@ -1,0 +1,32 @@
+<h1>Editing userpictureassignment</h1>
+
+<% form_for(@userpictureassignment) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :picture_id %><br />
+    <%= f.text_field :picture_id %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :tagged_by_user_id %><br />
+    <%= f.text_field :tagged_by_user_id %>
+  </p>
+  <p>
+    <%= f.label :cor_x %><br />
+    <%= f.text_field :cor_x %>
+  </p>
+  <p>
+    <%= f.label :cor_y %><br />
+    <%= f.text_field :cor_y %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @userpictureassignment %> |
+<%= link_to 'Back', userpictureassignments_path %>

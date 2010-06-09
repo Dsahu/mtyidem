@@ -1,0 +1,11 @@
+<tr>
+	<td style="vertical-align:top; padding-right:5px; width:45px;">
+		
+		<a href="<%=picturecomment.user.profile_path%>"><img src="<%=picturecomment.user.profilepic%>" width="40px" /></a>
+		
+	</td>
+	<td style="padding:5px; vertical-align:top;" id="picturecomment_<%=picturecomment.id%>">
+		<a href="<%=picturecomment.user.profile_path%>"><span class="userlink"><b><%=h picturecomment.user.full_name%></b></span></a> <%=h picturecomment.description%><br/>
+		<span style="color:gray;"><%=picturecomment.created_at%></span>
+	</td>
+</tr>

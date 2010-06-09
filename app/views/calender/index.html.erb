@@ -1,0 +1,133 @@
+<div style="padding-left:30px;">
+
+<div style="float:left;">
+	Cambiar Año: 
+	<form action="/calender">
+		<select onChange="this.form.submit()" name="year">
+			<% tmp_years = ["2010","2009", "2008"]%>
+			<% tmp_years.each do |y| %>
+				<option <%=" selected='selected' " if y == @year.to_s %> value="<%=y%>"><%=y%></option>
+			<% end %>
+		</select>
+	</form>
+</div>
+<div style="float:right;"><table><tr><td><img src="/images/calendariodecarreras.png" /></td><td><div class="calenderyearbig"><span class="front">20</style><span class="end" style="letter-spacing:-5px;"><%=@year.to_s[2,3]%></span></td></tr></table></div>
+<br/>
+<table style="padding-left:30px; padding-top:50px;" width="900px">
+	<tr>
+		<td class="monthbox">
+			<div class="monthboxtitle">// ENERO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @january}%>
+		</td>
+		<td class="monthbox">
+			<div class="monthboxtitle">// FEBRERO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @february}%>
+		</td>
+
+	</tr>
+	<tr>
+	    <td class="monthbox">
+			<div class="monthboxtitle">// MARZO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @march}%>
+		</td>
+		<td class="monthbox">
+			<div class="monthboxtitle">// ABRIL</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @april}%>
+		</td>
+	</tr>
+	<tr>
+		<td class="monthbox">
+			<div class="monthboxtitle">// MAYO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @may}%>
+		</td>
+		<td class="monthbox">
+			<div class="monthboxtitle">// JUNIO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @june}%>
+		</td>
+	</tr>
+	<tr>
+		<td class="monthbox">
+			<div class="monthboxtitle">// JULIO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @july}%>
+		</td>
+		<td class="monthbox">
+			<div class="monthboxtitle">// AGOSTO</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @august}%>
+		</td>
+
+	</tr>
+	<tr>
+	    <td class="monthbox">
+			<div class="monthboxtitle">// SEPTIEMBRE</div>
+			<hr/>
+			<%= render :partial => 'month', :locals => {:month => @september}%>
+		</td>
+		<td class="monthbox">
+			<div class="monthboxtitle">// OCTUBRE</div>
+			<hr/>     <br/>
+			<%= render :partial => 'month', :locals => {:month => @october}%>
+		</td>
+	</tr>
+	<tr>
+		<td class="monthbox">
+			<div class="monthboxtitle">// NOVIEMBRE</div>
+			<hr/><br/>
+			<%= render :partial => 'month', :locals => {:month => @november}%>
+		</td>
+		<td class="monthbox">
+			<div class="monthboxtitle">// DICIEMBRE</div>
+			<hr/><br/>
+			<%= render :partial => 'month', :locals => {:month => @december}%>
+		</td>
+	</tr>
+</table>
+
+<% @events.each do |event| %>
+	<% if event.run_id && event.run_id > 0 %>
+		<div class="tooltip_event" id="tooltip_<%=event.id%>">
+			<table>
+				<tr>
+					<td>
+						<a href="#" onClick="loadBoxyConvoc(<%=event.run_id%>)"><img src="<%=event.run.logophoto%>" /></a>
+					</td>
+					<td style="padding-top:20px; vertical-align:top;">
+						<a class="tooltip_inside_link" href="#" onClick="loadBoxyConvoc(<%=event.run_id%>)"><strong><%=h event.run.name%></strong></a><br/><br/>
+						<strong>Feacha</strong> <%=event.run.eventday.strftime("%d/%m/%Y")%><br/>
+						<strong>Informes:</strong> <%=h event.phone%><br/>
+						<strong>info@idemsport.com</strong>
+					</td>
+				</tr>
+			</table>
+		</div>
+	<% end %>
+<% end %>
+</div>
+
+<script type="text/javascript" language="JavaScript">
+	$(document).ready(function() {
+		
+		$("div[id^=idemevent_]").each(function(){
+			var tmp_id = $(this).attr("id")
+			var tmp_idnum = tmp_id.split("_")[1]
+			$("#idemevent_" + tmp_idnum).tooltip({ 
+				effect: 'slide',
+				tip: '#tooltip_'+tmp_idnum
+			});
+		});
+		
+		
+		/*alert('#tooltip_' + $(this).attr("id"))
+		$(".idemevent").tooltip({ 
+			effect: 'fade',
+			tip: alert($(this))
+		});*/  
+	});
+</script>

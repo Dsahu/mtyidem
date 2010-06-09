@@ -1,0 +1,14 @@
+<table>
+	<% videos.each do |vid| %>
+		<tr>
+			<td>
+				<img src="<%=vid.run.logophoto%>" width="75px"/>
+			</td>
+			<td>
+				<b><%=vid.run.name %><br/></b>
+				<a href="/videos/<%=vid.id%>">Ver video</a>
+			</td>
+		</tr>
+		
+	<% end %>
+</table>

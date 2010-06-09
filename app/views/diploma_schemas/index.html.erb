@@ -1,0 +1,26 @@
+<h1>Listing diploma_schemas</h1>
+
+<table>
+  <tr>
+    <th>Run</th>
+    <th>Size x</th>
+    <th>Size y</th>
+    <th>Photopath</th>
+  </tr>
+
+<% @diploma_schemas.each do |diploma_schema| %>
+  <tr>
+    <td><%=h diploma_schema.run_id %></td>
+    <td><%=h diploma_schema.size_x %></td>
+    <td><%=h diploma_schema.size_y %></td>
+    <td><%=h diploma_schema.photopath %></td>
+    <td><%= link_to 'Show', diploma_schema %></td>
+    <td><%= link_to 'Edit', edit_diploma_schema_path(diploma_schema) %></td>
+    <td><%= link_to 'Destroy', diploma_schema, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New diploma_schema', new_diploma_schema_path %>

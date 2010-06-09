@@ -1,0 +1,72 @@
+<h1>Listing gp_datas</h1>
+
+<table>
+  <tr>
+    <th>Grandprix</th>
+    <th>Name</th>
+    <th>Accum</th>
+    <th>Particip1</th>
+    <th>Particip2</th>
+    <th>Particip3</th>
+    <th>Particip4</th>
+    <th>Particip5</th>
+    <th>Particip6</th>
+    <th>Particip7</th>
+    <th>Particip8</th>
+    <th>Particip9</th>
+    <th>Particip10</th>
+    <th>Particip11</th>
+    <th>Particip12</th>
+    <th>Particip13</th>
+    <th>Particip14</th>
+    <th>Particip15</th>
+    <th>Particip16</th>
+    <th>Particip17</th>
+    <th>Particip18</th>
+    <th>Particip19</th>
+    <th>Particip20</th>
+    <th>Particip21</th>
+    <th>Particip22</th>
+    <th>Particip23</th>
+    <th>Particip24</th>
+  </tr>
+
+<% @gp_datas.each do |gp_data| %>
+  <tr>
+    <td><%=h gp_data.grandprix_id %></td>
+    <td><%=h gp_data.name %></td>
+    <td><%=h gp_data.accum %></td>
+    <td><%=h gp_data.particip1 %></td>
+    <td><%=h gp_data.particip2 %></td>
+    <td><%=h gp_data.particip3 %></td>
+    <td><%=h gp_data.particip4 %></td>
+    <td><%=h gp_data.particip5 %></td>
+    <td><%=h gp_data.particip6 %></td>
+    <td><%=h gp_data.particip7 %></td>
+    <td><%=h gp_data.particip8 %></td>
+    <td><%=h gp_data.particip9 %></td>
+    <td><%=h gp_data.particip10 %></td>
+    <td><%=h gp_data.particip11 %></td>
+    <td><%=h gp_data.particip12 %></td>
+    <td><%=h gp_data.particip13 %></td>
+    <td><%=h gp_data.particip14 %></td>
+    <td><%=h gp_data.particip15 %></td>
+    <td><%=h gp_data.particip16 %></td>
+    <td><%=h gp_data.particip17 %></td>
+    <td><%=h gp_data.particip18 %></td>
+    <td><%=h gp_data.particip19 %></td>
+    <td><%=h gp_data.particip20 %></td>
+    <td><%=h gp_data.particip21 %></td>
+    <td><%=h gp_data.particip22 %></td>
+    <td><%=h gp_data.particip23 %></td>
+    <td><%=h gp_data.particip24 %></td>
+    <td><%= link_to 'Show', gp_data %></td>
+    <td><%= link_to 'Edit', edit_gp_data_path(gp_data) %></td>
+    <td><%= link_to 'Destroy', gp_data, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New gp_data', new_gp_data_path %>

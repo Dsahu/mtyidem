@@ -1,0 +1,204 @@
+<div style="padding-left:20px;">
+	
+<script type="text/javascript" src="/javascripts/jcarousel/jquery.jcarousel.js"></script>
+<link rel="stylesheet" type="text/css" href="/stylesheets/jcarousel/jquery.jcarousel.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/jcarousel/skin.css" />
+
+<div style="display:none">
+	<% @runs.each_with_index do |run, index| %>
+		<img id="smallpic_<%=index%>" width="100px" height="100px" src="<%=run.logophoto%>" />
+		<img id="bigpic_<%=index%>" width="100px" height="100px" src="<%=run.mainphoto%>" />
+		<div class="bigpic_shadow" id="bigpic_shadow_<%=index%>">
+			
+			<table width="95%">
+				<tr>
+					<td style="padding:10px; vertical-align:top;">
+						<h1 style="padding-bottom:0px; margin-bottom:0px; color:white;" onClick="loadBoxyConvoc(<%=run.id%>)"><%=run.name%></h1><br/>
+						<span style="color:#eee;"><i><%=run.eventday.strftime("%d/%m/%Y")%></i></span>
+					</td>
+					<td style="text-align:right; vertical-align:top; padding-top:22px;">
+						<% if run.inscriptionopen %>
+							<a class="shadow_link" href="/inscriptions/new?run_id=<%=run.id%>">Inscripción</a><br/><br/>
+						<% end %>
+						<a class="shadow_link" href="#" onClick="loadBoxyConvoc(<%=run.id%>)">Convocatoria</a>
+					</td>
+				</tr>	
+			</table>
+			
+			
+		</div>
+	<% end %>
+</div>
+
+<script type="text/javascript">
+
+	var mycarousel_itemList;
+	var enter_testimg = false;
+	var enter_shadowcont = false;
+	var leave_testimg = true;
+	var leave_shadowcont = true;
+	
+	function mycarousel_itemVisibleInCallback(carousel, item, i, state, evt)
+	{
+	
+	    // The index() method calculates the index from a
+	    // given index who is out of the actual item range.
+	
+		var idx = carousel.index(i, mycarousel_itemList.length);
+		var middleidx = (idx-2);
+		if (middleidx < 0)
+			middleidx = (mycarousel_itemList.length-1);
+			
+		var old_middleidx = (idx-3);
+		if(old_middleidx < 0)
+			old_middleidx = (mycarousel_itemList.length-1);
+			
+		if(old_middleidx == middleidx) 
+			old_middleidx = middleidx - 1;
+	
+		$('#testimg').fadeOut("slow", function() {
+			$(this).attr('src', mycarousel_itemList[middleidx].imgbigobj.attr('src'));
+			$(this).fadeIn("slow");
+			
+			$("#shadowcontainer").html(mycarousel_itemList[middleidx].imgshadowobj);
+			
+		});
+		carousel.add(i, mycarousel_getItemHTML(mycarousel_itemList[idx - 1]));
+	};
+	
+	function mycarousel_itemVisibleOutCallback(carousel, item, i, state, evt)
+	{
+		carousel.remove(i);
+	};
+	
+	/**
+	 * Item html creation helper.
+	 */
+	function mycarousel_getItemHTML(item)
+	{
+		return item.imgsmallobj;
+	};
+	
+	function hiding_shadow() {
+		setTimeout(function(){
+			if(!$("#shadowcontainer").is(":hidden") && enter_shadowcont == false) {
+				$("#shadowcontainer").hide();
+			}
+		}, 200);
+	}
+	
+	function showing_shadow() {
+		setTimeout(function(){
+			if($("#shadowcontainer").is(":hidden")) {
+				$("#shadowcontainer").show();
+			}
+		}, 200);
+	}
+	
+	jQuery(document).ready(function() {
+	
+		mycarousel_itemList = [
+			<% @runs.each_with_index do |run, index| %>
+				{url: '<%=run.logophoto%>', title: 'Flower1', imgsmallobj: $('#smallpic_<%=index%>').clone(), imgbigobj: $('#bigpic_<%=index%>').clone(), imgshadowobj: $('#bigpic_shadow_<%=index%>').clone() } <%=', ' if (index+1) < @runs.count %>
+			<% end %>
+		];
+
+		
+		
+		$("#testimg").mouseenter(function(e) {
+			showing_shadow();
+		});
+		
+		$("#testimg").mouseleave(function(e) {
+			hiding_shadow();
+		});
+		
+		$("#shadowcontainer").mouseenter(function(e) {
+			enter_shadowcont = true;
+			leave_shadowcont = false;
+		});
+		
+		$("#shadowcontainer").mouseleave(function(e) {
+			leave_shadowcont = true;
+			enter_shadowcont = false;
+			
+			hiding_shadow();
+		});
+
+	    jQuery('#mycarousel').jcarousel({
+	        wrap: 'circular',
+			vertical: true,
+	        scroll: 1,
+			auto: 6,
+	        itemVisibleInCallback: {onBeforeAnimation: mycarousel_itemVisibleInCallback},
+	        itemVisibleOutCallback: {onAfterAnimation: mycarousel_itemVisibleOutCallback}
+	    });
+	});
+
+</script>
+
+
+	<table>
+		<tr>
+			<td width="100px">
+				<ul id="mycarousel" class="jcarousel-skin-tango">
+					<!-- The content will be dynamically loaded in here -->
+				</ul>
+			</td>
+			<td width="600px">
+				<img width="600px" height="300px" id="testimg" src="#"/>
+				<div id="shadowcontainer" style="display:none; position:absolute; width:600px; height:100px; top:0px; left:0px;"></div>
+			</td>
+			<td style="padding-left:20px;">
+				<div class="ad">
+					<div id="slideshow"> 
+					    <img src="/images/prod_ad.png" alt="Slideshow Image 1" class="active" /> 
+					    
+					    <img src="/images/prod_ad3.png" alt="Slideshow Image 3" /> 
+					    <img src="/images/prod_ad4.png" alt="Slideshow Image 4" /> 
+					    <img src="/images/prod_ad5.png" alt="Slideshow Image 5" /> 
+					</div> 
+				</div> 
+			</td>
+		</tr>
+	</table>
+
+	<script type="text/javascript"> 
+		function slideSwitch() {
+		    var $active = $('#slideshow IMG.active');
+		 
+		    if ( $active.length == 0 ) $active = $('#slideshow IMG:last');
+		 
+		    // use this to pull the images in the order they appear in the markup
+		    var $next =  $active.next().length ? $active.next()
+		        : $('#slideshow IMG:first');
+		 
+		    // uncomment the 3 lines below to pull the images in random order
+		    
+		    // var $sibs  = $active.siblings();
+		    // var rndNum = Math.floor(Math.random() * $sibs.length );
+		    // var $next  = $( $sibs[ rndNum ] );
+		 
+		 
+		    $active.addClass('last-active');
+		 
+		    $next.css({opacity: 0.0})
+		        .addClass('active')
+		        .animate({opacity: 1.0}, 1000, function() {
+		            $active.removeClass('active last-active');
+		        });
+		}
+		
+		$(document).ready(function() {
+			
+			var sh_top = $("#testimg").offset().top + $("#testimg").height() - 100;
+			var sh_left = $("#testimg").offset().left;
+			$('#shadowcontainer').css({top: sh_top+"px", left: sh_left+"px"});
+			
+			$(function() {
+			    setInterval( "slideSwitch()", 3000 );
+			});
+		});
+		
+	</script> 
+</div>

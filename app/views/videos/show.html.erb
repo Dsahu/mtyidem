@@ -1,0 +1,112 @@
+<script type="text/javascript" language="JavaScript">
+	function assignusertovideo(video_id) {
+		<%= remote_function(:update => "taglink", :url => { :controller => :uservideoassignments ,:action  => :create, :method => :post, :format => :js, :uservideoassignment => {:video_id => @video.id.to_s, :user_id => current_user.id.to_s} }) if current_user %>
+	}
+</script>
+<br/>
+<h1><%=h @video.short.to_i > 0 ? "Minuto #{@video.name_as_time}" : @video.short %> de <%=h @run.name%></h1>
+
+<table width="900px">
+	<tr>
+		<td width="500px" style="vertical-align:top;"> <!-- LEFT -->
+			<!-- VIDEOFLASH -->
+			<script type='text/javascript' src='/mediaplayer/swfobject.js'></script>
+				 
+			<div id='mediaspace'>This text will be replaced</div>
+								 
+			<script type='text/javascript'>
+			  var domain = "http://www.idemsport.com"
+			  //var so = new SWFObject('/mediaplayer/player-viral.swf','mpl','470','320','9');
+			  var so = new SWFObject('/mediaplayer/player-viral.swf','mpl','600','400','9');
+			  so.addParam('allowfullscreen','true');
+			  so.addParam('allowscriptaccess','always');
+			  so.addParam('wmode','opaque');
+			  so.addVariable('file','<%=@video.html_path%>');
+			  so.write('mediaspace');
+			</script>
+			<!-- COMMENTS -->
+			<table>
+				<tr>
+					<td><h3>Comentarios</h3></td>
+					<% if current_user %>
+						<td id="taglink" style='padding-left:20px;'><%= current_user.tagged_to_video(@video.id) ? "<span style='color:gray;'>Estoy en el video</span>" : "<a href='javascript:assignusertovideo(#{@video.id.to_s})'>Agregame al Video!</a>" %></td>
+					<% end %>
+				</tr>
+			</table>
+			
+			<table width="100%" id="videocomments">
+				<% @videocomments.each do |vc| %>
+					<%= render :partial => 'videocomments/one_comment', :locals => {:videocomment => vc} %>
+				<% end %>
+			</table>
+			
+			<!-- COMMENT FORM -->
+			<% if current_user %>
+				<% remote_form_for(Videocomment.new) do |f| %>
+					<table>
+						<tr>
+							<td>
+								<%= f.hidden_field :video_id, :value => @video.id.to_s %>
+								<%= f.text_area :description, :rows => 2 %><br/>
+							</td>
+						</tr>
+						<tr>
+							<td style="text-align:right;">
+								<%= f.submit 'Comentar' %>
+							</td>
+						</tr>
+					</table>
+				<% end %>
+			<% else %>
+				<table>
+				    <tr>
+				        <td style="font-weight:bold; padding-top:20px; padding-bottom:10px;" colspan="2">No iniciaste la sesión</td>
+				    </tr>
+				    <tr>
+				        <td>
+				            <% form_tag session_path do -%>
+				                <input type="hidden" name="back_link" value="/videos/<%=@video.id%>"/>
+				                <table>
+				                    <tr>
+				                        <td><label for="email">Email</label> </td>
+				                        <td><input type="textfield" name="email" style="width:100px" /></td>
+				                    </tr>
+				                    <tr>
+				                        <td><label for="password">Password</label> </td>
+				                        <td><input type="password" name="password" style="width:100px" /></td>
+				                    </tr>
+				                    <tr>
+				                        <td style="text-align:right;" colspan="2"><input type="submit" name="commit" value="Login" />
+				                    </tr>
+				                </table>
+				            <% end -%>
+				        </td>
+				        <td style="vertical-align:top; padding-left:30px;">
+				            Si aún no eres socio<br/>Crea tu cuenta.
+				            <p><a href="/signup" style="font-weight:bold;">Registrate!!</a></p>
+				        </td>
+				    </tr>
+				</table><br/><br/>
+			<% end %>
+		</td>
+		<td width="400px" style="vertical-align:top;"> <!-- RIGHT -->
+			<table width="100%">
+				<tr>
+					<td width="25%"> <!-- LOGOIMAGE -->
+						<%= image_tag(@run.logophoto, :size => "80x80") %>
+					</td>
+					<td width="75%"> <!-- RUN & VIDEO INFO -->
+						<b><%=h @run.name%></b><br/>
+						Dia: <%=@run.eventday%><br/>
+						Video visto: <%=@video.counter %>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding-top:15px;"> <!-- VIDEO LIST -->
+						<%= render :partial => "videolist", :locals => { :videos => @videos } %>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+ 		
+	<head> 
+		<title>IDEM Sport - Ideas Deportivas Monterrey</title> 
+		<%= javascript_include_tag :defaults %>
+		<%= javascript_include_tag 'jquery-ui-1.7.2.custom.min' %>
+		<%= javascript_include_tag 'boxy/jquery.boxy' %>
+		<%= javascript_include_tag 'jquery.tools.min' if params[:controller] == "home" || params[:controller] == "calender" %>
+		<script type="text/javascript" src="/javascripts/jquery.mousewheel-3.0.2.pack.js"></script> 
+		<script type="text/javascript" src="/javascripts/jquery.fancybox-1.3.0.pack.js"></script> 
+		<%= stylesheet_link_tag 'layout' %>
+		<%= stylesheet_link_tag 'idemsport' %>
+		<%= stylesheet_link_tag 'jquery.fancybox-1.3.0' %>
+		<%= stylesheet_link_tag 'humanity/jquery-ui-1.7.2.custom' %>
+		<%= stylesheet_link_tag 'boxy/boxy' %>
+		
+		
+		<script type="text/javascript"> 
+			$(document).ready(function() {
+				$("#overlay, #overlay2").fancybox({
+					'width'				: '75%',
+					'height'			: '75%',
+					'overlayOpacity'	: 0.8,
+					'speedIn'			: 300,
+					'speedOut'			: 300,
+					'autoScale'     	: false,
+					'transitionIn'		: 'fade',
+					'transitionOut'		: 'fade',
+					'type'				: 'iframe'
+				});
+			});
+		</script> 
+	</head> 
+	 
+	
+	<body> 
+		<div class="container">
+		
+			<div class="header" style="vertical-align:baseline;">
+				<table width="100%">
+					<tr>
+						<td><a href="/"><img src="/images/logo_top.png" /></a></td>
+						<% if current_user %>
+						<td style="padding-bottom:15px; padding-right:5px; text-align:right; vertical-align:bottom;"><a style="color:white;" href="/profile"><%=h current_user.full_name + " (Socio: #{current_user.id})" %></a></td>
+						<% end %>
+					</tr>
+				</table>
+			</div>
+		
+			<div class="menu">
+				<ul id="menu">
+					<li><a href="/" title="">Inicio</a></li>
+					<% if current_user %>
+						<li><a href="/profile" title="">Perfil</a></li>
+					<% end %>
+					<li><a href="/home/about" title="">Nosotros</a></li>
+					<li><a href="/carreras" title="">Carreras</a></li>
+					<li><a href="/pictures" title="">Fotos</a></li>
+					<li><a href="/videos" title="">Videos</a></li>
+					<li><a href="/results" title="">Resultados</a></li>
+					<li><a href="/calender" title="">Calendario</a></li>
+					<li><a href="/home/contact" title="">Contacto</a></li>
+					<% unless current_user %>
+						<li><a href="/signup" title="">Registro</a></li>
+					<% end %>
+					<% if current_user %>
+						<li><a href="/logout" title="">Logout</a></li>
+					<% else %>
+						<li><a href="/login" title="">Login</a></li>
+					<% end %>
+				</ul>
+			</div>
+		
+		
+			<div id="content">
+				<%= flash[:notice] %>
+				<%= yield %>
+			</div>
+		
+			<div class="actions">
+				<div class="actions_col">
+					<h1 class="fh1">No te puedes perder</h1>
+					<a href="promos/2010-02-22-premion3.html" id="overlay"><img src="images/gp2.png" title="Gran Premio Nuevo León 2010"></a><br/><br/>
+					<p class="fp">Enterate de todas las noticias y de las mejores promociones.</p>
+					<ul id="btvg"><li class="vm"><a href="promos/2010-02-22-premion3.html" id="overlay"></a></li></ul> 
+					<br/><br/>
+					<h1 class="fh1">Idem Sport en tu correo</h1>
+					<p class="cpw">Enterate de todas las noticias y de las mejores promociones.</p><br /> 
+					<form> 
+						<span class="textform">Nombre</span> 
+						<input type="textfield" name="nombre" class="text_field"/> 
+						<br />
+						<span class="textform">E-mail</span> 
+						<input type="textfield" name="email" class="text_field"/> 
+						<br /><br />
+						<label> 
+							<input type="submit" name="Enviar" Value="Enviar" class="send"/> 
+						</label> 
+					</form> 
+				</div>
+			
+			
+			
+				<div class="actions_col">
+					<h1 class="fh1">Conviertete en Socio</h1>
+					<a href="promos/2010-02-22-socioidem.html" id="overlay2"><img src="images/socios.png" title="Conviertete en Socio Idem Sport"></a><br/><br/>
+					<p class="fp">Obtén la tarjeta de Socio Idem Sport y recibe grandes beneficios.</p>
+					<ul id="btvg"><li class="vm"><a href="promos/2010-02-22-socioidem.html" id="overlay2"></a></li></ul> 
+					<br/><br/>
+			
+					<h1 class="fh1">Qué pasa en la red de Idem Sport</h1>
+					
+					<% wallevents = Wallevent.find(:all, :order => "created_at desc", :limit => 3) %>
+					<%= render :partial => 'profile/wall', :locals => {:wallevents => wallevents, :colormode => "white"} %>	
+					
+				</div>
+			
+				<div class="actions_col">
+					
+					<%
+						pics = Picture.find(:all, :limit => 6)
+					%>
+					
+					<h1 class="fh1">Las últimas galerías</h1>
+					<% pics.each do |pic| %>
+						<a href="/pictures?run=<%=pic.run_id%>"><img src="<%=pic.html_path%>" class="ac" /></a>
+					<% end %>
+					<br/>
+					<ul id="btvg"><li class="vm"><a href="/pictures"></a></li></ul> 
+					<br/><br/>
+					<h1 class="fh1"><b>No olvides seguirnos en:</b></h1>
+					<p class="msn"><a href="#">Nuestro <strong>Messenger</strong></a></p>
+					<p class="facebook"><a href="#">Por nuestro grupo en <strong>Facebook</strong></a></p>
+					<p class="mail"><a href="#">Por nuestro <strong>Newsletter</strong></a></p><br/><br/>
+				</div>
+			</div>
+			
+			<div class="footer">
+				<p class="pa"><b>® 2010 Idem Sport</b> - Ideas Deportivas Monterrey - <b>Todos los derechos reservados</b></p>
+			</div> 
+			
+			 
+		
+		</div>
+	</body> 
+</html>

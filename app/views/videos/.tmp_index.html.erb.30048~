@@ -1,0 +1,17 @@
+<h1>Videos</h1>
+
+Ve los videos de las carreras.<br/><br/>
+
+<table>
+	<% run_count = @runs.count %>
+	<% last_index = 0%>
+	<% runs_per_line = 3 %>
+	<% @runs.each_with_index do |run, index| %>
+		
+		<%= "<tr id='"+index.to_s+"'>" if index == 0 %>
+			<td style="padding:10px;"><%= link_to(image_tag(run.logophoto, :size => "100x100"), "/videos?run="+run.id.to_s) %></td>
+		<%= "</tr>" if index == (runs_per_line-1) || (run_count-1) == index %>
+		<% last_index = index %>
+	<% end %>
+</table>
+

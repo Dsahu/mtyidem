@@ -1,0 +1,27 @@
+<h1>Encontrar Amigos</h1>
+
+<%= form_tag %>
+
+	<table>
+		<tr>
+			<td>Nombre</td>
+			<td>Apellido</td>
+			<td>Email</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="text" name="search[firstname]" />
+			</td>
+			<td>
+				<input type="text" name="search[lastname]" />
+			</td>
+			<td>
+				<input type="text" name="search[email]" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><input type="submit" name="commit" value="Buscar" /></td>
+		</tr>
+	</table>
+
+</form>

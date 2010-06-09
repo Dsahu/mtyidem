@@ -1,0 +1,25 @@
+<table width="100%">
+	<% friend_requests.each do |fr| %>
+		<tr id="friend_request_<%=fr.id%>">
+			<td width="40px" id="friend_request_<%=fr.id%>_pic">
+				<a href="<%=fr.inviter.profile_path%>"><img src="<%=fr.inviter.profilepic%>" width="60px" /></a>
+			</td>
+			<td width="*" >
+				<div id="friend_request_<%=fr.id%>_content">
+					<table width="100%">
+						<tr>
+							<td>
+								<%= link_to h(fr.inviter.full_name), fr.inviter.profile_path %>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a href="#" onClick="respond_friendrequest(<%=fr.id%>, 'accept')">Aceptar</a><br/><a href="#" onClick="respond_friendrequest(<%=fr.id%>, 'ignore')">Ignorar</a><br/><a href="#" onClick="respond_friendrequest(<%=fr.id%>, 'block')">Bloquear</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	<% end %>
+</table>

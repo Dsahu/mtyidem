@@ -1,0 +1,28 @@
+<p>
+  <b>Name:</b>
+  <%=h @organizator.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @organizator.description %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%=h @organizator.address %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%=h @organizator.phone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%=h @organizator.email %>
+</p>
+
+
+<%= link_to 'Edit', edit_organizator_path(@organizator) %> |
+<%= link_to 'Back', organizators_path %>

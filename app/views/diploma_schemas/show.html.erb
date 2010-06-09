@@ -1,0 +1,23 @@
+<p>
+  <b>Run:</b>
+  <%=h @diploma_schema.run_id %>
+</p>
+
+<p>
+  <b>Size x:</b>
+  <%=h @diploma_schema.size_x %>
+</p>
+
+<p>
+  <b>Size y:</b>
+  <%=h @diploma_schema.size_y %>
+</p>
+
+<p>
+  <b>Photopath:</b>
+  <%=h @diploma_schema.photopath %>
+</p>
+
+
+<%= link_to 'Edit', edit_diploma_schema_path(@diploma_schema) %> |
+<%= link_to 'Back', diploma_schemas_path %>

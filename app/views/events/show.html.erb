@@ -1,0 +1,43 @@
+<p>
+  <b>Name:</b>
+  <%=h @event.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @event.description %>
+</p>
+
+<p>
+  <b>Organizator:</b>
+  <%=h @event.organizator_id %>
+</p>
+
+<p>
+  <b>Idemserial:</b>
+  <%=h @event.idemserial %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%=h @event.phone %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%=h @event.location %>
+</p>
+
+<p>
+  <b>Visible:</b>
+  <%=h @event.visible %>
+</p>
+
+<p>
+  <b>When:</b>
+  <%=h @event.when %>
+</p>
+
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>

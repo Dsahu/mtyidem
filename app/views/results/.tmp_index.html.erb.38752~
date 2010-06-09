@@ -1,0 +1,125 @@
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/jcarousel/jquery.jcarousel_res.css" />
+<link rel="stylesheet" type="text/css" href="/stylesheets/jcarousel/skin.css" />
+
+	<% 
+		run_array = "["
+		@runs.each do |run| 
+			run_array << "{id: #{run.id}, name: '#{run.name}', eventday: '#{run.eventday}', cats: ["
+			@categories.each { |cat| run_array << "'#{cat["cat"]}'," if cat.run_id == run.id }
+			run_array = run_array[0,run_array.length-1] if run_array[-1,1] == ","
+			run_array << "]},"
+		end
+		run_array = run_array[0,run_array.length-1] if run_array[-1,1] == ","
+		run_array << "]"
+	%>
+
+<script type="text/javascript">
+	var runs = <%=run_array%>;
+	var start_index = 1;
+
+	function get_run_info(index) {
+		if(runs.length >= index-1) {
+			return runs[index-1];
+		}
+		return false;
+	}
+	
+	function get_run_index_by_id(id) {
+		for(var i = 0; i < runs.length; i++) {
+			if(runs[i].id == id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	function firstitem(jc, htmlelement, idx, state) {
+		var run = get_run_info(idx);
+		
+		var str_select = "<select name='search[cat]'>";
+		str_select += "<option value=''></option>"
+		for(var i = 0; i < run.cats.length; i++) {
+			str_select += "<option value='" + run.cats[i] + "'>" + run.cats[i] + "</option>";
+		}
+		$("#search_run_id").val(run.id);
+		$("#cats").html(str_select);
+		$("#run_name").html("<h1>" + run.name + "</h1>");
+	}
+
+	jQuery(document).ready(function() {
+		<% if @run %>
+		start_index = get_run_index_by_id(<%= @run.id %>);
+		start_index += 1;
+		if(start_index == 0) {
+			start_index = 1;
+		} 
+		<% end %>
+		
+	    jQuery('#mycarousel').jcarousel({
+			start: start_index,
+			scroll: 1,
+			itemFirstInCallback: firstitem,
+			pointer: true
+		});
+	});
+
+</script>
+
+<div style="padding:10px;">
+	<h1>Resultados</h1>
+	<table width="100%">
+		<tr>
+			<td width="350px">
+				<ul id="mycarousel" class="jcarousel-skin-adi">
+				    <% @runs.each do |run| %>
+						<li><img src="<%=run.logophoto%>" width="75" height="75" alt="" /></li>
+					<% end %>
+				    <li><img src="/images/ph_trans.png" width="75" height="75" alt="" /></li>
+				    <li><img src="/images/ph_trans.png" width="75" height="75" alt="" /></li>
+				</ul>			
+			</td>
+			<td style="text-align:left;">
+				<div id="run_name"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="padding-top:20px;">
+				<% form_remote_tag :url => '/results/search/0', :method => :get do -%>
+					<table>
+						<tr>
+							<td>Num de Socio</td>
+							<td><input style="width:50px;" type="text" name="search[user_id]" /></td>
+							<td>Nombre</td>
+							<td><input type="text" name="search[firstname]" /></td>
+							<td>Apellido</td>
+							<td><input type="text" name="search[lastname]" /></td>
+							<td>Club</td>
+							<td><input type="text" name="search[club]" /></td>
+						</tr>
+						<tr>
+							<td>Num de Entrega</td>
+							<td><input style="width:50px;" type="text" name="search[num]" /></td>
+							<td>Sexo</td>
+							<td><select name="search[sex]" /><option value="-1"><option value="0">Mujer</option><option value="1">Hombre</option></td>
+							<td>Categoria</td>
+							<td id="cats"></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="6" style="text-align:right;"><input id="search_run_id" type="hidden" name="search[run_id]" /><%= submit_tag 'Buscar' %></td>
+						</tr>
+					</table>
+				<% end %>
+			</td>
+		</tr>
+	</table>
+	
+	<br/><br/>
+	
+	<div id="results" style="padding:10px;">
+		
+	</div>
+	<br/><br/><br/><br/>
+</div>

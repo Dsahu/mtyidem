@@ -1,0 +1,43 @@
+<p>
+  <b>Font size:</b>
+  <%=h @diploma_element.font_size %>
+</p>
+
+<p>
+  <b>Font weight:</b>
+  <%=h @diploma_element.font_weight %>
+</p>
+
+<p>
+  <b>Font-family:</b>
+  <%=h @diploma_element.font-family %>
+</p>
+
+<p>
+  <b>Pos x:</b>
+  <%=h @diploma_element.pos_x %>
+</p>
+
+<p>
+  <b>Pos y:</b>
+  <%=h @diploma_element.pos_y %>
+</p>
+
+<p>
+  <b>Is italic:</b>
+  <%=h @diploma_element.is_italic %>
+</p>
+
+<p>
+  <b>Column name:</b>
+  <%=h @diploma_element.column_name %>
+</p>
+
+<p>
+  <b>Diploma schema:</b>
+  <%=h @diploma_element.diploma_schema_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_diploma_element_path(@diploma_element) %> |
+<%= link_to 'Back', diploma_elements_path %>

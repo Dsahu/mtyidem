@@ -1,0 +1,57 @@
+<table width="100%" id="picturecomments">
+	<% picturecomments.each do |pc| %>
+		<%= render :partial => 'picturecomments/one_comment', :locals => {:picturecomment => pc} %>
+	<% end %>
+</table>
+			
+<!-- COMMENT FORM -->
+<% if current_user %>
+	<% remote_form_for(Picturecomment.new) do |f| %>
+		<table>
+			<tr>
+				<td>
+					<%= hidden_field_tag "format", "js" %>
+					<%= f.hidden_field :picture_id, :value => picture.id.to_s %>
+					<%= f.text_area :description, :rows => 2 %><br/>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">
+					<%= f.submit 'Comentar' %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+<% else %>
+
+	<table>
+	    <tr>
+	        <td style="font-weight:bold; padding-top:20px; padding-bottom:10px;" colspan="2">No iniciaste la sesión</td>
+	    </tr>
+	    <tr>
+	        <td>
+	            <% form_tag session_path do -%>
+	                <input type="hidden" name="back_link" value="/pictures?run=<%=picture.run_id%>&picture_id=<%=picture.id%>"/>
+	                <table>
+	                    <tr>
+	                        <td><label for="email">Email</label> </td>
+	                        <td><input type="textfield" name="email" style="width:100px" /></td>
+	                    </tr>
+	                    <tr>
+	                        <td><label for="password">Password</label> </td>
+	                        <td><input type="password" name="password" style="width:100px" /></td>
+	                    </tr>
+	                    <tr>
+	                        <td style="text-align:right;" colspan="2"><input type="submit" name="commit" value="Login" />
+	                    </tr>
+	                </table>
+	            <% end -%>
+	        </td>
+	        <td style="vertical-align:top; padding-left:30px;">
+	            Si aún no eres socio<br/>Crea tu cuenta.
+	            <p><a href="/signup" style="font-weight:bold;">Registrate!!</a></p>
+	        </td>
+	    </tr>
+	</table>
+
+<% end %>

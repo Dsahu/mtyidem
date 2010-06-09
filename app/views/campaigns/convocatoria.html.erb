@@ -1,0 +1,129 @@
+<div class="hidden" >
+	<% @camp_units.each do |unit| %>
+		<div id="camp_unit_title_<%=@campaign.id%>_<%=unit.id%>">
+			<%=h unit.name%>
+		</div>
+		<div id="camp_unit_content_<%=@campaign.id%>_<%=unit.id%>">
+			
+			<% if unit.image_where == 0%>
+				<% if unit.path %>
+					<img src="<%=unit.path%>" /><br/><br/>
+				<% end %>
+				<%= h(unit.description).nl2br%>
+			<% else %>
+				<%= h(unit.description).nl2br%>
+				<% if unit.path %>
+					<br/><br/><img src="<%=unit.path%>" />
+				<% end %>
+				
+			<% end %>
+		</div>
+	<% end %>
+</div>
+
+<table class="camp_convoc" style="min-height:550px;">
+	<tr>
+		<td style="padding-right:7px;">
+			
+			<table>
+				<tr>
+					<td>
+						<h1 style="margin:0px;"><a href="<%=@campaign.link%>"><%=@campaign.title%></a></h1>
+						<h2 style="margin:0px; color:gray;"><%=@campaign.subtitle%></h2>
+					</td>
+				</tr>
+				<tr>
+					<td style="min-height:300px;">
+						<div id="camp_convoc_slideshow">
+							<% @camp_pics.each_with_index do |cp, i| %>
+								<div <%= i.zero? ? "" : "style='display:none;'" %> class="shelement_<%=@campaign.id%>"><img width="300px" src="<%=cp.path%>" alt="<%=@campaign.title%>" /></div>
+							<% end %>
+						</div>
+					</td>
+				</tr>
+              <tr>
+                <td>
+                  <a href="<%=@campaign.link%>"><%=@campaign.name%></a>
+                </td>
+              </tr>
+              <tr>
+                <td id="convoclist_camp_<%=@campaign.id%>">
+                    <br/><br/>
+                    <table id="convoclisttable_camp_<%=@campaign.id%>" class="convoclisttable">
+                        <% @camp_units.each do |unit| %>
+                            <tr class="convoclisttable_camp_row">
+                                <td>
+                                    <a style="font-size:16px; font-weight:bold;"  onClick="showCampConvocatoriaData('<%=@campaign.id%>','<%=unit.id%>');">
+                                        >> <%=h unit.name%>
+                                    </a>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </table>
+                    <div id="convocatoriaunitbottomcontainer_camp_<%=@campaign.id%>">
+                    </div>
+                </td>
+              </tr>
+			</table>
+		</td>
+		
+		
+		
+		<td style="padding:15px; vertical-align:top; width:650px; overflow:auto;">
+		
+			<div id="convocatoriaunitdata_camp_<%=@campaign.id%>">
+				<div class="convocatoriaunitdata_title_camp" id="convocatoriaunitdata_title_camp_<%=@campaign.id%>">
+					<%=h @camp_units.first.name if @camp_units && @camp_units.count > 0%>
+				</div>
+				<div id="convocatoriaunitdata_content_camp_<%=@campaign.id%>" style="overflow:auto; height:530px; width:650px; ">
+					<% if @camp_units && @camp_units.count > 0%>
+						
+						<% if @camp_units.first.image_where == 0%>
+						
+							<% if @camp_units.first.path %>
+								<img src="<%=@camp_units.first.path%>" /><br/><br/>
+							<% end %>
+							<%= h(@camp_units.first.description).nl2br %>
+							 
+						<% else %>
+						
+							<%= h(@camp_units.first.description).nl2br %> 
+							<% if @camp_units.first.path %>
+								<br/><br/><img src="<%=@camp_units.first.path%>" />
+							<% end %>
+							
+						<% end %>
+						
+					<% end %>
+					
+					
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+
+        /*
+		init_camp_convoc('<%=@campaign.id%>');
+		setTimeout(function() {
+			var slideshowid2 = init_slideshow("DIV.shelement_<%=@campaign.id%>");
+			setInterval( "slideSwitch("+slideshowid2+")", 5000 );
+		}, 100);  */
+
+        setTimeout(function() {$(".hidden").hide();}, 100);
+        setTimeout(function() {$(".hidden").hide();}, 200);
+        setTimeout(function() {$(".hidden").hide();}, 500);
+
+        setTimeout(function() {
+            var ss_id = initSlideshow("DIV.shelement_<%=@campaign.id%>");
+
+            setInterval(function (){
+                nextSlideshowElement(ss_id);
+            }, 3000);
+        },100);
+
+	});
+</script>

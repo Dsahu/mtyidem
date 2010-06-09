@@ -1,0 +1,93 @@
+<script type="text/javascript" language="JavaScript">
+	
+	function showCampUnitEdit(campunit_id) {
+		$.ajax({
+			url: "/camp_units/" + campunit_id + "/edit.js",
+			data: {to_div: "campunit_whatever"}		
+		});
+	}
+	
+</script>
+
+<h1>Campaign: <%=@campaign.name%></h1>
+
+	<a href="/admin">Regresar a Admin</a><br/><br/>
+
+	<table>
+		<tr>
+			<td><b>Name:</b></td>
+			<td><%=h @campaign.name %></td>
+		</tr>
+		<tr>
+			<td><b>Description:</b></td>
+			<td><%=h @campaign.description %></td>
+		</tr>
+		<tr>
+			<td><b>Mode:</b></td>
+			<td><%=h Campaign::MODES[@campaign.mode] %></td>
+		</tr>
+		<tr>
+			<td><b>Title:</b></td>
+			<td><%=h @campaign.title %></td>
+		</tr>
+		<tr>
+			<td><b>Subtitle:</b></td>
+			<td><%=h @campaign.subtitle %></td>
+		</tr>
+		<tr>
+			<td><b>Link:</b></td>
+			<td><a href="<%=h @campaign.link %>"><%=h @campaign.link %></a></td>
+		</tr>
+		<tr>
+			<td><b>Foto:</b></td>
+			<td><%=h @campaign.path%></td>
+		</tr>
+	</table>
+
+  
+
+<br/><br/>
+
+<%= link_to 'Edit', edit_campaign_path(@campaign) %> |
+<%= link_to 'Back', campaigns_path %>
+
+<br/><br/><br/>
+
+<h3>Fotos</h3>
+<table>
+	<% @camp_pics.each do |cp| %>
+		<tr>
+			<td><%=h cp.name%></td>
+			<td><%=h cp.path%></td>
+			<td><%= link_to 'Borrar', cp, :confirm => 'De veras?', :method => :delete %></td>
+		</tr>
+	<% end %>
+</table>
+
+<% form_for(CampPic.new, :html => {:multipart => true}) do |f| %>
+	<%= f.hidden_field :campaign_id, :value => @campaign.id %>
+	<%= file_field 'upload', 'datafile' %>
+	<%= f.submit "Upload" %>
+<% end %>
+
+
+
+<h3>CampUnits</h3>
+<table>
+	<tr>
+		<td>
+			<select id="camp_select" onChange="<%= remote_function(:method => :get, :update => "campunit_whatever", :url => "/camp_units/' + this.value + '/edit.js") %>">
+				<option value="0"></option>
+				<% @camp_units.each do |cu| %>
+					<option value="<%=cu.id%>"><%=h cu.name%></option>
+				<% end %>
+			</select>
+		</td>
+		<td style="vertical-align:top;">
+			<%= link_to_remote "Nuevo Unit", :method => :get, :update => "campunit_whatever", :url => "/camp_units/new.js?campaign_id=#{@campaign.id}" %>
+		</td>
+	</tr>
+</table>
+
+<div id="campunit_whatever"></div>
+

@@ -1,0 +1,24 @@
+<div style="padding-left:50px;">
+
+    <br/><br/><br/>
+
+    <h1><%=h @grandprix.name%></h1>
+    Encuentrate en la lista. Ingresa tu nombre o partes de tu nombre<br/>
+    y asi  encontrarás tu estado de carreras corridas del <%=h @grandprix.name%>.<br/>  <br/><br/>
+  
+    <% form_remote_tag(:url => "/grandprixes/search/#{@grandprix.id}") do -%>
+       <table>
+         <tr>
+           <td style="padding:5px; vertical-align:middle;"><span style="font-weight:bold; font-size:16px;">Nombre</span></td>
+           <td style="padding:5px; vertical-align:middle;"><input type="texT" id="search_name" name="search[name]" style="font-weight:bold; padding-left:8px; vertical-align:middle; height:30px; width:200px; font-size:16px;" /></td>
+           <td style="padding:5px; vertical-align:middle;"><input type="submit" name="submit" value="Buscar"/></td>
+         </tr>
+       </table>
+
+    <% end -%>
+</div>
+    <br/><br/><br/>
+<div id="gp_results">
+</div>
+
+<br/><br/><br/><br/><br/>

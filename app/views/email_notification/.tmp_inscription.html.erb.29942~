@@ -1,0 +1,11 @@
+<h1><%= @title %></h1>
+
+Carrera: <%=@body["run"]%>
+
+You are having one email message from <%= @email %> with a tilte 
+
+
+and following is the message:
+<%= @message %>
+
+Thanks

@@ -1,0 +1,28 @@
+<p>
+  <b>Campaign:</b>
+  <%=h @camp_unit.campaign_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @camp_unit.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @camp_unit.description %>
+</p>
+
+<p>
+  <b>Path:</b>
+  <%=h @camp_unit.path %>
+</p>
+
+<p>
+  <b>Image where:</b>
+  <%=h @camp_unit.image_where %>
+</p>
+
+
+<%= link_to 'Edit', edit_camp_unit_path(@camp_unit) %> |
+<%= link_to 'Back', camp_units_path %>

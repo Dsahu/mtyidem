@@ -1,0 +1,35 @@
+<% if users.length > 0 %>
+	<table style="border-collapse:collapse;">
+		<% users.each do |user| %>
+			<tr class="ffinder_result">
+				<td width="100px">
+					<a href="<%=user.profile_path%>"><img src="<%=user.profilepic%>" width="60px" /></a>
+				</td>
+				<td width="400px">
+					<h1 style="padding-bottom:0px; margin-bottom:0px; font-size:18px"><a href="<%=user.profile_path%>"><%=user.full_name.capitalize%></a></h1>
+					<span style="color:gray;"><i>Socio desde: <%=user.created_at.strftime("%d/%m/%Y")%></i></span>
+				</td>
+				<td width="200px">
+					<% 
+					   # If not itself and not yet friend, show Friend Request Form
+					   unless current_user.id == user.id 
+						 unless current_user.is_friend_of(user) 
+							unless current_user.has_friend_requst(user, user.friend_requests, user.sent_friend_requests)
+								%><%= render :partial => 'profile/ask_for_friend_request', :locals => {:user_id => user.id} %><%	 
+							else
+								%><%= "<i>Ya se mando un request para ser amigos</i>" %><%
+							end
+						 else
+							%><i>Ya son amigos</i><%
+						 end
+					   else
+						 %><i>Eres tu</i><%
+					   end
+					%>
+				</td>
+			</tr>
+		<% end %>
+	</table>
+<% else %>
+	<center><i>Ningun socio encontrado.</i></center>
+<% end %>

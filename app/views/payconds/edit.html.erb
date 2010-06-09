@@ -1,0 +1,32 @@
+<h1>Editing paycond</h1>
+
+<% form_for(@paycond) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :runevent_id %><br />
+    <%= f.text_field :runevent_id %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.label :amount_extra %><br />
+    <%= f.text_field :amount_extra %>
+  </p>
+  <p>
+    <%= f.label :from_age %><br />
+    <%= f.text_field :from_age %>
+  </p>
+  <p>
+    <%= f.label :to_age %><br />
+    <%= f.text_field :to_age %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @paycond %> |
+<%= link_to 'Back', payconds_path %>

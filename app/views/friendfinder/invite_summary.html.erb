@@ -1,0 +1,83 @@
+<script type="text/javascript" language="Javascript">
+  function toggle_all_emails() {
+     
+     if($('#all_select_checkbox').is(":checked")) {
+        $('.emailcollection_checkbox').each(function () {
+            $(this).attr('checked', true);
+        });
+     } else {
+         $('.emailcollection_checkbox').each(function () {
+            $(this).attr('checked', false);
+         });
+     }
+  }
+</script>
+
+<div style="padding:30px;">
+
+    <table width="100%">
+
+
+      <tr>
+
+        <td style="vertical-align:top;" width="490px">
+            <%= form_tag("/friendfinder/invite_send") %>
+
+                <input type="submit" value="Enviar" /><br/><br/>
+
+                <table style="border-collapse:collapse;">
+
+                  <tr>
+                    <td colspan="3">
+                        <input id="all_select_checkbox" type="checkbox" onClick="toggle_all_emails()" checked="checked" /> Seleccionar todos / Desseleccionar todos<br/><br/>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td style="font-weight:bold; border-bottom:1px solid black;">Invitar?</td>
+                    <td style="padding-left:20px; font-weight:bold; border-bottom:1px solid black;">Email</td>
+                    <td style="padding-left:20px; font-weight:bold; border-bottom:1px solid black;">Nombre</td>
+                  </tr>
+
+                  <% @contacts.each_with_index do |contact,i| %>
+                    <tr>
+                      <td style="text-align:center;">
+                        <input class="emailcollection_checkbox" name="emailcollection[][idx]" id="emailcollection_<%=i%>_idx" type="checkbox" value="1" checked="checked" />
+                        <input name="emailcollection[][name]" id="emailcollection_<%=i%>_name" type="hidden" value="<%=contact.first%>"/>
+                        <input name="emailcollection[][email]" id="emailcollection_<%=i%>_email" type="hidden" value="<%=contact.last%>"/>
+                      </td>
+
+                      <td style="padding-left:20px;"><%=contact.last%></td>
+                      <td style="padding-left:20px;"><%=contact.first%></td>
+                    </tr>
+                  <% end %>
+
+                </table>
+
+                <br/><br/><input type="submit" value="Enviar" />
+
+            </form>
+        </td>
+        <td style="vertical-align:top; padding-left:10px;">
+            <h3>Engrandeser tu red:</h3>
+            Elige a quien quieres que se manda una invitación.<br/>
+            Ellos van a recibir un mail tuyo en donde se encuntra la invitación tuya.<br/>
+            Cuando uno de tus amigos crea su cuenta, automaticamente se le hará un "Request" de amigo como ya tu lo has invitado.<br/><br/>
+
+            Tus amigos tendrán los mismos beneficios como tu ya los tienes:
+            <ul>
+              <li>Resultados</li>
+              <li>Fotos y videos</li>
+              <li>Perfil y creación de redes</li>
+              <li>Simpre estar al tanto del mundo deportivo</li>
+            </ul>
+
+            <br/><br/>
+            A tus amigos les encantará igual como a ti ya te gusta!
+        </td>
+      </tr>
+    </table>
+
+
+  
+</div>

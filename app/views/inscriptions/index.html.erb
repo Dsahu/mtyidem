@@ -1,0 +1,36 @@
+<h1>Listing inscriptions</h1>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Paidfrom</th>
+    <th>Amount</th>
+    <th>Signed at</th>
+    <th>Completed at</th>
+    <th>Run</th>
+    <th>Description</th>
+    <th>Runevent</th>
+  </tr>
+
+<% @inscriptions.each do |inscription| %>
+  <tr>
+    <td><%=h inscription.id %></td>
+    <td><%=h inscription.user_id %></td>
+    <td><%=h inscription.paidfrom_id %></td>
+    <td><%=h inscription.amount %></td>
+    <td><%=h inscription.signed_at %></td>
+    <td><%=h inscription.completed_at %></td>
+    <td><%=h inscription.run_id %></td>
+    <td><%=h inscription.description %></td>
+    <td><%=h inscription.runevent_id %></td>
+    <td><%= link_to 'Show', inscription %></td>
+    <td><%= link_to 'Edit', edit_inscription_path(inscription) %></td>
+    <td><%= link_to 'Destroy', inscription, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New inscription', new_inscription_path %>

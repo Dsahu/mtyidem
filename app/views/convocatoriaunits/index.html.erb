@@ -1,0 +1,26 @@
+<h1>Listing convocatoriaunits</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Ordernum</th>
+    <th>Run</th>
+  </tr>
+
+<% @convocatoriaunits.each do |convocatoriaunit| %>
+  <tr>
+    <td><%=h convocatoriaunit.name %></td>
+    <td><%=h convocatoriaunit.description %></td>
+    <td><%=h convocatoriaunit.ordernum %></td>
+    <td><%=h convocatoriaunit.run_id %></td>
+    <td><%= link_to 'Show', convocatoriaunit %></td>
+    <td><%= link_to 'Edit', edit_convocatoriaunit_path(convocatoriaunit) %></td>
+    <td><%= link_to 'Destroy', convocatoriaunit, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New convocatoriaunit', new_convocatoriaunit_path %>

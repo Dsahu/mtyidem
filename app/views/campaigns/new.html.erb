@@ -1,0 +1,43 @@
+<h1>New campaign</h1>
+
+<% form_for(@campaign, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :mode %><br />
+    <select id="campaign_mode" name="campaign[mode]">
+    	<% Campaign::MODES.each_with_index do |v,i| %>
+			<option value="<%= i%>"><%= v%></option>
+		<% end %>
+    </select>
+  </p>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :subtitle %><br />
+    <%= f.text_field :subtitle %>
+  </p>
+  <p>
+    <%= f.label :link %><br />
+    <%= f.text_field :link %>
+  </p>
+  <p>
+  	Foto que publica<br/>
+	<%= file_field 'upload', 'datafile' %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', campaigns_path %>

@@ -1,0 +1,21 @@
+<table>
+	<% results.each do |res| %>
+		<tr>
+			<td style="vertical-align:top;">
+				<a href="/results?run_id=<%=res.run_id%>"><img src="<%=res.run.logophoto%>" width="50px" /></a>
+			</td>
+			<td style="vertical-align:top;">
+				<%
+					run_tot = run_totals.map {|x| x[:run_id] == res.run_id ? x[:total_res] : nil }.compact.first
+					rama_tot = res.cat.index('M') ? men_count.map {|x| x[:run_id] == res.run_id ? x[:men_count] : nil }.compact.first : women_count.map {|x| x[:run_id] == res.run_id ? x[:women_count] : nil }.compact.first
+					cat_tot = cats_count_res.map {|x| x[:run_id] == res.run_id && x[:cat] == res.cat ? x[:cat_count] : nil }.compact.first
+				%>
+				
+				<a href="/results?run_id=<%=res.run_id%>"><b><%=res.run.name%></b></a><br/>
+				Lugar General: <%="#{res.rank_general}/#{run_tot.to_s}"%><%= ", Rama: #{res.rank_rama}/#{rama_tot.to_s}" if res.rank_rama && res.rank_rama > 0 %><%= ", Categoria: #{res.rank_cat}/#{cat_tot}" if res.rank_cat && res.rank_cat > 0%><%= ", Paso: #{res.paso_civil}" if res.paso_in_seconds && res.paso_in_seconds > 0%><br/>
+				<%= "Tiempo: #{res.time_civil}" %><%= ", Tiempo Chip: #{res.time_chip_civil}" if res.time_chip_in_seconds && res.time_chip_in_seconds > 0%><br/>
+				<span style="color:gray"><i><%=res.run.eventday%></i></span>
+			</td>
+		</tr>
+	<% end %>
+</table>

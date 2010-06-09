@@ -1,0 +1,6 @@
+<tr>
+	<td style="padding:5px;" id="picturecomment_<%=picturecomment.id%>">
+		<a href="<%=picturecomment.user.profile_path%>"><span class="userlink"><b><%=h picturecomment.user.full_name%></b></span></a> <%=h picturecomment.description%><br/>
+		<span style="color:gray;"><%=picturecomment.created_at%></span>
+	</td>
+</tr>

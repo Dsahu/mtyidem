@@ -1,0 +1,32 @@
+<h1>Editing response</h1>
+
+<% form_for(@response) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :wallevent_id %><br />
+    <%= f.text_field :wallevent_id %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :by_user_id %><br />
+    <%= f.text_field :by_user_id %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :result_id %><br />
+    <%= f.text_field :result_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @response %> |
+<%= link_to 'Back', responses_path %>

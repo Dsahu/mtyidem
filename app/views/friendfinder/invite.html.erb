@@ -1,0 +1,88 @@
+
+<script type="text/javascript" language="Javascript">
+  function switchmail(provider) {
+      $("input[name=mail_provider]").removeAttr("checked");
+      $("#email_provider_"+provider).attr("checked", true);
+
+  }
+</script>
+
+<div style="padding:20px;">
+
+    <h1 style="padding:0px; margin:0px;">Invite tus amigos</h1>
+    <h3 style="padding:0px 0px 30px 0px; margin:0px; color:gray;">para que se reunen todos contigo</h3>
+
+
+
+    <table>
+      <tr>
+        <td style="vertical-align:top;">
+          <b>Desde tu directorio de Email</b><br/>
+          Prsentando la lista completa, puedes eligir a quien si y<br/>
+          a quien no quieres enviar una invitación. <br/><br/>
+        </td>
+        <td style="padding-left:30px; vertical-align:top;">
+          <b>Manual</b><br/>
+          Ingresa los emails a mano. <br/>
+          Separa los emails con un coma ','<br/>
+          Ejemplo:<br/><br/>
+          <span style="color:gray;">miamigo@example.com, otroamigo@example.com</span><br/><br/>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align:top;">
+          <!-- EMAIL DIRECTORY -->
+          <%= form_tag("/friendfinder/invite_summary") %>
+            <table>
+              <tr>
+                <td>
+                  <table>
+                    <tr>
+                      <td><input id="email_provider_hotmail" type="radio" name="mail_provider" value="hotmail" checked /></td>
+                      <td style="padding:5px;"><img onClick="switchmail('hotmail'); return false;" src="/images/hotmail_icon.gif"</td>
+                    </tr>
+                    <tr>
+                      <td><input id="email_provider_gmail" type="radio" name="mail_provider" value="gmail" /></td>
+                      <td style="padding:5px;"><img onClick="switchmail('gmail'); return false;" src="/images/gmail_icon.gif" /></td>
+                    </tr>
+                    <tr>
+                      <td><input id="email_provider_yahoo" type="radio" name="mail_provider" value="yahoo" /></td>
+                      <td style="padding:5px;"><img onClick="switchmail('yahoo'); return false;" src="/images/yahoo_icon.jpg" /></td>
+                    </tr>
+                  </table>
+
+                </td>
+                <td style="vertical-align:top;">
+                  <table>
+                    <tr>
+                      <td style="font-weight:bold; padding-right:10px;">Email:</td>
+                      <td><input type="text" name="email" /></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:bold; padding-right:10px;">Password:</td>
+                      <td><input type="password" name="password" /></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><input type="submit" value="Ver lista"/></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+          </form>
+        </td>
+        <td style="padding-left:30px; vertical-align:top;">
+          <!-- MANUAL -->
+          <%= form_tag("/friendfinder/inivte_manual") %>
+              <textarea style="width:300px; height:200px;" name="emails"></textarea><br/>
+              <input type="submit" value="Ver lista" />
+          </form>
+
+        </td>
+      </tr>
+
+    </table>
+    <br/><br/><br/><br/>
+</div>

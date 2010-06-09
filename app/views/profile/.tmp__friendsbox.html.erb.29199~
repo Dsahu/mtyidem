@@ -1,0 +1,33 @@
+<table width="100%">
+	<tr>
+		<td colspan="2" style="color:white; font-weight:bold; text-align:center; background-color:#ff9d9d; border-top:1px solid black;">Amigos <a class="white_link_bold" href="#see_all_friends" rel="boxy">(Ver todos)</a></td>
+	</tr>
+	<% friends.each_with_index do |f,idx| %>
+		<%= "<tr>" if idx.even? %>
+		
+			<td style="text-align:center;">
+				<div><a href="<%=f.profile_path%>"><img src="<%=f.profilepic%>" width="40px" /></a></div>
+				<div style="font-size:12px;"><a href="<%=f.profile_path%>"><%="#{f.firstname}<br/>#{f.lastname}"%></a></div>
+			</td>
+			
+			<% if (idx+1) == friends.count && idx.even? %> <!-- last -->
+				<td></td>
+			<% end %>
+			
+		<%= "</tr>" if idx.odd? %>
+	<% end %>
+	<%= "</tr>" if friends.count != 0 && friends.count.odd? %>
+</table>
+
+<div style="width:400px;display:none;" id="see_all_friends">
+	<div style="height:300px; overflow:auto;">
+		<table>
+			<% friends.each do |fr| %>
+				<tr><td><img src="<%=fr.profilepic%>" width="40px" /></td><td style="vertical-align:middle	;"><a href="<%=fr.profile_path%>"><%=fr.full_name%></a></td></tr>
+			<% end %>
+		</table>
+	</div>
+	<br/><br/>
+	
+	<a href="#" onClick="Boxy.get(this).hide();">Cerrar</a>
+</div>

@@ -1,0 +1,44 @@
+<h1>Editing diploma_element</h1>
+
+<% form_for(@diploma_element) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :font_size %><br />
+    <%= f.text_field :font_size %>
+  </p>
+  <p>
+    <%= f.label :font_weight %><br />
+    <%= f.text_field :font_weight %>
+  </p>
+  <p>
+    <%= f.label :font-family %><br />
+    <%= f.text_field :font-family %>
+  </p>
+  <p>
+    <%= f.label :pos_x %><br />
+    <%= f.text_field :pos_x %>
+  </p>
+  <p>
+    <%= f.label :pos_y %><br />
+    <%= f.text_field :pos_y %>
+  </p>
+  <p>
+    <%= f.label :is_italic %><br />
+    <%= f.check_box :is_italic %>
+  </p>
+  <p>
+    <%= f.label :column_name %><br />
+    <%= f.text_field :column_name %>
+  </p>
+  <p>
+    <%= f.label :diploma_schema_id %><br />
+    <%= f.text_field :diploma_schema_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @diploma_element %> |
+<%= link_to 'Back', diploma_elements_path %>

@@ -1,0 +1,24 @@
+<h1>Editing camp_pic</h1>
+
+<% form_for(@camp_pic) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :path %><br />
+    <%= f.text_field :path %>
+  </p>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :campaign_id %><br />
+    <%= f.text_field :campaign_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @camp_pic %> |
+<%= link_to 'Back', camp_pics_path %>

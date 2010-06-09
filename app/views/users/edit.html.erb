@@ -1,0 +1,61 @@
+<div style="padding:10px;">
+	<h1>Editar datos personales</h1>
+	
+	<% form_for(current_user) do |f| %>
+		<table width="95%">
+			<tr>
+				<td style="vertical-align:top;">
+					<table>
+						<tr>
+							<td>Email</td>
+							<td><i><span style="color:gray"><%=h current_user.email%></span></i></td>
+						</tr>
+						<tr>
+							<td><%= f.label :firstname, "Nombre" %></td>
+							<td><%= f.text_field :firstname %></td>
+						</tr>
+						<tr>
+							<td><%= f.label :lastname, "Apellido" %></td>
+							<td><%= f.text_field :lastname %></td>
+						</tr>
+						<tr>
+							<td><%= f.label :street1, "Calle" %></td>
+							<td><%= f.text_field :street1 %></td>
+						</tr>
+						<tr>
+							<td><%= f.label :street2, "Colonia" %></td>
+							<td><%= f.text_field :street2 %></td>
+						</tr>
+						<tr>
+							<td><%= f.label :zip, "CP" %> / <%= f.label :city, "Municipio" %></td>
+							<td><%= f.text_field :zip, :size => 3 %> <%= f.text_field :city%></td>
+						</tr>
+						<tr>
+							<td><%= f.label :club %></td>
+							<td><%= f.text_field :club%></td>
+						</tr>
+					</table>
+				</td>
+				<td style="vertical-align:top;">
+					<table>
+						<tr>
+							<td>Sexo</td>
+							<td>
+								<%= f.radio_button :sex, "1", (current_user.sex ? {:checked => "checked"} : {}) %> Hombre
+								<%= f.radio_button :sex, "0", (current_user.sex ? {} : {:checked => "checked"}) %> Mujer
+							</td>
+						</tr>
+						<tr>
+							<td><%= f.label :bday, "Feach de Nacimiento" %></td>
+							<td><%= f.date_select :bday, :start_year => 1940, :end_year => 2005 %></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align:right; padding-right:80px;"><%=f.submit "Guardar" %></td>
+			</tr>
+		</table>
+	<% end %>
+	<br/><br/><br/><br/>
+</div>

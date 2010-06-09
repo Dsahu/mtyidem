@@ -1,0 +1,51 @@
+<div style="padding:20px;">
+	<strong>Inscripcion para <%=@run.name%></strong>
+	<h1>No iniciaste la sesión</h1>
+	<table>
+		<tr>
+			<td style="vertical-align:top; padding:10px; ">
+				<b>Iniciar sesión</b><br/><br/>
+				Si ya cuentas con un usuario gratis inicia la sesión aqui.
+				<div style="padding-left:10px;">
+					<% form_tag session_path do -%>
+						<p><label for="email">Email</label><br/>
+						<%= text_field_tag 'email' %></p>
+						
+						<p><label for="password">Password</label><br/>
+						<%= password_field_tag 'password' %></p>
+						
+						<!-- Uncomment this if you want this functionality
+						<p><label for="remember_me">Remember me:</label>
+						<%= check_box_tag 'remember_me' %></p>
+						-->
+						
+						<p><%= submit_tag 'Iniciar sesión' %></p>
+					<% end -%>
+				</div>
+			</td>
+			<td style="vertical-align:top; padding:10px;">
+				<b>Registrar usuario</b><br/><br/>
+				Sé parte de los corredores de idemsport. Grandes benificios y promociones asi te esperan.<br/>
+				<ul>
+					<li>Tener sus resultados en orden</li>
+					<li>Estadisticas de sus carreras</li>
+					<li>Fotos y videos</li>
+				</ul>
+				<br/><br/>
+				<a class="register_now" href="/signup">Registrar gratis</a>
+			</td>
+			<td style="vertical-align:top; padding:10px;">
+				<b>Continuar sin usuario</b><br/><br/>
+				Hay muchos benificios cuando se usa su usario para la inscripcion:<br/>
+				<ul>
+					<li>Notificaciones de carrera, </li>
+					<li>sus fotos personales de la carrers,</li>
+					<li>sus videos personales de la carrera,</li>
+					<li>los resultados que usted lleva en las carreras...</li>
+				</ul>
+				...llegan a su conocimiento. <br/><br/><a style="color:blue;" href="/signup">Registrar gratis</a> ó<br/>
+				<a style="color:blue;" href="/inscriptions/new?run_id=<%=@run.id%>&forced=1">Continuar sin registracion</a>
+			</td>
+		</tr>
+	</table>
+</div>

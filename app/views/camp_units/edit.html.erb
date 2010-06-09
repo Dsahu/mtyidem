@@ -1,0 +1,40 @@
+<h1>Editing camp_unit</h1>
+
+<% form_for(@camp_unit, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+
+  <% unless params[:format] == "js" %>
+
+	  <p>
+	    <%= f.label :campaign_id %><br />
+	    <%= f.text_field :campaign_id %>
+	  </p>
+  
+  <% end %>
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <i><div style="color:gray"><%=@camp_unit.path%></div></i>
+    <%= file_field 'upload', 'datafile' %>
+  </p>
+  <p>
+    <%= f.label :image_where %><br />
+    <select id="camp_unit_image_where" name="camp_unit[image_where]">
+    	<% CampUnit::IMAGE_WHERES.each_with_index do |v,i|%>
+			<option value="<%=i%>" <%= @camp_unit.image_where.to_s == i.to_s ? "selected='selected'" : '' %> ><%=v%></option>
+		<% end %>
+    </select>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @camp_unit %> |
+<%= link_to 'Back', camp_units_path %>

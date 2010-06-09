@@ -1,0 +1,13 @@
+<p>
+  <b>User:</b>
+  <%=h @user_result_assignment.user_id %>
+</p>
+
+<p>
+  <b>Result:</b>
+  <%=h @user_result_assignment.result_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_result_assignment_path(@user_result_assignment) %> |
+<%= link_to 'Back', user_result_assignments_path %>

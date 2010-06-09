@@ -1,0 +1,18 @@
+
+<h1><%=@run.name%> - Videos</h1>
+<a href="/videos">Regresar a lista completa</a><br/><br/>
+<table width="900px">
+	<tr>
+		<td width="300px">
+			<%= image_tag(@run.logophoto, :size => "100x100") %>
+		</td>
+		<td width="300px">
+			... datos, otra informacion... quien sabe... alguien una idea???
+		</td>
+		<td width="300px">
+			<%= render :partial => "videolist", :locals => { :videos => @videos } %>
+
+			
+		</td>
+	</tr>
+</table>

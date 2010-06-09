@@ -1,0 +1,18 @@
+<p>
+  <b>Inviter:</b>
+  <%=h @friend_request.inviter_id %>
+</p>
+
+<p>
+  <b>Other:</b>
+  <%=h @friend_request.other_id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @friend_request.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_friend_request_path(@friend_request) %> |
+<%= link_to 'Back', friend_requests_path %>

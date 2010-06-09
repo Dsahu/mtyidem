@@ -1,0 +1,48 @@
+<h1>Editing inscription</h1>
+
+<% form_for(@inscription) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :paidfrom_id %><br />
+    <%= f.text_field :paidfrom_id %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.label :signed_at %><br />
+    <%= f.datetime_select :signed_at %>
+  </p>
+  <p>
+    <%= f.label :completed_at %><br />
+    <%= f.datetime_select :completed_at %>
+  </p>
+  <p>
+    <%= f.label :run_id %><br />
+    <%= f.text_field :run_id %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :runevent_id %><br />
+    <%= f.text_field :runevent_id %>
+  </p>
+  <p>
+    <%= f.label :sex %><br/>
+    <%= f.collection_select :sex, [[1, "Hombre"], [0, "Mujer"]], :first, :last %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @inscription %> |
+<%= link_to 'Back', inscriptions_path %>

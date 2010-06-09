@@ -1,0 +1,18 @@
+<p>
+  <b>Path:</b>
+  <%=h @camp_pic.path %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @camp_pic.name %>
+</p>
+
+<p>
+  <b>Campaign:</b>
+  <%=h @camp_pic.campaign_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_camp_pic_path(@camp_pic) %> |
+<%= link_to 'Back', camp_pics_path %>

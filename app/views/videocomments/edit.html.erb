@@ -1,0 +1,24 @@
+<h1>Editing videocomment</h1>
+
+<% form_for(@videocomment) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :video_id %><br />
+    <%= f.text_field :video_id %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @videocomment %> |
+<%= link_to 'Back', videocomments_path %>

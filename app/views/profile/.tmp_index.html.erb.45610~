@@ -1,0 +1,50 @@
+<% 
+   # If not itself and not yet friend, show Friend Request Form
+   unless @current_user == @user 
+	 unless @current_user.is_friend_of(@user, @friends) 
+		unless @current_user.has_friend_requst(@user, @friend_requests, @friend_requests_gotten)
+			%><%= render :partial => 'ask_for_friend_request', :locals => {:user_id => @user.id} %><%	 
+		else
+			%><%= "<i>Ya se mando un request para ser amigos</i>" %><%
+		end
+	 end
+   end
+%>
+
+
+<table width="100%">
+	<tr>
+		<td width="20%"><!-- LEFT -->
+		
+			<div><!-- PROFILE PIC -->
+				<br/>
+				profile pic
+				<br/><br/>
+			</div>
+			
+			<div><!-- PROFILE INFO -->
+				Registrado: <%=@user.created_at.strftime("%d/%m/%Y")%><br/>
+				Participo en <%= @results.count %> carreras<br/>
+				
+			</div>
+			
+			<div><!-- FRIEND LIST -->
+
+			</div>
+		</td>
+		<td width="60%"><!-- MIDDLE (MAIN) -->
+			WALL RESULTADOS PHOTOS VIDEOS<br/><br/><br/>
+			<%= render :partial => 'wall', :locals => {:wallevents => @wallevents} %>
+		</td>
+		<td width="20%"><!-- RIGHT -->
+			<% if @current_user == @user %>
+				<div><!-- OPEN FRIEND REQUESTS -->
+				
+					<%= render :partial => 'open_friend_requests', :locals => {:friend_requests => @friend_requests}%>
+					
+				</div>
+			<% end %>
+		</td>
+	</tr>
+</table>
+<br/><br/>

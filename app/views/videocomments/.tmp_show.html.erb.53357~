@@ -1,0 +1,18 @@
+<p>
+  <b>Video:</b>
+  <%=h @videocomment.video_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @videocomment.user_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @videocomment.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_videocomment_path(@videocomment) %> |
+<%= link_to 'Back', videocomments_path %>

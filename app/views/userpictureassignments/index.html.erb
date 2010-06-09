@@ -1,0 +1,28 @@
+<h1>Listing userpictureassignments</h1>
+
+<table>
+  <tr>
+    <th>Picture</th>
+    <th>User</th>
+    <th>Tagged by user</th>
+    <th>Cor x</th>
+    <th>Cor y</th>
+  </tr>
+
+<% @userpictureassignments.each do |userpictureassignment| %>
+  <tr>
+    <td><%=h userpictureassignment.picture_id %></td>
+    <td><%=h userpictureassignment.user_id %></td>
+    <td><%=h userpictureassignment.tagged_by_user_id %></td>
+    <td><%=h userpictureassignment.cor_x %></td>
+    <td><%=h userpictureassignment.cor_y %></td>
+    <td><%= link_to 'Show', userpictureassignment %></td>
+    <td><%= link_to 'Edit', edit_userpictureassignment_path(userpictureassignment) %></td>
+    <td><%= link_to 'Destroy', userpictureassignment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New userpictureassignment', new_userpictureassignment_path %>

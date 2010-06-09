@@ -1,0 +1,11 @@
+ <br/><br/>
+
+<%= form_tag("/admin/inscription_excel_upload", :multipart => true) %>
+   <select name="run_id">
+     <% @runs.each do |run| %>
+        <option value="<%=run.id%>"><%=h run.name%></option>
+     <% end %>
+   </select>    <br/><br/>
+   <%= file_field "upload", "datafile" %>    <br/><br/>
+   <input type="submit" value="Upload" />
+</form>                      <br/><br/>

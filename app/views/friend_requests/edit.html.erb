@@ -1,0 +1,24 @@
+<h1>Editing friend_request</h1>
+
+<% form_for(@friend_request) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :inviter_id %><br />
+    <%= f.text_field :inviter_id %>
+  </p>
+  <p>
+    <%= f.label :other_id %><br />
+    <%= f.text_field :other_id %>
+  </p>
+  <p>
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @friend_request %> |
+<%= link_to 'Back', friend_requests_path %>

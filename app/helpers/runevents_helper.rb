@@ -1,0 +1,2 @@
+module RuneventsHelper
+end

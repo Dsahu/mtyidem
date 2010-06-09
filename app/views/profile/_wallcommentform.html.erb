@@ -1,0 +1,30 @@
+<% std_wall_textarea_val = "Escribe aqui..."  %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    std_wallcomment_val = "<%= std_wall_textarea_val %>";
+  });
+</script>
+
+<div id="profile_comment_div">
+  <!-- DO COMMENT -->
+  <% form_tag("/profile/comment/#{user.id}", :html => {:method => :post}) do |f|  %>
+      <table>
+        <tr>
+          <td colspan="2">
+            <b>Escribe en el muro de tu amigo:</b>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;">
+
+            <textarea id="wall_comment_textarea" class="wall_textarea" onFocus="wall_comment_got_focus();" onBlur="wall_comment_lost_focus();" type="text" name="message" ><%= std_wall_textarea_val %></textarea>
+
+          </td>
+          <td style="vertical-align:top;">
+            <input type="submit" value="Enviar" />
+          </td>
+        </tr>
+
+      </table>
+  <% end %>
+</div>

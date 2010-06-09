@@ -1,0 +1,28 @@
+<br/>
+<%= form_tag('/admin/upload_file_for_pictures', :multipart => true) %>
+	<label for="upload_file">Foto o ZIP</label>:
+	<%= file_field 'upload', 'datafile' %>
+	<%= submit_tag "Upload" %>
+	<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+</form>
+
+<br/><br/>
+
+<b><%=@run.name%> - Lista de Fotos</b>
+
+<br/><br/>
+
+<table>
+	<tr><th>ID</th><th>Nombre</th><th>Visible</th><th>Ancho</th><th>Altura</th><th>Visto</th><th>Acciones</th></tr>
+	<% @pictures.each do |pic| %>
+		<tr>
+			<td><%=h pic.id%></td>
+			<td><%=h pic.name%></td>
+			<td><%= pic.visible ? "Si" : "No" %></td>
+			<td><%= pic.width %></td>
+			<td><%= pic.height %></td>
+			<td><%=h pic.counter %></td>
+			<td>EDIT <%= link_to 'Borar', pic, :confirm => 'Seguro?', :method => :delete %></td>
+		</tr>
+	<% end %>
+</table>

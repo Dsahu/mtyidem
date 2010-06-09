@@ -1,0 +1,45 @@
+<table>
+	<% wallevents.each do |we| %>
+		<tr>
+			<td style="padding-top:10px;">
+				<%=
+					if we.we_type == Wallevent::GENERAL_NEWUSER
+						"<img src='/images/new_member.jpg' width='40px' />"
+					elsif we.we_type == Wallevent::INSCRIPTION_SUCCESS
+						"<img src='/images/new_inscription_event.jpg' width='40px' />"
+					elsif we.we_type == Wallevent::WALL_COMMENT
+						"<img src='#{we.otheruser.profilepic}' width='40px' />"
+					elsif we.we_type == Wallevent::PICTURE_TAGGED_OTHER || we.we_type == Wallevent::PICTURE_TAGGED_SELF || we.we_type == Wallevent::PICTURE_TAGGED_BY
+						"<img src='/images/hand_black.gif' width='40px' />"
+					elsif we.we_type == Wallevent::VIDEO_TAGGED_OTHER || we.we_type == Wallevent::VIDEO_TAGGED_SELF || we.we_type == Wallevent::VIDEO_TAGGED_BY || we.we_type == Wallevent::VIDEO_TAGGED_SYSTEM
+						"<img src='/images/video_event.jpg' width='40px' />"
+					end
+				%>
+			</td>
+			<td style="padding-top:10px;">
+				<table class="walleventtable">
+					<tr>
+						<td <%= "class='blackback'" if colormode == "white" %> <%="style='color:#{colormode};'" if colormode.length > 0 %>>
+							<%=
+								
+								if we.we_type == Wallevent::INSCRIPTION_SUCCESS
+									"<a onClick='loadBoxyConvoc(#{we.run_id})' class='wall_event_title_link' href='#' style='font-weight:bold;'>#{we.name}</a>"
+								elsif we.we_type == Wallevent::WALL_COMMENT
+									"<img src='#{we.otheruser.profilepic}' width='40px' />"
+								else
+									"<b>#{we.name}</b>"
+								end
+							%>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<%= we.description %><%= "<br/>" if we.description %>
+							<span style="color:gray;"><i> <%= we.created_at.strftime("%H:%M %d/%m/%Y") %></i></span>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<% end %>
+</table>

@@ -1,0 +1,23 @@
+<p>
+  <b>Type:</b>
+  <%=h @wallevent.type %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @wallevent.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @wallevent.description %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @wallevent.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_wallevent_path(@wallevent) %> |
+<%= link_to 'Back', wallevents_path %>

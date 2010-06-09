@@ -1,0 +1,76 @@
+<% if @run %>
+	<br/>
+	<% form_for(@inscription) do |f| %>
+		<%= f.hidden_field :run_id, :value => @run.id.to_s %>
+		<%= f.hidden_field :user_id, :value => current_user.id.to_s %>
+		<center>
+			<table>
+				<tr>
+					<td style="text-align:left;"><img height="100px" src="<%=h @run.mainphoto%>" /></td>
+					<td style="text-align:left;"><h1><%=h @run.name%></h1></td>
+				</tr>
+				<tr>
+					<td><h3><%=current_user.full_name%></h3></td>
+					<td><h3><%= "Edad: " << current_user.age.to_s if current_user.bday %></h3></td>
+				</tr>
+				<tr>
+					<td>Talla: <%=@inscription.dresssizes%></td>
+					<td>Carrera: <%= @payconds.count == 1 ? @run.name + "(#{@payconds.first.amount_total}" %></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:right;"><%= f.submit 'Ir a pagar' %></td>
+				</tr>
+			</table><br/><br/>
+		</center>
+	<% end %>
+<% else %>
+	<!-- IF NO RUN_ID GIVEN THEN SELECTION OF A RUN -->
+<% end %>
+
+
+<!--
+<h1>New inscription</h1>
+
+<% form_for(@inscription) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :paidfrom_id %><br />
+    <%= f.text_field :paidfrom_id %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.label :signed_at %><br />
+    <%= f.datetime_select :signed_at %>
+  </p>
+  <p>
+    <%= f.label :completed_at %><br />
+    <%= f.datetime_select :completed_at %>
+  </p>
+  <p>
+    <%= f.label :run_id %><br />
+    <%= f.text_field :run_id %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :runevent_id %><br />
+    <%= f.text_field :runevent_id %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', inscriptions_path %>
+
+-->

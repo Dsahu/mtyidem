@@ -1,0 +1,6 @@
+<b><%=@run.name%></b><br/>
+<%= form_tag('/results/upload_data/' + @run.id.to_s, :multipart => true) %>
+	<label for="upload_file">Data File de resultados</label>:
+	<%= file_field 'upload', 'datafile' %>
+	<%= submit_tag "Upload" %>
+</form>

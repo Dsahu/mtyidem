@@ -1,0 +1,42 @@
+<script type="text/javascript">
+  function remove_store_from_group(id) {
+      $.ajax({
+          url: '/stores_in_groups/'+id+'.js',
+          type: 'delete'
+      });
+      $("#store_in_group_id_"+id).remove();
+  }
+</script>
+
+<p>
+  <b>Name:</b>
+  <%=h @store_group.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @store_group.description %>
+</p>
+
+
+<div id="added_stores">
+  <table id="added_stores_table">
+      <% @stores_in_groups.each do |stingroup| %>
+        <tr id="store_in_group_id_<%=stingroup.id%>">
+          <td><%=h stingroup.store.name%></td>
+          <td><a onClick="remove_store_from_group(<%=stingroup.id%>)">Quitar</a></td>
+        </ztr>
+      <% end %>
+  </table>
+</div>
+
+<% remote_form_for(StoresInGroup.new) do |f| %>
+   <input type="hidden" name="format" value="js"/>
+   <%= f.hidden_field :store_group_id, :value => @store_group.id%>
+   <%= f.collection_select :store_id, @stores, :id, :name %>
+   <%= f.submit "Agregar" %>
+
+<% end %>
+<br/><br/>
+<%= link_to 'Edit', edit_store_group_path(@store_group) %> |
+<%= link_to 'Back', store_groups_path %>

@@ -1,0 +1,58 @@
+<h1>Listing runs</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Eventday</th>
+    <th>Lastregisterday</th>
+    <th>Location</th>
+    <th>Distance</th>
+    <th>Electronicservicequote</th>
+    <th>Showincarrusel</th>
+    <th>Showresults</th>
+    <th>Fichastart</th>
+    <th>Fichaend</th>
+    <th>Inscriptionopen</th>
+    <th>Runtype</th>
+    <th>Flickrlink</th>
+    <th>Convocatoria</th>
+    <th>Descriptionadicional</th>
+    <th>Mainphoto</th>
+    <th>Diplomphoto</th>
+    <th>Sponsoringphoto</th>
+    <th>Mapphoto</th>
+  </tr>
+
+<% @runs.each do |run| %>
+  <tr>
+    <td><%=h run.name %></td>
+    <td><%=h run.description %></td>
+    <td><%=h run.eventday %></td>
+    <td><%=h run.lastregisterday %></td>
+    <td><%=h run.location %></td>
+    <td><%=h run.distance %></td>
+    <td><%=h run.electronicservicequote %></td>
+    <td><%=h run.showincarrusel %></td>
+    <td><%=h run.showresults %></td>
+    <td><%=h run.fichastart %></td>
+    <td><%=h run.fichaend %></td>
+    <td><%=h run.inscriptionopen %></td>
+    <td><%=h run.runtype_id %></td>
+    <td><%=h run.flickrlink %></td>
+    <td><%=h run.convocatoria %></td>
+    <td><%=h run.descriptionadicional %></td>
+    <td><%=h run.mainphoto %></td>
+    <td><%=h run.diplomphoto %></td>
+    <td><%=h run.sponsoringphoto %></td>
+    <td><%=h run.mapphoto %></td>
+    <td><%= link_to 'Show', run %></td>
+    <td><%= link_to 'Edit', edit_run_path(run) %></td>
+    <td><%= link_to 'Destroy', run, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New run', new_run_path %>

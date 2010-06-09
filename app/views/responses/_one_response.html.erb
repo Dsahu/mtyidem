@@ -1,0 +1,8 @@
+<tr id="response_<%=response.id%>">
+  <td style="width:45px; padding:5px;">
+    <a href="<%=response.by_user.profile_path%>"><img style="width:40px;" src="<%=response.by_user.crop_profilepic %>" /></a>
+  </td>
+  <td style="width:270px; padding:5px 5px 5px 0px;">
+     <a class="userlink" href="<%=response.by_user.profile_path%>"><%=response.by_user.full_name%></a>: <%=h response.description %>
+  </td>
+</tr>

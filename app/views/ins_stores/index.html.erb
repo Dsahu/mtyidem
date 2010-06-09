@@ -1,0 +1,109 @@
+<script type="text/javascript">
+  function show_ins_stores(run_id) {
+
+      $.ajax({
+          url:"/ins_stores/search/0",
+          type: 'get',
+          data:{"run_id":run_id},
+          success: function(data) {
+             $("#ins_stores").html(data);
+          }
+      });
+
+      $(".run_id_field").each(function(e){
+          $(this).val(run_id);
+      })
+
+  }
+
+  function remove_ins_store(id) {
+      $.ajax({
+          url:"/ins_stores/"+id+".js",
+          type: 'delete',
+          success: function(data) {
+             $("#ins_store_id_"+id).remove();
+          }
+      });
+  }
+
+</script>
+
+<h1>Stores para carreras</h1>
+
+<select name="run_id" onChange="show_ins_stores(this.value)">
+  <option value="">-- Selecciona --</option>
+  <% @runs.each do |run| %>
+    <option value="<%=run.id%>"><%=h run.name%></option>
+  <% end %>
+</select>
+
+<br/><br/>
+
+<div id="ins_stores">
+  
+</div>
+
+<br/><br/>
+
+<table>
+  <tr>
+    <td>
+      <b>Agregar Stores del grupo</b>
+      <% form_remote_tag :url => "/ins_stores/add_store_group/0" do -%>
+        <input name="run_id" type="hidden" value="" class="run_id_field"/>
+        <select name="store_group_id">
+          <% @store_groups.each do |sg| %>
+            <option value="<%=sg.id%>"><%=sg.name%></option>
+          <% end %>
+        </select><br/>
+        <input type="submit" name="commit" value="Agregar"/>
+      <% end %>
+    </td>
+
+    <td style="padding-left:30px;">
+      <b>Agregar Stores uno por uno</b>
+      <% form_remote_tag :url => "/ins_stores/add_store/0" do -%>
+        <input name="run_id" type="hidden" value="" class="run_id_field"/>
+        <select name="store_id">
+          <% @stores.each do |sg| %>
+            <option value="<%=sg.id%>"><%=sg.name%></option>
+          <% end %>
+        </select><br/>
+        <input type="submit" name="commit" value="Agregar"/>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+<br/><br/><br/><br/>
+
+
+<!--
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Store</th>
+    <th>Run</th>
+  </tr>
+
+<% @ins_stores.each do |ins_store| %>
+  <tr>
+    <td><%=h ins_store.name %></td>
+    <td><%=h ins_store.description %></td>
+    <td><%=h ins_store.store_id %></td>
+    <td><%=h ins_store.run_id %></td>
+    <td><%= link_to 'Show', ins_store %></td>
+    <td><%= link_to 'Edit', edit_ins_store_path(ins_store) %></td>
+    <td><%= link_to 'Destroy', ins_store, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New ins_store', new_ins_store_path %>-->

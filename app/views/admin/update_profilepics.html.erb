@@ -1,0 +1,18 @@
+<h1>Updateds de Profile Pics realizados a</h1>
+
+<table>
+	<tr>
+		<th>Id</th>
+		<th>Nombre</th>
+		<th>Profile Pic</th>
+		<th>Croped Profile Pic</th>
+	</tr>
+	<% @users.each do |u| %>
+		<tr>
+			<td><%=h u.id %></td>
+			<td><%=h u.full_name %></td>
+			<td><%=h u.profilepic %></td>
+			<td><%=h u.s_profilepic %></td>
+		</tr>
+	<% end %>
+</table>

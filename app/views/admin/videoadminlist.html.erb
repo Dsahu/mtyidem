@@ -1,0 +1,28 @@
+<br/>
+<%= form_tag('/admin/upload_file_for_videos', :multipart => true) %>
+	<label for="upload_file">FLV o ZIP</label>:
+	<%= file_field 'upload', 'datafile' %>
+	<%= submit_tag "Upload" %>
+	<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+</form>
+
+<br/><br/>
+
+<b><%=@run.name%> - Lista de Videos</b>
+
+<br/><br/>
+
+<table>
+	<tr><th>ID</th><th>Nombre</th><th>Minuto</th><th>Es Salida?</th><th>Visible</th><th>Visto</th><th>Acciones</th></tr>
+	<% @videos.each do |video| %>
+		<tr>
+			<td><%=h video.id%></td>
+			<td><%=h video.name%></td>
+			<td><%= video.name.split(".").first.to_i > 0 ? video.name.split(".").first : "NA" %></td>
+			<td><%= video.is_start ? "Si" : "No" %></td>
+			<td><%= video.visible ? "Si" : "No" %></td>
+			<td><%=h video.counter %></td>
+			<td>EDIT <%= link_to 'Borar', video, :confirm => 'Seguro?', :method => :delete %></td>
+		</tr>
+	<% end %>
+</table>

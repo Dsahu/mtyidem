@@ -1,0 +1,32 @@
+<h1>Editing login</h1>
+
+<% form_for(@login) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.text_field :password %>
+  </p>
+  <p>
+    <%= f.label :failed %><br />
+    <%= f.check_box :failed %>
+  </p>
+  <p>
+    <%= f.label :ipaddr %><br />
+    <%= f.text_field :ipaddr %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @login %> |
+<%= link_to 'Back', logins_path %>

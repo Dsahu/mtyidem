@@ -1,0 +1,2 @@
+module DiplomaElementsHelper
+end

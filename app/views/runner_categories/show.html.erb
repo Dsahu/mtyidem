@@ -1,0 +1,28 @@
+<p>
+  <b>Name:</b>
+  <%=h @runner_category.name %>
+</p>
+
+<p>
+  <b>Run:</b>
+  <%=h @runner_category.run.name %>
+</p>
+
+<p>
+  <b>From age:</b>
+  <%=h @runner_category.from_age %>
+</p>
+
+<p>
+  <b>To age:</b>
+  <%=h @runner_category.to_age %>
+</p>
+
+<p>
+  <b>Sex mode:</b>
+  <%=h @runner_category.sex_mode_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_runner_category_path(@runner_category) %> |
+<%= link_to 'Back', runner_categories_path %>

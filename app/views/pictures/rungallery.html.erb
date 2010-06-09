@@ -1,0 +1,597 @@
+<% if @friends %>
+	<div id="friend_tag_list">
+		<table width="100%">
+			<tr><td class="friend_tag_list_top" style="text-align:right;"><a href="#" onClick="tag_me_stop();">Cerrar</a></td></tr>
+			
+			<% if current_user %>
+				<tr class="friend_tag_list_row" id="friend_list_tag_user_<%=current_user.id%>"><td><a href="#" onClick="assign_user_to_pic(<%=current_user.id%>)"><%=current_user.full_name%></a></td></tr>
+			<% end %>
+			
+			<% @friends.each do |friend| %>
+				<tr class="friend_tag_list_row" id="friend_list_tag_user_<%=friend.id%>"><td><a href="#" onClick="assign_user_to_pic(<%=friend.id%>)"><%=friend.full_name%></a></td></tr>
+			<% end %>	
+		</table>
+	</div>
+<% end %>
+
+<script type="text/javascript" language="JavaScript">
+	
+	
+	
+	//var tagged_users = ["<%=current_user.id if current_user %>"]; // Array of user ids
+	var tagged_users = [];
+	var active_pic_id = null;
+	var active_pic_x = null;
+	var active_pic_y = null;
+	var user_tag_infos = [];
+	
+	<% if @friends %>
+		<%
+			friend_str = "["
+			@friends.each { |friend| friend_str << "{id: #{friend.id}, firstname: '#{friend.firstname}', lastname: '#{friend.lastname}'}," }
+			friend_str = friend_str[0,friend_str.length-1] if friend_str[-1,1] == ","
+			friend_str << "]" 
+		%>
+		var friends = <%=friend_str if friend_str %>;
+	<% end %>
+	
+	var pics = [
+		<% 
+			var_pics = ""
+			@pictures.each_with_index do |pic, index|
+				desc = pic.description
+				desc = "" unless desc
+				var_pics += '{ id: '+pic.id.to_s+', index: '+index.to_s+', path: "'+pic.html_l_path+'", description: "'+ desc +'", width: '+pic.width.to_s+', height: '+pic.height.to_s+' },'
+			end
+			var_pics = var_pics[0, var_pics.length-1] if var_pics[var_pics.length-1,var_pics.length-1] == ","
+		%>
+		<%= var_pics %>
+	];
+
+    function checkKey(e){
+      switch (e.keyCode) {
+        case 40:
+            //alert('down');
+            break;
+        case 38:
+            //alert('up');
+            break;
+        case 37:
+            previous_pic();
+            break;
+        case 39:
+            next_pic();
+            break;
+        default:
+            //alert('???');
+      }      
+    }
+
+    $(document).ready(function() {
+        if ($.browser.mozilla) {
+            $(document).keypress (checkKey);
+        } else {
+            $(document).keydown (checkKey);
+        }
+    });
+
+	
+	var current_pic_index = 0;
+	var max_width = 550;
+	var max_height = 450;
+	
+	function get_prototype(idx) {
+		var idx_test = idx + 1;
+		if(idx == pics.length) {
+			idx = 0;
+		}
+		
+		for(var i = 0; i < pics.length; i++) {
+			if(pics[i].index == idx) {
+				return pics[i];
+			}
+		}
+		
+		return pics[0];
+	}
+	
+	function get_prototype_by_pic_id(id) {
+		for(var i = 0; i < pics.length; i++) {
+			if(id == pics[i].id) {
+				return pics[i];
+			}
+		}
+		return pics[0];
+	}
+	
+	function get_image_size_attributes(idx) {
+		var proto_img = get_prototype(idx);
+		var do_width = 0;
+		var do_height = 0;
+		if(proto_img.width <= max_width && proto_img.height <= max_height) {
+			do_width = proto_img.width;
+			do_height = proto_img.height;
+		} else if (proto_img.width > max_width && proto_img.height <= max_height) {
+			do_width = max_width;
+		} else if(proto_img.width <= max_width && proto_img.height > max_height) {
+			do_height = max_height;
+		} else {
+			if (proto_img.width/max_width > proto_img.height/max_height) {
+				do_width = max_width-2;
+				do_height = proto_img.height/(proto_img.width/(max_width-2));
+			} else {
+				do_height = max_height-2;
+				do_width = proto_img.width/(proto_img.height/(max_height-2));
+			}
+		}
+		var attrs = "";
+		if(do_width > 0) {
+			attrs += " width='" + do_width + "' ";
+		}
+		if(do_height > 0) {
+			attrs += " height='" + do_height + "' ";
+		}
+		return attrs;
+	}
+	
+	function update_comments(picture_id) {
+		$.get("/pictures/comments_form/"+picture_id, {"format": "js"}, function(data){
+			$('#picturecommentscontainer').html(data);
+		});
+	}
+	
+	function hide_tagged_user_in_pic() {
+		$(".show_user_tag_square").each(function() {
+			$(this).remove();
+		});
+		
+	}
+	
+	function show_tagged_user_in_pic(x_cor, y_cor) {
+		var offset = $("#active_pic").offset();
+		var x_square = x_cor - (square_width/2) + offset.left;
+		var y_square = y_cor - (square_height/2) + offset.top;
+		$("body").append($('#tagsquare').clone().css({'position':'absolute', 'left': x_square + 'px', 'top': y_square + 'px'}).attr('id', "show_user_tag_square").addClass("show_user_tag_square")  );
+	}
+	
+	function update_usertags(picture_id) {
+		$.get("/pictures/tags/"+picture_id, {"format": "json"}, function(json){
+			// [{id: 1, firstname: "adi", lastname: "perez", profilepath:"/profiles/p/1", profilepic:"/images/......"}]
+			var new_html = "";
+			var json_var = eval("(" + json + ")"); 
+			var user_self = tagged_users[0];
+			tagged_users = [];
+			user_tag_infos = [];
+			//tagged_users.push(user_self);
+			for(var i = 0; i < json_var.length; i++) {
+				
+				new_html += "<a onmouseover='show_tagged_user_in_pic(" + json_var[i][5] + ", " + json_var[i][6] + ")' onmouseout='hide_tagged_user_in_pic()' href='" + json_var[i][3] + "'>" + json_var[i][1]+ " " + json_var[i][2]+ "</a> ";
+				tagged_users.push(json_var[i][0]);
+				user_tag_infos.push(json_var[i]);
+			}
+			hide_tagged_user_in_pic();
+			$('#taggedusers').html(new_html);
+		});
+	}
+	
+	function create_new_hidden_pic(new_hidden_index) {
+		var proto_img = get_prototype(new_hidden_index);
+		if($('#hidden_picture_' + proto_img.index).length == 0) {
+			var attrs = get_image_size_attributes(new_hidden_index);
+			$('#hiddenpics').append("<img onClick='next_pic();' "+ attrs +" src='" + proto_img.path + "' id='hidden_picture_" + proto_img.index + "' />");
+		}
+	}
+	
+	function move_image_tag_to_content(next_pic_index){
+		$('#current_pic_num').html((next_pic_index+1));
+		//$('#gallerymaincenter').html($('#hidden_picture_'+next_pic_index).clone().removeAttr("id"));
+		$('#gallerymaincenter').html($('#hidden_picture_'+next_pic_index).clone().attr("id", "active_pic"));
+		update_comments(get_prototype(next_pic_index).id);
+		update_usertags(get_prototype(next_pic_index).id);
+	}
+	
+	function index_passed_limit(idx) {
+		if (idx < pics.length) {
+			return false;
+		}
+		return true;
+	}
+	
+	function index_under_limit(idx) {
+		if(idx < 0) {
+			return true; 
+		}
+		return false;
+	}
+	
+	function previous_pic() {
+		var next_pic_index = 0;
+		var new_hidden_index = 0;
+		
+		next_pic_index = current_pic_index - 1;
+		new_hidden_index = current_pic_index - 2;
+		
+		if(!index_under_limit(new_hidden_index)) {
+			create_new_hidden_pic(new_hidden_index);
+		} else {
+			new_hidden_index = pics.length + new_hidden_index;
+			create_new_hidden_pic(new_hidden_index);
+		}
+		
+		if(!index_under_limit(next_pic_index)) {
+			move_image_tag_to_content(next_pic_index);
+		} else {
+			next_pic_index = pics.length - 1;
+			move_image_tag_to_content(next_pic_index);
+		}
+		
+		current_pic_index--;
+		if(index_under_limit(current_pic_index)) {
+			current_pic_index = pics.length - 1;
+		}
+		
+		activate_mode_show_user_name_in_pic();
+	}
+	
+	function next_pic() {
+		
+		var next_pic_index = 0;
+		var new_hidden_index = 0;
+		
+		next_pic_index = current_pic_index + 1;
+		new_hidden_index = current_pic_index + 2;
+
+		if (!index_passed_limit(new_hidden_index)) {
+			create_new_hidden_pic(new_hidden_index);
+		}
+		
+		if (!index_passed_limit(next_pic_index)) {
+			move_image_tag_to_content(next_pic_index);
+		} else {
+			next_pic_index = 0;
+			move_image_tag_to_content(next_pic_index);
+		}
+		
+		current_pic_index++;
+		if(index_passed_limit(current_pic_index)) {
+			current_pic_index = 0;
+		}
+		
+		activate_mode_show_user_name_in_pic();
+	}
+	
+	var tag_mode = false;
+	var square_width = 100;
+	var square_height = 100;
+	var user_id = 0;
+	
+	function hide_all_tagged_names() {
+		$(".user_tagged_name_in_pic").each(function(t) {
+			$(this).remove();
+		});
+	}
+	
+	function hide_tagged_name(usr) {
+		if(tagged_user_name_exists(usr)) {
+			$(".user_tagged_name_in_pic").each(function(t) {
+				$(this).remove();
+			});
+		}
+		return false;
+	}
+	
+	function hide_all_tagged_name_except(usr) {
+		var user_tag_count = 0;
+		var user_tag_act_jump = 0;
+		$(".user_tagged_name_in_pic").each(function() {
+			if($(this).attr("id") != ("user_tagged_name_" + usr[0])) {
+				$(this).remove();
+			} else {
+				user_tag_count += 1;
+			}
+		});
+		$(".user_tagged_name_in_pic").each(function() {
+			if($(this).attr("id") == ("user_tagged_name_" + usr[0])) {
+				if (user_tag_act_jump < user_tag_count) {
+					$(this).remove();
+					user_tag_act_jump += 1;
+				}
+			} 
+		});
+	}
+	
+	function tagged_user_name_exists(usr) {
+		$(".user_tagged_name_in_pic").each(function() {
+			if($(this).attr("id") == ("user_tagged_name_" + usr[0])) {
+				return true;
+			}
+		});
+		return false;
+	}
+	
+	function near_user_tag(x, y, offset) {
+		for(var i = 0; i < user_tag_infos.length; i++) {
+			var y_t = user_tag_infos[i][6] - (square_height/2) + offset.top;
+			var y_b = user_tag_infos[i][6] + (square_height/2) + offset.top;
+			var x_l = user_tag_infos[i][5] - (square_width/2) + offset.left;
+			var x_r = user_tag_infos[i][5] + (square_width/2) + offset.left; 
+			
+			//alert("tag_x: " + user_tag_infos[i][5] + " tag_y: " + user_tag_infos[i][6] + " off_l: " + offset.left + " off_t: " + offset.top + " y_t: " + y_t + " y_b: " + y_b + " x_l: " + x_l + " x_r: " + x_r + " x: " + x + " y: " + y);
+			
+			if(y_t < y && y_b > y && x_l < x && x_r > x) {
+				hide_all_tagged_name_except(user_tag_infos[i]);
+				return user_tag_infos[i];
+			} else {
+				hide_tagged_name(user_tag_infos[i]);
+			}
+		}
+	}
+	
+	function show_user_in_pic(usr) {
+		var offset = $("#active_pic").offset();
+		$("body").append("<div id='user_tagged_name_" + usr[0] + "' style='text-align:center; position:absolute; left:" + Math.floor(offset.left + usr[5] - 100) + "px; top:" + Math.floor(offset.top + usr[6] + 50) + "px; width:200px;' class='user_tagged_name_in_pic'><a href='" + usr[3] + "'>" + usr[1] + " " + usr[2] + "</a></div>");
+	}
+	
+	function activate_mode_show_user_name_in_pic() {
+		//alert('active');
+		$("#active_pic").mousemove(function(e){
+			var pic_offset = $("#active_pic").offset();
+			//alert(e.pageX);
+			var near_user = near_user_tag(e.pageX, e.pageY, pic_offset);
+			if(near_user != null) {
+				if (!tagged_user_name_exists(near_user)) {
+					show_user_in_pic(near_user);
+				}
+			} else {
+				hide_all_tagged_names();
+			}
+		});
+		return false;
+	}
+	
+	function deactivate_mode_show_user_name_in_pic() {
+		$("#active_pic").unbind("mousemove");
+		return false;
+	}
+	
+	function tag_me_stop() {
+		tag_mode = false;
+		$("#active_square").remove();
+		$('#active_pic').unbind("mousemove");
+		
+		$('#friend_tag_list').hide();
+		$('#tag_me_stop_div').hide();
+		$('#tag_me_start_div').show();
+		
+		
+		activate_mode_show_user_name_in_pic();
+	}
+	
+	
+	function assign_user_to_pic(userid) {
+		$.post("/userpictureassignments", {
+			"userpictureassignment[picture_id]" : active_pic_id, 
+			"userpictureassignment[cor_x]" : active_pic_x, 
+			"userpictureassignment[cor_y]" : active_pic_y,
+			"userpictureassignment[user_id]" : userid,
+			"format" : "js"
+		}, function(data){
+			// CALLBACK
+			//$("#taggedusers").append(" " + data);
+			var json_var = eval ("(" + data + ")");
+			$("#taggedusers").append(" <a href='" + json_var.user.profile_path + "'>"+json_var.user.firstname + " "+json_var.user.lastname+"</a>");
+			tagged_users.push(json_var.user.id);
+			tag_me_stop();
+		});
+	}
+	
+	function freeze_active_square() {
+		$("#active_square").unbind("mousemove");
+		$('#active_pic').unbind("mousemove");
+	}
+	
+	function escape_already_tagged_users() {
+		$('.friend_tag_list_row').each(function(i){
+			$(this).show();
+		});
+		for(var i = 0; i < tagged_users.length; i++) {
+			$("#friend_list_tag_user_"+tagged_users[i]).hide();
+		}
+	}
+	
+	function show_friend_tag_list(picture_id, tag_x, tag_y) {
+		escape_already_tagged_users();
+		var offset = $("#active_pic").offset();
+		active_pic_id = picture_id;
+		active_pic_x = tag_x;
+		active_pic_y = tag_y;
+		
+		$('#friend_tag_list').css({"left": tag_x+(square_width/2)+offset.left+"px", "top": (tag_y-(square_height/2)+offset.top)+"px"});
+		$('#friend_tag_list').show();
+	}
+	
+	function open_tag_list_and_assign_user(picture_id, tag_x, tag_y) {
+		freeze_active_square();
+		show_friend_tag_list(picture_id, tag_x, tag_y);
+	}
+	
+	function activate_tag_mode() {
+		tag_mode = true;
+		//
+		// init square, put in the middle of the pic
+		//
+		var pic_offset = $("#active_pic").offset();
+		var proto_img = get_prototype(current_pic_index);
+		var init_x = pic_offset.left + (proto_img.width/2) - (square_width/2);
+		var init_y = pic_offset.top + (proto_img.height/2) - (square_height/2);
+		
+		$("body").append(   $('#tagsquare').clone().css({'position':'absolute', 'left': init_x + 'px', 'top': init_y + 'px'}).attr('id', "active_square")  );
+		$("#active_square").click(function(e){
+			var pic_offset = $("#active_pic").offset();
+			open_tag_list_and_assign_user(get_prototype(current_pic_index).id, (e.pageX - pic_offset.left), (e.pageY - pic_offset.top));
+			//assign_user_to_pic(get_prototype(current_pic_index).id, e.pageX - pic_offset.left, e.pageY - pic_offset.top);
+		});
+		
+		
+		$("#active_square").mousemove(function(e){
+			move_square_to(e.pageX, e.pageY);
+		});
+				
+	}
+	
+	function move_square_to(x, y) {
+		var tmp_x = x - (square_width/2);
+		var tmp_y = y - (square_height/2);
+		var pic_offset = $("#active_pic").offset();
+		var proto_img = get_prototype(current_pic_index);
+		
+		if (x > pic_offset.left && y > pic_offset.top && x < (pic_offset.left+proto_img.width) && y < (pic_offset.top+proto_img.height)) {
+			// 
+			$('#active_square').css('top', tmp_y);
+			$('#active_square').css('left', tmp_x)
+		}
+	}
+	
+	function tag_me_start(user_id) {
+		user_id = user_id;
+		activate_tag_mode(); // That square follows the mouse && and click-hearing
+		
+		deactivate_mode_show_user_name_in_pic();
+		
+		$('#active_pic').mousemove(function(e){
+			//var img_offset = $('#gallerymaincenter img:first').offset()
+			
+			move_square_to(e.pageX, e.pageY);
+			
+		});
+		$('#tag_me_start_div').hide();
+		$('#tag_me_stop_div').show();
+	}
+	
+	$(document).ready(function(){
+		// INIT - CREATE FIRST 2 PICS and 1 BACKWARDS
+		create_new_hidden_pic(get_prototype_by_pic_id(<%=@first_picture.id %>).index);
+		create_new_hidden_pic(get_prototype_by_pic_id(<%=@first_picture.id %>).index + 1);
+		create_new_hidden_pic(get_prototype_by_pic_id(<%=@first_picture.id %>).index - 1);
+		
+		// INIT - SHOW FIRST PIC
+		current_pic_index = get_prototype_by_pic_id(<%=@first_picture.id %>).index;
+		move_image_tag_to_content(get_prototype_by_pic_id(<%=@first_picture.id %>).index);
+		$("#current_pic_num").html(get_prototype_by_pic_id(<%=@first_picture.id %>).index + 1);
+		
+		activate_mode_show_user_name_in_pic();
+	});
+	
+</script>
+
+
+
+<div id="hiddenpics" style="display:none;">
+	<img id="tagsquare" src="/images/square.gif" style="border:none;" />
+</div>
+
+<table id="gallerytable">
+	<tr><!-- UPPER ROW -->
+		<td class="gallerymarginupperleft" style="width:20px;"><!-- MARGIN-UPPER-LEFT--></td>
+		<td class="galleryuppermiddle">
+			<table width="100%">
+				<tr>
+					<td width="33%" style="text-align:left;"> <a style="font-weight:bold; font-size:12px; text-decoration:none;" href="javascript:previous_pic()">Anterior</a> </td>
+					<td width="34%" style="text-align:center;"><span id="current_pic_num">1</span>/<%=@pictures.count%></td>
+					<td width="33%" style="text-align:right;"> <a style="font-weight:bold; font-size:12px; text-decoration:none;" href="javascript:next_pic()">Siguiente</a> </td>
+				</tr>
+			</table>
+		</td>
+		<td class="gallerymarginuppermiddle" style="width:10px"></td>
+		<td class="galleryinfoupperright">
+			
+		</td>
+		<td class="gallerymarginupperright" style="width:20px;"></td>
+	</tr>
+	
+	<tr class="gallerymaincontentrow"><!-- ROW OF IMAGE CONTENT and INFO ON THE RIGHT -->
+		<td class="gallerymarginmiddleleft"></td>
+		<td id="gallerymaincenter">
+			Cargando Fotos
+		</td>
+		<td class="gallerymargincentermiddle"></td>
+		<td class="galleryinfomiddleright">
+			<table width="100%">
+				<tr>
+					<td width="25%"> <!-- LOGOIMAGE -->
+						<%= image_tag(@run.logophoto, :size => "80x80") %>
+					</td>
+					<td width="75%"> <!-- RUN & VIDEO INFO -->
+						<b><%=h @run.name%></b><br/>
+						Dia: <%=@run.eventday%><br/>
+						Fotos tomadas: <%=@pictures.count%>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<% if current_user %>
+							<div id="tag_me_start_div"><a href="javascript:tag_me_start(<%=current_user.id%>)">Etiqueta la foto</a></div>
+							<div id="tag_me_stop_div" style="display:none;" onClick="tag_me_stop();"><a href="javascript:tag_me_stop()">TAG TERMINAR</a></div>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<td id="taggedusers" colspan="2" style="padding-top:15px;"> <!-- TAGGED USER LIST -->
+						<%= render :partial => "taggedusers", :locals => { :users => @users } %>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td class="gallerymarginmiddleright"></td>
+	</tr>
+	<tr class="gallerymarginrow"><td colspan="5"></td></tr><!-- MARGIN ROW -->
+	<tr><!-- COMMENTS ROW ETC -->
+		<td class="gallerymarginbottomleft"></td>
+		<td class="gallerycontentbottommiddle">
+			<table>
+				<tr>
+					<td><h3>Comentarios</h3></td>
+					<td id="taglink" style='padding-left:20px;'></td>
+				</tr>
+			</table>
+			
+			<div id="picturecommentscontainer">
+			
+				<table width="100%" id="picturecomments">
+					<% @first_pic_picturecomments.each do |pc| %>
+						<%= render :partial => 'picturecomments/one_comment', :locals => {:picturecomment => pc} %>
+					<% end %>
+				</table>
+			
+				<!-- COMMENT FORM -->
+				<% if current_user %>
+					<% remote_form_for(Picturecomment.new) do |f| %>
+						<table>
+							<tr>
+								<td>
+									<%= hidden_field_tag "format", "js" %>
+									<%= f.hidden_field :picture_id, :value => @pictures.first.id.to_s %>
+									<%= f.text_area :description, :rows => 2 %><br/>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align:right;">
+									<%= f.submit 'Comentar' %>
+								</td>
+							</tr>
+						</table>
+					<% end %>
+				<% end %>
+			
+			</div>
+		</td>
+		
+		<td class="gallerymarginbottomright" colspan="3"></td>
+
+	</tr>
+	<tr class="galleryfinalrow">
+		<td class="galleryfinalleft"></td>
+		<td colspan="3" class="galleryfinalmiddle"></td>
+		<td class="galleryfinalright"></td>
+	</tr>
+</table>

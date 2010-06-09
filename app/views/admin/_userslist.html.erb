@@ -1,0 +1,23 @@
+<% rand_num = rand(1000) %>
+
+<script type="text/javascript" language="JavaScript">
+	function do_find_user_<%=rand_num%>(user_id) {
+		$("#unique_user_id").val(user_id);
+		jQuery.ajax({data:jQuery.param(jQuery("#unique_user_finder").serializeArray()) + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token%>'), dataType:'script', type:'post', url:'/admin/getuser/0'}); return false;
+		$("#findusersresults").hide();
+	}
+</script>
+
+<table style="border-collapse:collapse; border:1px solid #ddd;">
+	<% users.each do |u| %>
+	
+		<tr class="hoverrow" id="userlist_user_<%=u.id%>" onClick="do_find_user_<%=rand_num%>('<%=u.id%>')">
+			<td width="30px" class="userlist_id" style="border:1px solid #ddd; text-align:center;"><%=u.id%></td>
+			<td width="200px" class="userlist_firstname" style="border:1px solid #ddd;"><%=u.firstname%></td>
+			<td width="200px" class="userlist_lastname" style="border:1px solid #ddd;"><%=u.lastname%></td>
+			<td width="200px" class="userlist_email" style="border:1px solid #ddd;"><%=u.email%></td>
+			<td width="100px" class="userlist_bday" style="border:1px solid #ddd;"><%=u.bday%></td>
+		</tr>
+	
+	<% end %>
+</table>

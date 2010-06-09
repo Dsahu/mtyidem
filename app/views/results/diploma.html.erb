@@ -1,0 +1,53 @@
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+	<%
+	  
+	  #### others
+	  
+	  carrules_image = @run.logophoto
+	  publicidad_image = @run.mainphoto
+	  diploma_image = @run.diplomphoto
+
+	%>
+
+
+	
+	<div style="position:absolute; left: 0px; top:0px; z-index:1"><img width="900px" style="border: 1px solid;" src='<%=diploma_image%>'/></div>
+
+	<%
+		@diploma_elements.each do |de|
+			tmp_font_family = de.font_family
+			tmp_font_size = de.font_size
+			tmp_pos_x = de.pos_x
+			tmp_pos_y = de.pos_y
+			tmp_column_name = de.column_name
+			
+			if tmp_column_name == "nombre" 
+				tmp_column_value = @result.full_name(false)
+			elsif tmp_column_name == "tiempo"
+				tmp_column_value = @result.time_civil
+			elsif tmp_column_name == "tiempo_chip"
+				tmp_column_value = @result.time_chip_civil
+			elsif tmp_column_name == "paso"
+				tmp_column_value = @result.paso_civil
+			elsif tmp_column_name == "categoria"
+				tmp_column_value = @result.cat
+			elsif tmp_column_name == "lugar_general"
+				tmp_column_value = @result.rank_general
+			elsif tmp_column_name == "lugar_rama"
+				tmp_column_value = @result.rank_rama
+			elsif tmp_column_name == "lugar_categoria"
+				tmp_column_value = @result.rank_cat
+			
+			else
+				tmp_column_value = @result.send(:"#{tmp_column_name}")
+			end 
+
+		%>
+			<div style="position:absolute; font-family:<%=tmp_font_family%>; font-size:<%=tmp_font_size%>; left:<%=tmp_pos_x%>; top:<%=tmp_pos_y%>; z-index:10"><%=tmp_column_value%></div>
+			
+		<% end %>
+		
+		<div id="printdiv" style="font-weight:bold; position:absolute; left:370px; top:700px; z-index:10;">
+			<a href="#" onClick="$('#printdiv').hide(); window.print();">IMPRIMIR</a>
+		</div>
+

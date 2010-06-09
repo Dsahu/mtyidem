@@ -1,0 +1,396 @@
+<h1>Administracion</h1>
+
+<script type="text/javascript" language="javascript">
+	jQuery(document).ready(function() {
+		$("#admintabs").tabs();
+		$("a[rel=boxy]").boxy();
+
+	});
+
+	function get_video_list(run_id) {
+		if (run_id != 0) {
+			$.get("/admin/videoadminlist", { run_id: run_id },
+				function(data){
+		  			$("#videoadminlist").html(data);
+				}
+			);
+		}
+	}
+	
+	function get_picture_list(run_id) {
+		if (run_id != 0) {
+			$.get("/admin/pictureadminlist", { run_id: run_id },
+				function(data){
+		  			$("#pictureadminlist").html(data);
+				}
+			);
+		}
+	}
+
+</script>
+
+
+
+
+
+<div style="width:900px;">
+
+	<div id="admintabs">
+		<ul>
+			<li><a href="#tabs-runs">Carreras</a></li>
+			<li><a href="#tabs-runtypes">Carrera Types</a></li>
+			<li><a href="#tabs-links">Links de Interes</a></li>
+			<li><a href="#tabs-events">Calendario</a></li>
+			<li><a href="#tabs-videos">Videos</a></li>
+			<li><a href="#tabs-pictures">Fotos</a></li>
+		</ul>
+	
+		<div id="tabs-runs">
+
+			<br/><a rel="boxy" href="#new_run_form">Nueva Carreraaaa</a><br/><br/>
+			
+			<table>
+				<tr><th>ID</th><th>Nombre</th><th>Fecha Evento</th><th>Limite Inscripcion</th><th>No. Participantes</th></tr>
+				<% @runs.each do |run| %>
+					<tr>
+						<td><%= run.id %></td>
+						<!--<td><%= link_to h(run.name), :controller => 'runs', :action => 'show', :id => run.id %></td>-->
+						<td><a rel="boxy" href="/runs/<%=run.id%>/edit?format=js"><%=h run.name%></a></td>
+						<td><%=h run.eventday %></td>
+						<td><%=h run.lastregisterday %></td>
+						<td><%= run.participantcount ? run.participantcount : 0.to_s %></td>
+					</tr>
+				<% end %>
+			</table>
+			
+		</div>
+	
+		<div id="tabs-runtypes">
+		
+			<br/><a rel="boxy" href="#new_runtype_form">Nuevo Tipo de Carrera</a><br/><br/>
+		
+			<table>
+				<tr><th>Nombre</th><th>Partes</th><th>Parte 1</th><th>Parte 2</th><th>Parte 3</th><th>Parte 4</th><th>Parte 5</th><th>Parte 6</th><th>Parte 7</th><th>Parte 8</th><th>Parte 9</th><th>Parte 10</th></tr>
+				<% @runtypes.each do |rt| %>
+					<tr><td><%=h rt.name%></td><td><%=h rt.parts%></td><td><%=h rt.part_name_1%></td><td><%=h rt.part_name_2%></td><td><%=h rt.part_name_3%></td><td><%=h rt.part_name_4%></td><td><%=h rt.part_name_5%></td><td><%=h rt.part_name_6%></td><td><%=h rt.part_name_7%></td><td><%=h rt.part_name_8%></td><td><%=h rt.part_name_9%></td><td><%=h rt.part_name_10%></td></tr>
+				<% end %>
+			</table>
+		</div>
+	
+		<div id="tabs-links">
+		
+			<br/><a rel="boxy" href="#new_link_form">Nuevo Link de Interes</a><br/><br/>
+		
+			<table>
+				<tr><th>Nombre</th><th>URL</th><th>Descripcion</th><th>Foto</th></tr>
+				<% @links.each do |lk| %>
+					<tr><td><%=h lk.name %></td><td><%=h lk.url%></td><td><%=h lk.description %></td><td>...</td></tr>
+				<% end %>
+			</table>
+		</div>
+		
+		<div id="tabs-events">
+		
+			<br/><a rel="boxy" href="#new_event_form">Nuevo Evento</a><br/><br/>
+		
+			<table>
+				<tr><th>Nombre</th><th>Descripcion</th><th>Cuando</th><th>Organizator</th><th>serial idem?</th><th>Telefono</th><th>Location</th><th>Es Visible?</th><th>Enlace a Carrera existente</th></tr>
+				<% @events.each do |evt| %>
+						<tr>
+							<td><%=h evt.name%></td>
+							<td><%=h evt.description %></td>
+							<td><%=h evt.when%></td>
+							<td><%= evt.organizator.name if evt.organizator_id && evt.organizator_id != 0 %></td>
+							<td><%= evt.idemserial ? "Si" : "No" %></td>
+							<td><%=h evt.phone%></td>
+							<td><%=h evt.location%></td>
+							<td><%= evt.visible ? "Si" : "No"%></td>
+							<td><%= evt.run.name if evt.run %></td>
+						</tr>
+
+				<% end %>
+			</table>
+		</div>
+		
+		<div id="tabs-videos">
+			Selecciona la carrera: 
+			<select id="runlistvideos" name="run_id" onChange="get_video_list(this.value)">
+				<option value="0"></option>
+				<% @runs.each do |run| %>
+					<option value="<%=run.id%>"><%=run.name%></option>
+				<% end %>
+			</select>
+			<a href="javascript:get_video_list($('#runlistvideos').val())">RELOAD</a>
+			
+			<div id="videoadminlist"></div>
+			
+		</div>
+		
+		<div id="tabs-pictures">
+			Selecciona la carrera: 
+			<select id="runlistpictures" name="run_id" onChange="get_picture_list(this.value)">
+				<option value="0"></option>
+				<% @runs.each do |run| %>
+					<option value="<%=run.id%>"><%=run.name%></option>
+				<% end %>
+			</select>
+			<a href="javascript:get_picture_list($('#runlistpictures').val())">RELOAD</a>
+			
+			<div id="pictureadminlist"></div>
+			
+		</div>
+	
+	</div>
+
+</div>
+
+<!-- ------------------- DIALOGS ----------------------------------->
+<!-- ------------------- DIALOGS ----------------------------------->
+<!-- ------------------- DIALOGS ----------------------------------->
+<!-- ------------------- DIALOGS ----------------------------------->
+
+<div id="general-boxy-container" style="display:none;">
+</div>
+
+<div id="new_run_form" style="display:none;">
+
+<h1>Nueva Carrera</h1>
+
+<% form_for(@new_run) do |f| %>
+  <%= f.error_messages %>
+
+  
+  
+	<div id="runscontainer">
+	
+		<!--<ul>
+			<li><a href="#runs_general">General</a></li>
+			<li><a href="#runs_fotos">Fotos</a></li>
+			<li><a href="#runs_descriptions">Descripciones</a></li>
+
+		</ul>-->
+	
+		<div style="overflow:auto; width:1000px; height:450px;">
+			<div id="runs_general">
+				<table>
+					<tr><td><%= f.label :name %></td><td><%= f.text_field :name %></td><td><%= f.label :eventday %></td><td><%= f.date_select :eventday %></td><td><%= f.label :lastregisterday %><br /></td><td><%= f.date_select :lastregisterday %></td></tr>
+					<tr><td><%= f.label :location %></td><td><%= f.text_field :location %></td><td><%= f.label :distance %></td><td><%= f.text_field :distance %></td><td><%= f.label :electronicservicequote %></td><td><%= f.text_field :electronicservicequote %></td></tr>
+					<tr><td><%= f.label :showincarrusel %></td><td><%= f.check_box :showincarrusel %></td><td><%= f.label :showresults %></td><td><%= f.check_box :showresults %></td><td><%= f.label :inscriptionopen %></td><td><%= f.check_box :inscriptionopen %></td></tr>
+					<tr><td><%= f.label :fichastart %></td><td><%= f.text_field :fichastart %></td><td><%= f.label :fichaend %></td><td><%= f.text_field :fichaend %></td><td><%= f.label :runtype_id %></td><td><%= f.collection_select :runtype_id, @runtypes, :id, :name %></td></tr>
+				</table>
+			</div>
+			
+			<div id="runs_descriptions">
+				<table>
+					<tr>
+						<td>
+						    <%= f.label :description %><br />
+						    <%= f.text_area :description %>
+				  		</td>
+				  		<td>
+				  			<%= f.label :flickrlink %><br />
+				    		<%= f.text_field :flickrlink %>
+				  		</td>
+					</tr>
+					<tr>
+					  	<td>
+					  		<%= f.label :convocatoria %><br />
+					    	<%= f.text_area :convocatoria %>
+					  	</td>
+						<td>
+							<%= f.label :descriptionadicional %><br />
+					    	<%= f.text_area :descriptionadicional %>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div id="runs_fotos">
+
+			</div>
+			
+			
+		</div>
+	</div>
+
+<!--
+  
+  <p>
+    <%= f.label :mainphoto %>
+    <%= f.text_field :mainphoto %>
+  </p>
+  <p>
+    <%= f.label :diplomphoto %>
+    <%= f.text_field :diplomphoto %>
+  </p>
+  <p>
+    <%= f.label :sponsoringphoto %>
+    <%= f.text_field :sponsoringphoto %>
+  </p>
+  <p>
+    <%= f.label :mapphoto %>
+    <%= f.text_field :mapphoto %>
+  </p>-->
+  
+  
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+	
+	<a href="#" onClick="Boxy.get(this).hide();">Cerrar</a>
+</div>
+
+<div id="new_runtype_form" style="display:none;">
+
+	<h1>New runtype</h1>
+
+	<% form_for(@new_runtype) do |f| %>
+
+	  <table>
+	  	
+	  </table>
+
+	  <p>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	  </p>
+	  <p>
+		<%= f.label :description %>
+		<%= f.text_area :description, :rows => 8 %>
+	  </p>
+	  <p>
+		<%= f.label :parts %>
+		<%= f.text_field :parts %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_1 %>
+		<%= f.text_field :part_name_1 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_2 %>
+		<%= f.text_field :part_name_2 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_3 %>
+		<%= f.text_field :part_name_3 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_4 %>
+		<%= f.text_field :part_name_4 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_5 %>
+		<%= f.text_field :part_name_5 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_6 %>
+		<%= f.text_field :part_name_6 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_7 %>
+		<%= f.text_field :part_name_7 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_8 %>
+		<%= f.text_field :part_name_8 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_9 %>
+		<%= f.text_field :part_name_9 %>
+	  </p>
+	  <p>
+		<%= f.label :part_name_10 %>
+		<%= f.text_field :part_name_10 %>
+	  </p>
+	  <p>
+		<%= f.submit 'Create' %>
+	  </p>
+	<% end %>
+
+
+	<a href="#" onClick="Boxy.get(this).hide();">Cerrar</a>
+</div>
+
+<div id="new_link_form" style="display:none;">
+	<h1>New link</h1>
+
+	<% form_for(@new_link) do |f| %>
+
+
+	  <p>
+		<%= f.label :name %><br />
+		<%= f.text_field :name %>
+	  </p>
+	  <p>
+		<%= f.label :description %><br />
+		<%= f.text_area :description %>
+	  </p>
+	  <p>
+		<%= f.label :url %><br />
+		<%= f.text_field :url %>
+	  </p>
+	  <p>
+		<%= f.label :photo %><br />
+		<%= f.text_field :photo %>
+	  </p>
+	  <p>
+		<%= f.submit 'Create' %>
+	  </p>
+	<% end %>
+	
+	<a href="#" onClick="Boxy.get(this).hide();">Cerrar</a>
+	
+</div>
+
+<div id="new_event_form" style="display:none;">
+	<h1>Nuevo Evento</h1>
+
+	<% form_for(@new_event) do |f| %>
+		<table>
+		  <tr><td>
+			<%= f.label :name %></td><td>
+			<%= f.text_field :name %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :description %></td><td>
+			<%= f.text_area :description %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :organizator_id %></td><td>
+			<%= f.collection_select :organizator_id, @organizators, :id, :name, { :prompt => true} %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :idemserial %></td><td>
+			<%= f.check_box :idemserial %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :phone %></td><td>
+			<%= f.text_field :phone %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :location %></td><td>
+			<%= f.text_field :location %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :visible %></td><td>
+			<%= f.check_box :visible %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :when %></td><td>
+			<%= f.date_select :when %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :run_id, "Enlace a Carrera existente" %></td><td>
+			<%= f.collection_select :run_id, @runs, :id, :name %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.submit 'Create' %>
+		  </td></tr>
+	  </table>
+	  
+	<% end %>
+	
+	<a href="#" onClick="Boxy.get(this).hide();">Cerrar</a>
+	
+</div>

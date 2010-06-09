@@ -1,0 +1,18 @@
+<p>
+  <b>Picture:</b>
+  <%=h @picturecomment.picture_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @picturecomment.user_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @picturecomment.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_picturecomment_path(@picturecomment) %> |
+<%= link_to 'Back', picturecomments_path %>

@@ -1,0 +1,47 @@
+<script type="text/javascript" language="JavaScript">
+	var user_age = <%= current_user ? current_user.age : 0 %>;
+</script>
+
+<% if @run %>
+	<br/>
+	<% form_for(@inscription) do |f| %>
+		<%= f.hidden_field :run_id, :value => @run.id.to_s %>
+		<%= f.hidden_field :user_id, :value => current_user.id.to_s %>
+		<center>
+			<table>
+				<tr>
+					<td style="text-align:left;"><img height="100px" src="<%=h @run.mainphoto%>" /></td>
+					<td style="text-align:left;"><h1><%=h @run.name%></h1></td>
+				</tr>
+				<tr>
+					<td><h3><%=current_user.full_name%></h3></td>
+					<td><h3><%= "Edad: " << current_user.age.to_s if current_user.bday %></h3></td>
+				</tr>
+				<tr>
+					<td>Talla: <%=@inscription.dresssizes%></td>
+					<td>Carrera: <%= @payconds.count == 1 ? @run.name + "(#{@payconds.first.amount_total}" : @inscription.runevents_select(current_user.age) %></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:right;"><%= f.submit 'Ir a pagar' %></td>
+				</tr>
+			</table><br/><br/>
+		</center>
+	<% end %>
+<% else %>
+	<!-- IF NO RUN_ID GIVEN THEN SELECTION OF A RUN -->
+	<h1>Cual Carrera quieres correr?</h1>
+	<% runs = Run.all_with_open_inscription %>
+	<% if runs.count > 0 %>
+		<form action="/inscriptions/new">
+			<select onChange="this.form.submit()" id="runselect" name="run_id">
+				<option value="0"></option>
+				<% runs.each do |run| %>
+					<option value="<%=run.id%>"><%=run.name%></option>
+				<% end %>
+			</select>
+		</form>
+	<% else %>
+		<i>No hay carreras para inscribirse</i>
+	<% end %>
+	<br/><br/>
+<% end %>

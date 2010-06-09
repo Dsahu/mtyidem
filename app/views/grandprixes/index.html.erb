@@ -1,0 +1,68 @@
+<h1>Listing grandprixes</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Name1</th>
+    <th>Name2</th>
+    <th>Name3</th>
+    <th>Name4</th>
+    <th>Name5</th>
+    <th>Name6</th>
+    <th>Name7</th>
+    <th>Name8</th>
+    <th>Name9</th>
+    <th>Name10</th>
+    <th>Name11</th>
+    <th>Name12</th>
+    <th>Name13</th>
+    <th>Name14</th>
+    <th>Name15</th>
+    <th>Name16</th>
+    <th>Name17</th>
+    <th>Name18</th>
+    <th>Name19</th>
+    <th>Name20</th>
+    <th>Name21</th>
+    <th>Name22</th>
+    <th>Name23</th>
+    <th>Name24</th>
+  </tr>
+
+<% @grandprixes.each do |grandprix| %>
+  <tr>
+    <td><%=h grandprix.name %></td>
+    <td><%=h grandprix.name1 %></td>
+    <td><%=h grandprix.name2 %></td>
+    <td><%=h grandprix.name3 %></td>
+    <td><%=h grandprix.name4 %></td>
+    <td><%=h grandprix.name5 %></td>
+    <td><%=h grandprix.name6 %></td>
+    <td><%=h grandprix.name7 %></td>
+    <td><%=h grandprix.name8 %></td>
+    <td><%=h grandprix.name9 %></td>
+    <td><%=h grandprix.name10 %></td>
+    <td><%=h grandprix.name11 %></td>
+    <td><%=h grandprix.name12 %></td>
+    <td><%=h grandprix.name13 %></td>
+    <td><%=h grandprix.name14 %></td>
+    <td><%=h grandprix.name15 %></td>
+    <td><%=h grandprix.name16 %></td>
+    <td><%=h grandprix.name17 %></td>
+    <td><%=h grandprix.name18 %></td>
+    <td><%=h grandprix.name19 %></td>
+    <td><%=h grandprix.name20 %></td>
+    <td><%=h grandprix.name21 %></td>
+    <td><%=h grandprix.name22 %></td>
+    <td><%=h grandprix.name23 %></td>
+    <td><%=h grandprix.name24 %></td>
+    <td><%= link_to 'Show', grandprix %></td>
+    <td><%= link_to 'Edit', edit_grandprix_path(grandprix) %></td>
+    <td><%= link_to 'Destroy', grandprix, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New grandprix', new_grandprix_path %>

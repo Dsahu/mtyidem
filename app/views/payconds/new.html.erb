@@ -1,0 +1,39 @@
+<h1>New paycond</h1>
+
+<% form_for(@paycond) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :runevent_id %><br />
+    <%= f.collection_select :runevent_id, Runevent.all, :id, :runname_plus_name %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.label :amount_extra %><br />
+    <%= f.text_field :amount_extra %>
+  </p>
+  <p>
+    <%= f.label :from_age %><br />
+    <%= f.text_field :from_age %>
+  </p>
+  <p>
+    <%= f.label :to_age %><br />
+    <%= f.text_field :to_age %>
+  </p>
+  <p>
+  	<%= f.label :sexmode %><br />
+    <select id="paycond_sexmode" name="paycond[sexmode]">
+    	<option value="1">Ambos Sexos</option>
+		<option value="2">Hombres</option>
+		<option value="3">Mujeres</option>
+    </select>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', payconds_path %>

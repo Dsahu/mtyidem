@@ -1,0 +1,50 @@
+<h1>Editing event</h1>
+
+<% form_for(@event) do |f| %>
+		<table>
+		  <tr><td>
+			<%= f.label :name %></td><td>
+			<%= f.text_field :name %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :description %></td><td>
+			<%= f.text_area :description %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :organizator_id %></td><td>
+			<%= f.collection_select :organizator_id, @organizators, :id, :name, { :prompt => true} %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :idemserial %></td><td>
+			<%= f.check_box :idemserial %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :phone %></td><td>
+			<%= f.text_field :phone %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :location %></td><td>
+			<%= f.text_field :location %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :visible %></td><td>
+			<%= f.check_box :visible %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :when %></td><td>
+			<%= f.date_select :when %>
+		  </td></tr>
+		  <tr><td>
+			<%= f.label :run_id, "Enlace a Carrera existente" %></td><td>
+			<%= f.collection_select :run_id, @runs, :id, :name, {:prompt => true} %>
+		  </td></tr>
+		  <tr>
+		  	<td>
+		  		 <%= f.submit 'Update' %>
+		  	</td>
+		  </tr>
+	</table>
+<% end %>
+
+<%= link_to 'Show', @event %> |
+<%= link_to 'Back', events_path %>

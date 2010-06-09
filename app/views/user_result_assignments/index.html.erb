@@ -1,0 +1,22 @@
+<h1>Listing user_result_assignments</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Result</th>
+  </tr>
+
+<% @user_result_assignments.each do |user_result_assignment| %>
+  <tr>
+    <td><%=h user_result_assignment.user_id %></td>
+    <td><%=h user_result_assignment.result_id %></td>
+    <td><%= link_to 'Show', user_result_assignment %></td>
+    <td><%= link_to 'Edit', edit_user_result_assignment_path(user_result_assignment) %></td>
+    <td><%= link_to 'Destroy', user_result_assignment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_result_assignment', new_user_result_assignment_path %>

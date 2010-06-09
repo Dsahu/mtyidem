@@ -1,0 +1,92 @@
+<h1>Minuto <%=h @video.short %> de <%=h @run.name%></h1>
+
+<table width="900px">
+	<tr>
+		<td width="500px"> <!-- LEFT -->
+			<!-- VIDEOFLASH -->
+			
+			<!-- COMMENTS -->
+			<h3>Commentarios</h3><br/>
+			<table width="100%">
+				<% @videocomments.each do |vc| %>
+					<tr>
+						<td>
+							<b><%=h vc.user.full_name%></b><%=h vc.description%><br/>
+							<span style="color:gray;"><%=vc.created_at%></span>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+			
+			<!-- COMMENT FORM -->
+			<% if current_user %>
+				<% remote_form_for(Videocomment.new) do |f| %>
+					<%= f.hidden_field :video_id, :value => @video.id.to_s %>
+					<%= f.text_area :description, :rows => 2 %><br/>
+					<div style="float:right;">
+						<%= f.submit 'Comentar' %>
+					</div>
+				<% end %>
+			<% end %>
+		</td>
+		<td width="400px"> <!-- RIGHT -->
+			<table width="100%">
+				<tr>
+					<td width="25%"> <!-- LOGOIMAGE -->
+						<%= image_tag(@run.logophoto, :size => "80x80") %>
+					</td>
+					<td width="75%"> <!-- RUN & VIDEO INFO -->
+						<b><%=h @run.name%></b><br/>
+						Dia: <%=@run.eventday%><br/>
+						Video visto: <%=@video.counter %>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="padding-top:15px;"> <!-- VIDEO LIST -->
+						<%= render :partial => "videolist", :locals => { :videos => @videos } %>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+
+<!--<p>
+  <b>Name:</b>
+  <%=h @video.name %>
+</p>
+
+<p>
+  <b>Path:</b>
+  <%=h @video.path %>
+</p>
+
+<p>
+  <b>Is start:</b>
+  <%=h @video.is_start %>
+</p>
+
+<p>
+  <b>Run:</b>
+  <%=h @video.run_id %>
+</p>
+
+<p>
+  <b>Visible:</b>
+  <%=h @video.visible %>
+</p>
+
+<p>
+  <b>Counter:</b>
+  <%=h @video.counter %>
+</p>
+
+<p>
+  <b>Upload by user:</b>
+  <%=h @video.upload_by_user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_video_path(@video) %> |
+<%= link_to 'Back', videos_path %>-->

@@ -1,0 +1,28 @@
+<h1>Listing runner_categories</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Run</th>
+    <th>From age</th>
+    <th>To age</th>
+    <th>Sex mode</th>
+  </tr>
+
+<% @runner_categories.each do |runner_category| %>
+  <tr>
+    <td><%=h runner_category.name %></td>
+    <td><%=h runner_category.run.name %></td>
+    <td><%=h runner_category.from_age %></td>
+    <td><%=h runner_category.to_age %></td>
+    <td><%=h runner_category.sex_mode_name %></td>
+    <td><%= link_to 'Show', runner_category %></td>
+    <td><%= link_to 'Edit', edit_runner_category_path(runner_category) %></td>
+    <td><%= link_to 'Destroy', runner_category, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New runner_category', new_runner_category_path %>

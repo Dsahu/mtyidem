@@ -1,0 +1,9 @@
+<table id="ins_stores_table">
+  <% @ins_stores.each do |is| %>
+    <tr id="ins_store_id_<%=is.id%>">
+      <td><%=is.name%></td>
+      <td><%=is.description%></td>
+      <td><a onClick="remove_ins_store(<%=is.id%>);">Quitar</a></td>
+    </tr>
+  <% end %>
+</table>

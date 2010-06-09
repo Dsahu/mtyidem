@@ -1,0 +1,297 @@
+		<script type="text/javascript" src="/javascripts/jquery.js"></script>
+		<script type="text/javascript" language="javascript">
+
+			var carrera_id = <%= @run.id %>;
+			var mousestart_x = "0px";
+			var mousestart_y = "0px";
+			var mouseend_x = 0;
+			var mouseend_y = 0;
+			var now_moving = false;
+			var actual_selected_element = null;
+
+			var elements = new Array();
+
+			function serializeSchema() {
+				var str = "?";
+				var j = 0;
+				for(var i = 0; i < elements.length; i++) {
+					if(elements[i].visible == true) {
+						str += "&" + j + "_font_weight=" + elements[i].font_weight;
+						str += "&" + j + "_pos_x=" + elements[i].pos_x;
+						str += "&" + j + "_pos_y=" + elements[i].pos_y;
+						str += "&" + j + "_font_family=" + elements[i].font_family;
+						str += "&" + j + "_font_size=" + elements[i].font_size;
+						str += "&" + j + "_column_name=" + elements[i].column_name;
+						j++
+					}
+				}
+				str += "&elementcount=" + j;
+				str += "&run_id=" + carrera_id;
+				return str;
+			}
+
+			function save_schema() {
+				$.ajax({
+					type : "PUT",
+					url : "/diploma_schemas/<%=@diploma_schema.id%>",
+					data : serializeSchema(),
+					success : function(e) {
+						alert("GUARDADO");
+					}
+				});
+			}
+
+			function apply_props_to_element(fontname, fontsize) {
+				if(actual_selected_element != null) {
+					actual_selected_element.font_family = fontname;
+					actual_selected_element.font_size = fontsize;
+					$('#element_' + actual_selected_element.column_name).css('font-family', fontname);
+					$('#element_' + actual_selected_element.column_name).css('font-size', fontsize);
+				}
+			}
+
+			function toggle_element(colname) {
+				if($('#check_' + colname).is(':checked') == true) {
+					// from false to true, so lets show the field
+					alreadycreated = false;
+					for(var i = 0;  i < elements.length; i++) {
+						if(elements[i].column_name == colname) {
+							elements[i].visible = true;
+							$('#element_' + colname).show();
+							alreadycreated = true;
+						}
+					}
+					if(!alreadycreated) {
+						// has not been created, so lets create it
+						$("body").append("<div onClick=\"select_element('" + colname + "')\" rel=\"element\" id=\"element_" + colname + "\" style=\"position:absolute; font-family:Verdana; font-size:14px; left:300px; top:300px; z-index:10\">" + colname + "</div>");
+						var new_element = {
+							pos_x : 300,
+							pos_y : 300,
+							font_family : 'Verdana',
+							font_size : 14,
+							font_weight : null,
+							column_name : colname,
+							visible : true,
+							selected : false
+						}
+						elements.push(new_element);
+
+						$("#element_" + colname).mousedown(function (e) {
+							mousedownelement($("#element_" + colname).html(), e.pageX, e.pageY);
+						});
+						$("#element_" + colname).mouseup(function (e) {
+							mouseupelement($("#element_" + colname).html(), e.pageX, e.pageY);
+						});
+					}
+				} else {
+					// hide the field
+					$('#element_' + colname).hide();
+					for(var i = 0; i < elements.length; i++) {
+						if(elements[i].column_name == colname) {
+							elements[i].visible = false;
+						}
+					}
+				}
+			}
+
+			function mousedownelement(colname, from_x, from_y) {
+				
+				if(actual_selected_element){
+					if(actual_selected_element.column_name == colname) {
+						//alert(from_x);
+						mousestart_x = from_x;
+						mousestart_y = from_y;
+						now_moving = true;
+					}
+				}
+			}
+
+			function mouseupelement(colname, stop_x, stop_y) {
+				now_moving = false;
+
+				//actual_selected_element == null;
+				for(var i = 0; i < elements.length; i++) {
+					if(elements[i].column_name == colname) {
+						/*elements[i].pos_x = stop_x;
+						elements[i].pos_y = stop_y;
+						$('#element_' + colname).css('left', stop_x);
+						$('#element_' + colname).css('top', stop_y);*/
+					}
+				}
+			}
+
+			function validatemove(to_x, to_y) {
+				if(actual_selected_element != null) {
+
+					if(actual_selected_element.selected == true) {
+						
+						var tmp_col = actual_selected_element.column_name;
+						move_x = to_x - mousestart_x;
+						move_y = to_y - mousestart_y;
+
+						new_x = actual_selected_element.pos_x + move_x - 10;
+						new_y = actual_selected_element.pos_y + move_y - 5;
+
+						mousestart_x = new_x;
+						mousestart_y = new_y;
+
+						moving(tmp_col, new_x, new_y);
+					}
+				} else {
+					
+				}
+			}
+
+
+			function moving(colname, to_x, to_y) {
+				if(now_moving == true) {
+					//alert('colname ' + colname + ' to_x ' + to_x + ' to_y ' + to_y);
+					$('#element_' + colname).css('left', to_x + 'px');
+					$('#element_' + colname).css('top', to_y + 'px');
+					for(var i = 0; i < elements.length; i++) {
+						if(elements[i].column_name == colname) {
+							elements[i].pos_x = to_x;
+							elements[i].pos_y = to_y;
+						}
+					}
+				}
+			}
+
+			function select_element(colname) {
+				for(var i = 0; i < elements.length; i++) {
+					elements[i].selected = false;
+					$('#element_' + elements[i].column_name).css('border', 'none');
+					if (elements[i].column_name == colname) {
+						elements[i].selected = true;
+						$('#element_' + colname).css('border', "1px solid black");
+						actual_selected_element = elements[i];
+
+						$('#font_family_select').val(elements[i].font_family);
+						$('#font_size_text').val(elements[i].font_size);
+					}
+				}
+			}
+
+			$(document).ready(function() {
+				$("div[rel=element]").each(function(i) {
+					that = {
+						pos_x : parseInt($(this).css('left').split('px')[0]),
+						pos_y : parseInt($(this).css('top').split('px')[0]),
+						font_family : $(this).css('font-family'),
+						font_size : parseInt($(this).css('font-size').split('px')[0]),
+						font_weight : $(this).css('font-weight'),
+						column_name : $(this).html(),
+						visible : true,
+						selected : false
+					};
+
+					elements.push(that);
+					$(this).mousedown(function (e) {
+						mousedownelement($(this).html(), e.pageX, e.pageY);
+					});
+					$(this).mouseup(function (e) {
+						mouseupelement($(this).html(), e.pageX, e.pageY);
+					});
+					$('#check_' + $(this).html()).attr('checked', true)
+				});
+
+				$(document).mousemove(function(e) {
+					validatemove(e.pageX, e.pageY);
+				});
+			});
+
+			
+		</script>
+
+
+<%
+	  
+
+	  #### others
+	  
+	  carrules_image = @run.logophoto
+	  publicidad_image = @run.mainphoto
+	  diploma_image = @run.diplomphoto
+
+
+	  
+
+	%>
+		  <div  style="position:absolute; left: 0px; top:0px; z-index:1"><img width="900px" style="border: 1px solid;" src='<%=diploma_image%>'/></div>
+		  <div  style="position:absolute; left: 1000px; top:10px; z-index:1000; width:200px; height:300px; overflow:auto; border:3px dashed black;">
+			<table>
+				
+				<tr><td><input onClick="toggle_element('nombre');" type="checkbox" id="check_nombre" /></td><td id="list_nombre">nombre</td></tr>
+				<tr><td><input onClick="toggle_element('edad');" type="checkbox" id="check_edad" /></td><td id="list_edad">edad</td></tr>
+				<tr><td><input onClick="toggle_element('club');" type="checkbox" id="check_club" /></td><td id="list_club">club</td></tr>
+				<tr><td><input onClick="toggle_element('tiempo');" type="checkbox" id="check_tiempo" /></td><td id="list_tiempo">tiempo</td></tr>
+				<tr><td><input OnClick="toggle_element('categoria');" type="checkbox" id="check_categoria" /></td><td id="list_categoria">categoria</td></tr>
+				<tr><td><input OnClick="toggle_element('tiempo_chip');" type="checkbox" id="check_tiempo_chip" /></td><td id="list_tiempo_chip">tiempo_chip</td></tr>
+				<tr><td><input OnClick="toggle_element('lugar_general');" type="checkbox" id="check_lugar_general" /></td><td id="list_lugar_general">lugar_general</td></tr>
+				<tr><td><input OnClick="toggle_element('lugar_rama');" type="checkbox" id="check_lugar_rama" /></td><td id="list_lugar_rama">lugar_rama</td></tr>
+				<tr><td><input OnClick="toggle_element('lugar_categoria');" type="checkbox" id="check_lugar_categoria" /></td><td id="list_lugar_categoria">lugar_categoria</td></tr>
+				<tr><td><input OnClick="toggle_element('paso');" type="checkbox" id="check_paso" /></td><td id="list_paso">paso</td></tr>
+				<tr><td><input OnClick="toggle_element('part_1');" type="checkbox" id="check_part_1" /></td><td id="list_part_1">part_1</td></tr>
+				<tr><td><input OnClick="toggle_element('part_2');" type="checkbox" id="check_part_2" /></td><td id="list_part_2">part_2</td></tr>
+				<tr><td><input OnClick="toggle_element('part_3');" type="checkbox" id="check_part_3" /></td><td id="list_part_3">part_3</td></tr>
+				<tr><td><input OnClick="toggle_element('part_4');" type="checkbox" id="check_part_4" /></td><td id="list_part_4">part_4</td></tr>
+				<tr><td><input OnClick="toggle_element('part_5');" type="checkbox" id="check_part_5" /></td><td id="list_part_5">part_5</td></tr>
+				<tr><td><input OnClick="toggle_element('part_6');" type="checkbox" id="check_part_6" /></td><td id="list_part_6">part_6</td></tr>
+				<tr><td><input OnClick="toggle_element('part_7');" type="checkbox" id="check_part_7" /></td><td id="list_part_7">part_7</td></tr>
+				<tr><td><input OnClick="toggle_element('part_8');" type="checkbox" id="check_part_8" /></td><td id="list_part_8">part_8</td></tr>
+				<tr><td><input OnClick="toggle_element('part_9');" type="checkbox" id="check_part_9" /></td><td id="list_part_9">part_9</td></tr>
+				<tr><td><input OnClick="toggle_element('part_10');" type="checkbox" id="check_part_10" /></td><td id="list_part_10">part_10</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_1');" type="checkbox" id="check_pause_1" /></td><td id="list_pause_1">pause_1</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_2');" type="checkbox" id="check_pause_2" /></td><td id="list_pause_2">pause_2</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_3');" type="checkbox" id="check_pause_3" /></td><td id="list_pause_3">pause_3</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_4');" type="checkbox" id="check_pause_4" /></td><td id="list_pause_4">pause_4</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_5');" type="checkbox" id="check_pause_5" /></td><td id="list_pause_5">pause_5</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_6');" type="checkbox" id="check_pause_6" /></td><td id="list_pause_6">pause_6</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_7');" type="checkbox" id="check_pause_7" /></td><td id="list_pause_7">pause_7</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_8');" type="checkbox" id="check_pause_8" /></td><td id="list_pause_8">pause_8</td></tr>
+				<tr><td><input OnClick="toggle_element('pause_9');" type="checkbox" id="check_pause_9" /></td><td id="list_pause_9">pause_9</td></tr>
+
+			</table>
+		  </div>
+
+		  <div id="fonteditor" style="position:absolute; left:900px; top:350px; z-index:900; width:200px; height:200px; overflow:auto; border:3px dashed black;">
+			<center>
+				<br/>
+				<select id="font_family_select">
+					<option value="Verdana">Verdana</option>
+					<option value="Arial">Arial</option>
+					<option value="Serif">Serif</option>
+				</select><br/><br/>
+				<input id="font_size_text"/>px<br/><br/>
+				<input onClick="apply_props_to_element($('#font_family_select').val(), $('#font_size_text').val()+'px')" type="submit" value="Aplicar" />
+				<hr>
+				<input onClick="save_schema()" type="submit" value="SAVE" />
+			</center>
+			
+		  </div>
+
+	<%
+		# reselements.movefirst
+		@diploma_elements.each do |de|
+			tmp_font_family = de.font_family
+			tmp_font_size = de.font_size.to_s + "px"
+			tmp_pos_x = de.pos_x.to_s + "px"
+			tmp_pos_y = de.pos_y.to_s + "px"
+			tmp_column_name = de.column_name
+			tmp_column_value = tmp_column_name
+
+	%>
+			<div  onClick="select_element('<%=tmp_column_name%>')" rel="element" id="element_<%=tmp_column_name%>" style="position:absolute; font-family:<%=tmp_font_family%>; font-size:<%=tmp_font_size%>; left:<%=tmp_pos_x%>; top:<%=tmp_pos_y%>; z-index:10"><%=tmp_column_value%></div>
+	<%
+		end 
+	%>
+
+
+
+
+
+
+
+
+
+

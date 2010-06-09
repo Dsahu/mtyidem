@@ -1,0 +1,28 @@
+<p>
+  <b>Run:</b>
+  <%=h @runevent.run_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%=h @runevent.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @runevent.description %>
+</p>
+
+<p>
+  <b>Default amount:</b>
+  <%=h @runevent.default_amount %>
+</p>
+
+<p>
+  <b>Default amount extra:</b>
+  <%=h @runevent.default_amount_extra %>
+</p>
+
+
+<%= link_to 'Edit', edit_runevent_path(@runevent) %> |
+<%= link_to 'Back', runevents_path %>

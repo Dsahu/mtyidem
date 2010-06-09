@@ -1,0 +1,11 @@
+<tr>
+	<td style="vertical-align:top; padding-right:5px; width:45px;">
+		
+		<a href="<%=videocomment.user.profile_path%>"><img src="<%=videocomment.user.crop_profilepic%>" width="40px" /></a>
+		
+	</td>
+	<td style="vertical-align:top; padding:5px;" id="videocomment_<%=videocomment.id%>">
+		<span style="color:blue;"><b><a class="userlink" href="<%=videocomment.user.profile_path%>"><%=h videocomment.user.full_name%></a></b></span> <%=h videocomment.description%><br/>
+		<span style="color:gray;"><%=videocomment.created_at%></span>
+	</td>
+</tr>

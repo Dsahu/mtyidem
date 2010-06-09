@@ -1,0 +1,41 @@
+<h1>New camp_unit</h1>
+
+<% form_for(@camp_unit, :html => {:multipart => true}) do |f| %>
+  <%= f.error_messages %>
+
+  <% if @camp_unit.campaign_id %>
+  	<%= f.hidden_field :campaign_id, :value => @camp_unit.campaign_id %>
+  <% else %>
+  	<p>
+	    <%= f.label :campaign_id %><br />
+	    <%= f.text_field :campaign_id %>
+  </p>
+  <% end %>
+
+  
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    Foto<br/>
+	<%= file_field 'upload', 'datafile' %>
+  </p>
+  <p>
+    <%= f.label :image_where %><br />
+    <select id="camp_unit_image_where" name="camp_unit[image_where]">
+    	<% CampUnit::IMAGE_WHERES.each_with_index do |v,i|%>
+			<option value="<%=i%>"><%=v%></option>
+		<% end %>
+    </select>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', camp_units_path %>

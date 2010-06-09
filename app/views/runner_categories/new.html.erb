@@ -1,0 +1,35 @@
+<h1>New runner_category</h1>
+
+<% form_for(@runner_category) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :run_id %><br />
+    <%= f.collection_select :run_id, Run.all, :id, :name %>
+  </p>
+  <p>
+    <%= f.label :from_age %><br />
+    <%= f.text_field :from_age %>
+  </p>
+  <p>
+    <%= f.label :to_age %><br />
+    <%= f.text_field :to_age %>
+  </p>
+  <p>
+    <%= f.label :color %><br/>
+    <%= f.text_field :color%>
+  </p>
+  <p>
+    <%= f.label :sex_mode %><br />
+    <%= f.collection_select :sex_mode, RunnerCategory::SEX_MODES, :first, :last %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', runner_categories_path %>

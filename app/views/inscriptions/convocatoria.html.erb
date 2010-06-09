@@ -1,0 +1,137 @@
+
+<div class="hidden" style="display:none;">
+	<% @convocatoriaunits.each do |unit| %>
+		<div id="convocatoriaunit_title_<%=@run.id%>_<%=unit.id%>">
+			<%=h unit.name%>
+		</div>
+		<div id="convocatoriaunit_content_<%=@run.id%>_<%=unit.id%>">
+			<%= h(unit.description).nl2br%>
+		</div>
+	<% end %>
+</div>
+
+<% tmp_rand = rand(2000) %>
+
+<table class="convocatoria">
+	<tr>
+		<td>
+			
+			
+			
+			<table>
+				<tr>
+					<td>
+
+
+                      <% if Date.today < @run.lastregisterday && @run.inscriptionopen %>
+                        <div onClick="window.location.replace('/inscriptions/new?run_id=<%=@run.id%>');" class="inscription_button"></div>
+                      <% end %>
+
+                      <% if @run.showresults %>
+                        <div onClick="window.location.replace('/results?run_id=<%=@run.id%>');" class="convoc_bigresult"></div>
+                      <% else %>
+                        <div class="gray_button">proximamente resultados </div>
+                      <% end %>
+
+                      <% if @run.showphotos%>
+                        <div onClick="window.location.replace('/pictures?run=<%=@run.id%>');" class="convoc_bigfoto"></div>
+                      <% else %>
+                        <div class="gray_button">proximamente fotos</div>
+                      <% end %>
+
+                      <% if @run.showvideos %>
+                        <div onClick="window.location.replace('/videos?run=<%=@run.id%>');" class="convoc_bigvideo"></div>
+                      <% else %>
+                        <div class="gray_button">proximamente video</div>
+                      <% end %>
+
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<img width="300px" height="150px" src="<%=@run.mainphoto%>" />
+					</td>
+				</tr>
+			</table>
+		</td>
+		
+		<td id="convoclist_run_<%=@run.id%>" style="padding:15px; vertical-align:top; width:150px; background-color:#808080; color:white;">
+			<table id="convoclisttable_run_<%=@run.id%>">
+				<% @convocatoriaunits.each do |unit| %>
+					<tr>
+						<td>
+							<a style="color:white; text-decoration:none;" href="#" onClick="showConvocatoriaData('<%=@run.id%>','<%=unit.id%>');">
+								<%=h unit.name%>
+							</a>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+			<div id="convocatoriaunitbottomcontainer_run_<%=@run.id%>">
+				<% if true %>
+
+                    <table>
+                      <tr>
+                        <% if @run.mapphoto.to_s.length > 0 %>
+                        <td>
+                          <img src="/images/icon_recorrido.png" onMouseover="show_simple_bubble('<%="#{tmp_rand}_map"%>',this);" onMouseout="hide_simple_bubble('<%="#{tmp_rand}_map"%>');"  />
+                        </td>
+                        <% end %>
+                        <% if @run.medaillephoto.to_s.length > 0 %>
+                        <td>
+                          <img src="/images/icon_premiacion.png" onMouseover="show_simple_bubble('<%="#{tmp_rand}_medaille"%>', this);" onMouseout="hide_simple_bubble('<%="#{tmp_rand}_medaille"%>');"  />
+                        </td>
+                        <% end %>
+                        <% if @run.shirtphoto.to_s.length > 0 %>
+                        <td>
+                          <img src="/images/ic_playera.png" onMouseover="show_simple_bubble('<%="#{tmp_rand}_shirt"%>', this);" onMouseout="hide_simple_bubble('<%="#{tmp_rand}_shirt"%>');" />
+                        </td>
+                        <% end %>
+                        <% if @run.trofeophoto.to_s.length > 0 %>
+                        <td>
+                          <img src="/images/icon_premio.png" onMouseover="show_simple_bubble('<%="#{tmp_rand}_trofeo"%>', this);" onMouseout="hide_simple_bubble('<%="#{tmp_rand}_trofeo"%>');" />
+                        </td>
+                        <% end %>
+                        <% if @run.altimetrophoto.to_s.length > 0 %>
+                        <td>
+                          <img src="/images/ic_altimetria.png" onMouseover="show_simple_bubble('<%="#{tmp_rand}_altimetro"%>', this);" onMouseout="hide_simple_bubble('<%="#{tmp_rand}_altimetro"%>');" />
+                        </td>
+                        <% end %>
+                        <% if @run.rifaphoto.to_s.length > 0 %>
+                        <td>
+                          <img src="/images/icon_plus.png" onMouseover="show_simple_bubble('<%="#{tmp_rand}_rifa"%>', this);" onMouseout="hide_simple_bubble('<%="#{tmp_rand}_rifa"%>');" />
+                        </td>
+                        <% end %>
+                      </tr>
+                    </table>
+
+				<% end %>
+			</div>
+		</td>
+		
+		<td style="padding:15px; vertical-align:top; width:350px; height:280px; overflow:auto;">
+		
+			<div id="convocatoriaunitdata_run_<%=@run.id%>">
+				<div style="font-weight:bold; padding-bottom:10px;" id="convocatoriaunitdata_title_run_<%=@run.id%>">
+					<%=h @convocatoriaunits.first.name if @convocatoriaunits && @convocatoriaunits.count > 0%>
+				</div>
+				<div id="convocatoriaunitdata_content_run_<%=@run.id%>">
+					<%= h(@convocatoriaunits.first.description).nl2br if @convocatoriaunits && @convocatoriaunits.count > 0%>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		init_convoc('<%=@run.id%>');
+        create_simple_bubble("<%=@run.mapphoto%>", "<%="#{tmp_rand}_map"%>");
+        create_simple_bubble("<%=@run.medaillephoto%>", "<%="#{tmp_rand}_medaille"%>");
+        create_simple_bubble("<%=@run.shirtphoto%>", "<%="#{tmp_rand}_shirt"%>");
+        create_simple_bubble("<%=@run.trofeophoto%>", "<%="#{tmp_rand}_trofeo"%>");
+        create_simple_bubble("<%=@run.rifaphoto%>", "<%="#{tmp_rand}_rifa"%>");
+        create_simple_bubble("<%=@run.altimetrophoto%>", "<%="#{tmp_rand}_altimetro"%>");
+	});
+</script>

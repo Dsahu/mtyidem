@@ -1,0 +1,16 @@
+<table class="monthboxeventstable">
+	<% month.each_with_index do |event, index| %>
+		<tr<%=" class='serialeventrow' " if event.idemserial%>>
+			<td <%= "style='font-weight:bold;'" if index.even? %>>
+				<% if event.run_id && event.run_id > 0 %>
+				
+					<div id="idemevent_<%=event.id%>" onClick='loadBoxyConvoc(<%=event.run_id%>)' style="width:298px; position:relative; left:-15px; font-weight:normal; padding: 6px 28px 6px 30px; color:white; background-repeat:no-repeat; background-image:url(/images/idemserialbg2.png);"><span style="font-weight:bold;">Dia<%=event.when.day%></span>// <%=event.short_name(20)%> <%= event.phone.to_s.blank? ? "" : " // Tel. #{event.phone}"%></div>
+				
+				<% else %>
+					<span style="font-weight:bold;">Dia<span class="dia"><%=event.when.day%></span></span> //
+					<span <%= "style='font-weight:normal;'" if index.odd? %> id="idemevent_<%=event.id%>"><%=h event.name%> <%= event.phone.to_s.blank? ? "" : " // Tel. #{event.phone}"%></span>
+				<% end %>
+			</td>
+		</tr>
+	<% end %>
+</table>

@@ -1,0 +1,28 @@
+<p>
+  <b>Wallevent:</b>
+  <%=h @response.wallevent_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @response.user_id %>
+</p>
+
+<p>
+  <b>By user:</b>
+  <%=h @response.by_user_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @response.description %>
+</p>
+
+<p>
+  <b>Result:</b>
+  <%=h @response.result_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_response_path(@response) %> |
+<%= link_to 'Back', responses_path %>

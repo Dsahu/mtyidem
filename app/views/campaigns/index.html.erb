@@ -1,0 +1,30 @@
+<h1>Listing campaigns</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Mode</th>
+    <th>Title</th>
+    <th>Subtitle</th>
+    <th>Link</th>
+  </tr>
+
+<% @campaigns.each do |campaign| %>
+  <tr>
+    <td><%=h campaign.name %></td>
+    <td><%=h campaign.description %></td>
+    <td><%=h campaign.mode %></td>
+    <td><%=h campaign.title %></td>
+    <td><%=h campaign.subtitle %></td>
+    <td><%=h campaign.link %></td>
+    <td><%= link_to 'Show', campaign %></td>
+    <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>
+    <td><%= link_to 'Destroy', campaign, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New campaign', new_campaign_path %>

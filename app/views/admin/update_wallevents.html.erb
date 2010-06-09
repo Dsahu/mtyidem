@@ -1,0 +1,28 @@
+<h1><%=@wallevents.count%> con Update</h1>
+
+<table>
+	<tr>
+		<th>Id</th>
+		<th>Type</th>
+		<th>Titulo</th>
+		<th>Descripcion</th>
+		<th>Foto Id</th>
+		<th>Video Id</th>
+		<th>User Id</th>
+		<th>Otro User id</th>
+		<th>Creado</th>
+	</tr>
+	<% @wallevents.each do |we| %>
+		<tr>
+			<td><%=we.id%></td>
+			<td><%=we.we_type%></td>
+			<td><%=we.name%></td>
+			<td><%=we.description%></td>
+			<td><%=we.picture_id%></td>
+			<td><%=we.video_id%></td>
+			<td><%=we.user_id%></td>
+			<td><%=we.otheruser_id%></td>
+			<td><%=we.created_at%></td>
+		</tr>
+	<% end %>
+</table>

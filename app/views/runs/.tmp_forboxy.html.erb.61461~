@@ -1,0 +1,110 @@
+<h1 style="padding:0px; margin:0px;">Editar - <%=h @run.name%></h1>
+
+
+		<div style="overflow:auto; width:1000px; height:450px;">
+			<% form_for(@run, :action => 'update') do |f| %>
+				<%= f.error_messages %>				
+  				<div id="runs_general">
+					<table>
+						<tr><td><%= f.label :name %></td><td><%= f.text_field :name %></td><td><%= f.label :eventday %></td><td><%= f.date_select :eventday %></td><td><%= f.label :lastregisterday %><br /></td><td><%= f.date_select :lastregisterday %></td></tr>
+						<tr><td><%= f.label :location %></td><td><%= f.text_field :location %></td><td><%= f.label :distance %></td><td><%= f.text_field :distance %></td><td><%= f.label :electronicservicequote %></td><td><%= f.text_field :electronicservicequote %></td></tr>
+						<tr><td><%= f.label :showincarrusel %></td><td><%= f.check_box :showincarrusel %></td><td><%= f.label :showresults %></td><td><%= f.check_box :showresults %></td><td><%= f.label :inscriptionopen %></td><td><%= f.check_box :inscriptionopen %></td></tr>
+						<tr><td><%= f.label :fichastart %></td><td><%= f.text_field :fichastart %></td><td><%= f.label :fichaend %></td><td><%= f.text_field :fichaend %></td><td><%= f.label :runtype_id %></td><td><%= f.collection_select :runtype_id, @runtypes, :id, :name %></td></tr>
+						<tr><td><%= f.label :showphotos%></td><td><%= f.check_box :showphotos %></td><td></td><td></td></tr>
+					</table>
+				</div>
+				
+				<div id="runs_descriptions">
+					<table>
+						<tr>
+							<td>
+							    <%= f.label :description %><br />
+							    <%= f.text_area :description %>
+					  		</td>
+					  		<td>
+					  			<%= f.label :flickrlink %><br />
+					    		<%= f.text_field :flickrlink %>
+					  		</td>
+						</tr>
+						<tr>
+						  	<td>
+						  		<%= f.label :convocatoria %><br />
+						    	<%= f.text_area :convocatoria %>
+						  	</td>
+							<td>
+								<%= f.label :descriptionadicional %><br />
+						    	<%= f.text_area :descriptionadicional %>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div id="runs_fotos">
+	
+				</div>
+
+				<p>
+					<%= f.submit 'Update' %>
+				</p>
+			<% end %>
+			
+			<h3>Files</h3>
+			<table>
+				<tr>
+					<td>
+						<%= form_tag('/admin/upload_file_run_mainphoto', :multipart => true) %>
+							<label for="upload_file">MAIN PHOTO</label>:
+							<%= file_field 'upload', 'datafile' %>
+							<%= submit_tag "Upload" %>
+							<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+						</form>
+					</td>
+					<td>
+						<%= form_tag('/admin/upload_file_run_diplomphoto', :multipart => true) %>
+							<label for="upload_file">DIPLOM PHOTO</label>:
+							<%= file_field 'upload', 'datafile' %>
+							<%= submit_tag "Upload" %>
+							<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<%= form_tag('/admin/upload_file_run_sponsoringphoto', :multipart => true) %>
+							<label for="upload_file">SPONSORING PHOTO</label>:
+							<%= file_field 'upload', 'datafile' %>
+							<%= submit_tag "Upload" %>
+							<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+						</form>
+					</td>
+					<td>
+						<%= form_tag('/admin/upload_file_run_mapphoto', :multipart => true) %>
+							<label for="upload_file">MAP PHOTO</label>:
+							<%= file_field 'upload', 'datafile' %>
+							<%= submit_tag "Upload" %>
+							<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<%= form_tag('/admin/upload_file_run_logophoto', :multipart => true) %>
+							<label for="upload_file">LOGO PHOTO</label>:
+							<%= file_field 'upload', 'datafile' %>
+							<%= submit_tag "Upload" %>
+							<input type="hidden" name="run_id" value="<%=@run.id%>"/>
+						</form>
+					</td>
+					<td>
+						
+					</td>
+				</tr>
+			</table>
+			
+
+
+	</div>
+  
+  
+	<a href="#" onClick="Boxy.get(this).hide();">Cerrar</a>
+</div>

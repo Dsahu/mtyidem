@@ -1,0 +1,28 @@
+<h1>Listing runevents</h1>
+
+<table>
+  <tr>
+    <th>Run</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Default amount</th>
+    <th>Default amount extra</th>
+  </tr>
+
+<% @runevents.each do |runevent| %>
+  <tr>
+    <td><%=h runevent.run.name %></td>
+    <td><%=h runevent.name %></td>
+    <td><%=h runevent.description %></td>
+    <td><%=h runevent.default_amount %></td>
+    <td><%=h runevent.default_amount_extra %></td>
+    <td><%= link_to 'Show', runevent %></td>
+    <td><%= link_to 'Edit', edit_runevent_path(runevent) %></td>
+    <td><%= link_to 'Destroy', runevent, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New runevent', new_runevent_path %>

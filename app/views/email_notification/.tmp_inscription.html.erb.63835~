@@ -1,0 +1,30 @@
+<h1><%= @title %></h1>
+
+Para: <%=@info["full_name"]%><br/>
+Carrera: <%=@info["run"]%><br/>
+Evento: <%=@info["event"]%><br/>
+Ficha: <%=@info["ficha"]%><br/>
+Pago: <%=@info["amount"]%><br/>
+
+<br/><br/>
+
+<% unless @info["pwd"].empty? %>
+	
+	En <a href="http://www.idemsport.com">www.idemsport.com</a> usted puede accesar a su propia cuenta. <br/>
+	Ver fotos, videos, resultados y mucho mas!<br/>
+	<p>
+		Sus datos de acceso a su cuenta Idemsport:<br/>
+		<b>
+			Email: <%=@info["email"]%><br/>
+			Password: <%= @info["pwd"]%>
+		</b>
+	</p>
+	
+	
+	<br/><br/><br/>
+	
+<% end %>
+
+Gracias,<br/>
+Tu equipo idemsport<br/><br/>
+info@idemsport.com<br/>

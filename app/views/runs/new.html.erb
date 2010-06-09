@@ -1,0 +1,91 @@
+<h1>New run</h1>
+
+<% form_for(@run) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :eventday %><br />
+    <%= f.date_select :eventday %>
+  </p>
+  <p>
+    <%= f.label :lastregisterday %><br />
+    <%= f.date_select :lastregisterday %>
+  </p>
+  <p>
+    <%= f.label :location %><br />
+    <%= f.text_field :location %>
+  </p>
+  <p>
+    <%= f.label :distance %><br />
+    <%= f.text_field :distance %>
+  </p>
+  <p>
+    <%= f.label :electronicservicequote %><br />
+    <%= f.text_field :electronicservicequote %>
+  </p>
+  <p>
+    <%= f.label :showincarrusel %><br />
+    <%= f.check_box :showincarrusel %>
+  </p>
+  <p>
+    <%= f.label :showresults %><br />
+    <%= f.check_box :showresults %>
+  </p>
+  <p>
+    <%= f.label :fichastart %><br />
+    <%= f.text_field :fichastart %>
+  </p>
+  <p>
+    <%= f.label :fichaend %><br />
+    <%= f.text_field :fichaend %>
+  </p>
+  <p>
+    <%= f.label :inscriptionopen %><br />
+    <%= f.check_box :inscriptionopen %>
+  </p>
+  <p>
+    <%= f.label :runtype_id %><br />
+    <%= f.text_field :runtype_id %>
+  </p>
+  <p>
+    <%= f.label :flickrlink %><br />
+    <%= f.text_field :flickrlink %>
+  </p>
+  <p>
+    <%= f.label :convocatoria %><br />
+    <%= f.text_area :convocatoria %>
+  </p>
+  <p>
+    <%= f.label :descriptionadicional %><br />
+    <%= f.text_area :descriptionadicional %>
+  </p>
+  <p>
+    <%= f.label :mainphoto %><br />
+    <%= f.text_field :mainphoto %>
+  </p>
+  <p>
+    <%= f.label :diplomphoto %><br />
+    <%= f.text_field :diplomphoto %>
+  </p>
+  <p>
+    <%= f.label :sponsoringphoto %><br />
+    <%= f.text_field :sponsoringphoto %>
+  </p>
+  <p>
+    <%= f.label :mapphoto %><br />
+    <%= f.text_field :mapphoto %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', runs_path %>

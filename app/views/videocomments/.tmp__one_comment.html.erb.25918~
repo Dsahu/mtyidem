@@ -1,0 +1,6 @@
+<tr>
+	<td style="padding:5px;" id="videocomment_<%=videocomment.id%>">
+		<span style="color:blue;"><b><%=h videocomment.user.full_name%></b></span> <%=h videocomment.description%><br/>
+		<span style="color:gray;"><%=videocomment.created_at%></span>
+	</td>
+</tr>

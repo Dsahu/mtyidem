@@ -1,0 +1,43 @@
+<p>
+  <b>User:</b>
+  <%=h @inscription.user_id %>
+</p>
+
+<p>
+  <b>Paidfrom:</b>
+  <%=h @inscription.paidfrom_id %>
+</p>
+
+<p>
+  <b>Amount:</b>
+  <%=h @inscription.amount %>
+</p>
+
+<p>
+  <b>Signed at:</b>
+  <%=h @inscription.signed_at %>
+</p>
+
+<p>
+  <b>Completed at:</b>
+  <%=h @inscription.completed_at %>
+</p>
+
+<p>
+  <b>Run:</b>
+  <%=h @inscription.run_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @inscription.description %>
+</p>
+
+<p>
+  <b>Runevent:</b>
+  <%=h @inscription.runevent_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_inscription_path(@inscription) %> |
+<%= link_to 'Back', inscriptions_path %>

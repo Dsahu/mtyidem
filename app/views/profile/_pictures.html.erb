@@ -1,0 +1,52 @@
+<% if picturegalleries.count.zero? %>
+	<br/><br/>
+	No tienes fotos. <br/>Ve a ver fotos y tageate y a tus amigos!<br/><br/>
+	<b><a style="font-size:18px;" href="/pictures">=> Fotos <=</a></b>
+	<br/><br/>
+<% end %>
+
+<% picturegalleries.each do |gal| %>
+	<table>
+		<tr>
+			<td>
+				<img src='<%= gal.first.run.logophoto %>' width="75px" />
+			</td>
+			<td>
+				<h3><%= gal.first.run.name%></h3>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<table>
+					<% pics_per_row = 3 %>
+					<% gal.each_with_index do |pic, idx| %>
+						<% if idx.zero? %>
+							<tr>
+						<% end %>
+						
+							<td style="padding:15px; ">
+								<% pic_size = pic.max_size(100,100) %>
+								<a href="/pictures?run=<%=pic.run_id%>&picture_id=<%=pic.id%>">
+									<img src='<%=pic.html_path%>' width="<%=pic_size.first%>px" height="<%=pic_size.last%>px" />
+								</a>
+							</td>
+						
+						<% if (idx+1).modulo(pics_per_row).zero? %>
+							</tr>
+						<% end %>
+					<% end %>
+					
+					<% unless gal.count.modulo(pics_per_row).zero? %>
+						<% gal.count.modulo(pics_per_row).times do |x| %>
+							<td></td>
+						<% end %>
+						</tr>
+					<% end %>
+				</table>
+			</td>
+		</tr>
+		
+		
+	</table>
+<% end %>

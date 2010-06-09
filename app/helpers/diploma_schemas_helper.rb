@@ -1,0 +1,2 @@
+module DiplomaSchemasHelper
+end

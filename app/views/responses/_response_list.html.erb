@@ -1,0 +1,28 @@
+<div id="wallevent_<%=wallevent.id%>_responses" <%= !options[:open] ? "style='display:none; padding-top:5px;'" : "style='padding-top:5px;'"  %>>
+
+   <table class="responsetable" id="wallevent_<%=wallevent.id%>_responses_table" style="width:100%;">
+        <% responses.each do |rp| %>
+            <%= render :partial => 'responses/one_response', :locals => {:response => rp} %>
+        <% end %>
+   </table>
+   <table>
+        <tr>
+            <td style="vertical-align:top;">
+                <% remote_form_for(Response.new) do |f| %>
+                    <table>
+                        <tr>
+                            <td>
+                                <%= f.hidden_field :wallevent_id, :value => wallevent.id %>
+                                <%= f.hidden_field :user_id, :value => wallevent.user_id %>
+                                <%= f.text_area :description, :value => options[:default_text], :style => "width:200px", :id => "wallevent_#{wallevent.id}_response_textarea", :onFocus => "wall_comment_got_focus('#wallevent_#{wallevent.id}_response_textarea'); return false;", :onBlur => "wall_comment_lost_focus('#wallevent_#{wallevent.id}_response_textarea'); return false;", :class => "wall_textarea" %>
+                            </td>
+                            <td>
+                                <%= f.submit "Enviar" %>
+                            </td>
+                        </tr>
+                    </table>
+               <% end %>
+            </td>
+        </tr>
+   </table>
+</div>

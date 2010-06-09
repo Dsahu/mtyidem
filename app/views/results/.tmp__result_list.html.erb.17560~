@@ -1,0 +1,74 @@
+<%
+	pages = total_count.to_i / max_per_page
+	if total_count.to_i.modulo(max_per_page).nonzero?
+		pages += 1
+	end
+%>
+
+<table style="border-collapse:collapse;">
+
+	<tr>
+		<td colspan="11" style="text-align:right;">Pagina <%= (1..pages).map do |x|
+				if x == pagenum
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params}, :html => {:class => 'page_helper_link'})}"
+				else 
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params})}"
+				end
+			end.join(" ") %></td>
+	</tr>
+
+	<tr>
+		<td class="restitle">Nombre</td> <!-- Nombre y apellido -->
+		<td class="restitle">Categoria</td>
+		<td class="restitle">Corredor</td>
+		<td class="restitle">Socio</td>
+		<td class="restitle">Club</td>
+		<td class="restitle">Edad</td>
+		<td class="restitle">Tiempo</td>
+		<td class="restitle">T. Chip</td>
+		<td class="restitle">Lug.<br/>Gen.</td>
+		<td class="restitle">Lug.<br/>Rama</td>
+		<td class="restitle">Lug.<br/>Cat.</td>
+		<td class="restitle">Paso</td>
+		<td class="restitle">Video</td>
+	</tr>
+	<% if results.length > 0 %>
+
+		<% results.each do |res| %>
+			<tr class="resrow">
+				<td class="resitem" style="text-align:left;"><%= res.user_id && res.user_id > 0 ? res.full_name : res.custom_full_name %></td>
+				<td class="resitem"><%=h res.cat %></td>
+				<td class="resitem"><%=h res.num %></td>
+				<td class="resitem"><%=h res.user_id %></td>
+				<td class="resitem" style="text-align:left;"><%=h res.club %></td>
+				<td class="resitem"><%=h res.edad %></td>
+				<td class="resitem"><%=h res.time_civil %></td>
+				<td class="resitem"><%=h res.time_chip_civil %></td>
+				<td class="resitem"><%=h res.rank_general %> / <%=res_count%></td>
+				<td class="resitem"><%=h res.rank_rama %> / <%= res.cat.index('M') ? men_count : women_count %></td>
+				<td class="resitem"><%=h res.rank_cat %> / <%=cats_count[:"#{res.cat}"]%></td>
+				<td class="resitem"><%=h res.paso_civil %></td>
+				<td class="resitem" style="text-align:center;">
+					<% vid_id = Video.get_minute_video(res.time_in_seconds/60, videos) %>
+					<% if vid_id %>
+						<a href="/videos/<%= vid_id%>">ver</a>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+		
+	<% else %>
+		<tr>
+			<td colspan="12" style="text-align:center;"><br/><br/><i>No hay resultados bajo esas condiciones.</i></td>
+		</tr>
+	<% end %>
+	<tr>
+		<td colspan="11" style="text-align:right;"><br/>Pagina <%= (1..pages).map do |x|
+				if x == pagenum
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params}, :html => {:class => 'page_helper_link'})}"
+				else 
+					"#{link_to_remote(x.to_s, :url => { :action => "search", :id => 0, :page => x.to_s, :search => s_params})}"
+				end
+			end.join(" ") %></td>
+	</tr>
+</table>

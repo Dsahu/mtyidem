@@ -1,0 +1,26 @@
+<h1>Listing wallevents</h1>
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>User</th>
+  </tr>
+
+<% @wallevents.each do |wallevent| %>
+  <tr>
+    <td><%=h wallevent.type %></td>
+    <td><%=h wallevent.name %></td>
+    <td><%=h wallevent.description %></td>
+    <td><%=h wallevent.user_id %></td>
+    <td><%= link_to 'Show', wallevent %></td>
+    <td><%= link_to 'Edit', edit_wallevent_path(wallevent) %></td>
+    <td><%= link_to 'Destroy', wallevent, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New wallevent', new_wallevent_path %>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+ 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ 		
+	<head> 
+		<title>IDEM Sport</title> 
+		<%= javascript_include_tag :defaults %>
+		<%= javascript_include_tag 'jquery-ui-1.7.2.custom.min' %>
+		<%= javascript_include_tag 'boxy/jquery.boxy' %>
+		<%= javascript_include_tag 'jquery.tools.min' if params[:controller] == "home" || params[:controller] == "calender" %>
+		<%= stylesheet_link_tag 'idemsport' %>
+		<%= stylesheet_link_tag 'humanity/jquery-ui-1.7.2.custom' %>
+		<%= stylesheet_link_tag 'boxy/boxy' %>
+		
+
+	</head> 
+	 
+	
+	<body> 
+		<div class="container">
+		
+			<div class="header" style="vertical-align:baseline;">
+				<table width="100%">
+					<tr>
+						<td><a href="#"><img src="/images/logo_top.png" /></a></td>
+						<% if current_user %>
+						<td style="padding-bottom:15px; padding-right:5px; text-align:right; vertical-align:bottom;"><a style="color:white;" href="/profile"><%=h current_user.full_name%></a></td>
+						<% end %>
+					</tr>
+				</table>
+			</div>
+		
+			<div class="menu">
+				<ul id="menu">
+					<li><a href="/" title="">Inicio</a></li>
+					<% if current_user %>
+						<li><a href="/profile" title="">Perfil</a></li>
+					<% end %>
+					<li><a href="/home/about" title="">Nosotros</a></li>
+					<li><a href="/carreras" title="">Carreras</a></li>
+					<li><a href="/pictures" title="">Fotos</a></li>
+					<li><a href="/videos" title="">Videos</a></li>
+					<li><a href="/results" title="">Resultados</a></li>
+					<li><a href="/calender" title="">Calendario</a></li>
+					<li><a href="/home/contact" title="">Contacto</a></li>
+					<% unless current_user %>
+						<li><a href="/signup" title="">Registro</a></li>
+					<% end %>
+					<% if current_user %>
+						<li><a href="/logout" title="">Logout</a></li>
+					<% else %>
+						<li><a href="/login" title="">Login</a></li>
+					<% end %>
+				</ul>
+			</div>
+		
+		
+			<div id="content">
+				<%= flash[:notice] %>
+				<%= yield %>
+			</div>
+		
+			<div class="actions">
+				<div class="actionsl">
+					<h1 class="fh1">Noticias Recientes</h1>
+					<p class="fp">Con sede en Monterrey Nuevo León, somos lideres en servicios para eventos deportivos masivos en el norte de México. </p><br/> 
+					<ul id="btv">
+						<li class="vm">
+							<a href="#"></a>
+						</li>
+					</ul><br/><br/>
+			
+					<h1 class="fh1">Noticias Recientes</h1>
+					<p class="fp">Con sede en Monterrey Nuevo León, somos lideres en servicios para eventos 
+					deportivos masivos en el norte de México. </p><br/> 
+					<ul id="btv"><li class="vm"><a href="#"></a></li></ul>
+				</div>
+			
+			
+			
+				<div class="actionsc">
+					<h1 class="fh1">Carreras Recientes</h1>
+					<p class="fp">Con sede en Monterrey Nuevo León, somos lideres en servicios para eventos deportivos masivos en el norte de México. </p><br/> 
+					<ul id="btv"><li class="vm"><a href="#"></a></li></ul><br/><br/>
+			
+					<h1 class="fh1">Noticias Recientes</h1>
+					<p class="fp">Con sede en Monterrey Nuevo León, somos lideres en servicios para eventos 
+					deportivos masivos en el norte de México. </p><br/> 
+					<ul id="btv"><li class="vm"><a href="#"></a></li></ul>
+				</div>
+			
+			
+			
+				<div class="actionsr">
+					<h1 class="fh1">Galería Reciente</h1><br/>
+					<img src="/images/gal1.png" class="ac">
+					<img src="/images/gal1.png" class="ac">
+					<img src="/images/gal1.png" class="ac">
+					<img src="/images/gal1.png" class="ac">
+					<img src="/images/gal1.png" class="ac">
+					<img src="/images/gal1.png" class="ac"><br/><br/>
+					<ul id="btvg"><li class="vm"><a href="#"></a></li></ul>
+				</div>
+			</div>
+		
+			<div class="footer">
+				<div class="ccl">
+					<h1 class="ch1w">Unete a la comunidad</h1>
+					<p class="cpw">Enterate de todas las noticias y de las mejores promociones.</p><br /> 
+		
+					<form> 
+						<span class="textform">Nombre</span> 
+						<input type="textfield" name="nombre" class="text_field"/> 
+						<br />
+		 
+						<span class="textform">E-mail</span> 
+						<input type="textfield" name="email" class="text_field"/> 
+						<br /><br />
+		
+						<label> 
+							<input type="submit" name="Enviar" Value="Enviar" class="send"/> 
+						</label> 
+		
+					</form> 
+				</div> 
+		
+				<div class="ccc">
+					<h1 class="ch1a">¡Siguenos también!</h1>
+					<p class="twitter"><a href="#">A través de nuestro <strong>Twitter</strong></a></p>
+					<p class="facebook"><a href="#">Por nuestro grupo en <strong>Facebook</strong></a></p>
+					<p class="mail"><a href="#">Por nuestros <strong>Newsletter</strong></a></p><br/><br/>
+					<h1 class="ch1a"><a href="#">Contacto vía web</a></h1>
+				</div> 
+		
+				<div class="ccr">
+					<h1 class="ch1"><strong>® 2010 Idem Sport</strong></h1>
+					<p class="cp">Todos los derechos reservados</p><br/><br/>
+					<h1 class="ch1a">Acceso directo</h1>
+					<p class="cp"><a href="#">Inicio</a> / <a href="#">Nosotros</a> / <a href="#">Carreras</a> / <a href="#">Resultados</a><br/><a href="#">Calendario</a> / <a href="#">Contacto</a> / <a href="#">Registro</a> / <a href="#">Login</a></p>
+				</div> 
+			</div> 
+		
+			<div class="footerc">
+			</div> 
+		
+		</div>
+	</body> 
+</html>

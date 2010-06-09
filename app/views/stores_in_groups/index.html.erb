@@ -1,0 +1,22 @@
+<h1>Listing stores_in_groups</h1>
+
+<table>
+  <tr>
+    <th>Store</th>
+    <th>Stroe group</th>
+  </tr>
+
+<% @stores_in_groups.each do |stores_in_group| %>
+  <tr>
+    <td><%=h stores_in_group.store_id %></td>
+    <td><%=h stores_in_group.stroe_group_id %></td>
+    <td><%= link_to 'Show', stores_in_group %></td>
+    <td><%= link_to 'Edit', edit_stores_in_group_path(stores_in_group) %></td>
+    <td><%= link_to 'Destroy', stores_in_group, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New stores_in_group', new_stores_in_group_path %>

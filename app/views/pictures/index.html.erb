@@ -1,0 +1,49 @@
+
+<div class="content_blank" style="min-height:400px;">
+	
+	<h1 class="fh1b">Galeria</h1><br/>
+	 <div style="margin-left:40px;">
+          <form action="/pictures">
+              Cambiar año: <select onchange="this.form.submit()" name="year">
+              <% @today.year.downto(2008).each do |y| %>
+                  <option <%= @year.to_s == y.to_s ? "selected='selected'" : "" %>  value="<%=y%>"><%=y%></option>
+              <% end %>
+              </select>
+          </form><br/>
+          Ve las fotos de las carreras.<br/><br/>
+      </div>
+
+
+
+
+   <!-- PAST RUNS WITH VIDEO-->
+
+    <% perline = 3 %>
+	<table style="padding-left:30px; border-collapse:collapse; width:100%;">
+      <% @pr_ar.each do |month| %>
+
+          <tr>
+            <td class="carrera_left"><%=h month[0].month_and_year.split(" ").first%><span class="carrera_year"><%=h month[0].month_and_year.split(" ").last%></span></td>
+            <td style="border-top:1px solid black;">
+              <table>
+				<% month.each_with_index do |run, index| %>
+				  <%="<tr>" if (index+1) % perline == 1%>
+					<td style="vertical-align:center; text-align:left;" width="150px" height="155px">
+				      <%= link_to(image_tag(run.logophoto, :size => "100x100"), "/pictures?run="+run.id.to_s) %><br/>
+                      <div style="padding-left:18px;"><%=run.eventday.strftime("%d-%m-%Y")%></div>
+				 	</td>
+			      <%="</tr>" if (index+1) % perline == 0%>
+				<% end %>
+			  </table>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+
+   <% if @runs.length.zero? %>
+        <div style="padding: 30px; font-weight:bold;">
+          Proximamente habrá fotos para carreras del <%=h @year%>.
+        </div>
+   <% end %>
+
+</div>

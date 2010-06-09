@@ -1,0 +1,39 @@
+<div class="content_blank">
+	<h1 class="fh1b">Log-In</h1><br/>
+	<div class="login_form">
+		<h1 class="subt">Inicia tu Sesión</h1>
+		<p class="cp">Si ya eres socio Idem Sport, para consultar tu perfil ingresa tus datos</p>
+		<br/>
+		<% form_tag session_path do -%>
+			<p><label for="email">Email</label><br/>
+			<%= text_field_tag 'email' %></p>
+					
+			<p><label for="password">Password</label><br/>
+			<%= password_field_tag 'password' %></p>
+				
+			<p><%= submit_tag 'Iniciar sesión' %></p>
+		<% end -%>
+		
+		<br/><br/>
+		<a href="/users/pwdforgotten/0">Has olvidado tu password? Haz clic aqui.</a>	
+	</div>
+	
+	<div class="login_txt">
+		<h1 class="subt">¿Aún no eres socio?</h1>
+		<p class="cp">¿Qué esperas? Así como los demás, empieza a gozar de manera gratuita de grandes beneficios, como:</p>
+		<br/>
+		<ul class="cp"> 
+			<li>Siempre estar al pendiente de las carreras</li> 
+			<li>Tener organizacion de sus resultados</li> 
+			<li>Fotos y videos de las carreras almacenados</li> 
+			<li>Compartir tus experencias con tus amgigos	</li> 
+		</ul> 
+		
+		<br/>
+		<ul id="btpromos"><li class="registrar"><a href="/signup"></a></li></ul> 
+	
+	</div>
+</div> 
+
+
+

@@ -1,0 +1,88 @@
+
+<div class="hidden" style="display:none;">
+	<% @convocatoriaunits.each do |unit| %>
+		<div id="convocatoriaunit_title_<%=@run.id%>_<%=unit.id%>">
+			<%=h unit.name%>
+		</div>
+		<div id="convocatoriaunit_content_<%=@run.id%>_<%=unit.id%>">
+			<%=h unit.description%>
+		</div>
+	<% end %>
+</div>
+
+
+
+<table class="convocatoria">
+	<tr>
+		<td>
+			
+			
+			
+			<table>
+				<tr>
+					<td>
+						<% if Date.today < @run.lastregisterday %>
+							<% bgcolordarkgreen = "bgcolordarkgreen_small"
+							   bgcolorgray = "bgcolorgray_small"
+							%>
+							<div onClick="window.location.replace('/inscriptions/new?run_id=<%=@run.id%>');" class="inscription_button">IR A INSCRIPCIÓN</div> 
+							<div onMouseover="jQuery(this).addClass('<%= @run.showresults ? bgcolordarkgreen : bgcolorgray %>');" onMouseout="jQuery(this).removeClass('<%= @run.showresults ? bgcolordarkgreen : bgcolorgray %>');" <%= @run.showresults ? " class='convoc_biglink_small' " : " class='convoc_smalllink_small' " %>><%= @run.showresults ? "RESULTADOS" : "proximamente resultados" %></div>
+							<div onMouseover="jQuery(this).addClass('<%= @run.showphotos ? bgcolordarkgreen : bgcolorgray %>');" onMouseout="jQuery(this).removeClass('<%= @run.showphotos ? bgcolordarkgreen : bgcolorgray %>');" <%= @run.showphotos ? " class='convoc_biglink_small' ".to_s : " class='convoc_smalllink_small' ".to_s %>><%= @run.showphotos ? "FOTOS" : "proximamente fotos" %> </div>
+							<div onMouseover="jQuery(this).addClass('<%= @run.showvideos ? bgcolordarkgreen : bgcolorgray %>');" onMouseout="jQuery(this).removeClass('<%= @run.showvideos ? bgcolordarkgreen : bgcolorgray %>');" <%= @run.showvideos ? " class='convoc_biglink_small' ".to_s : " class='convoc_smalllink_small' ".to_s %>><%= @run.showvideos ? "VIDEOS" : "proximamente videos" %> </div>
+						<% else %>
+							<% bgcolordarkgreen = "bgcolordarkgreen"
+							   bgcolorgray = "bgcolorgray"
+							%>
+							<div onMouseover="jQuery(this).addClass('<%= @run.showresults ? bgcolordarkgreen : bgcolorgray %>');" onMouseout="jQuery(this).removeClass('<%= @run.showresults ? bgcolordarkgreen : bgcolorgray %>');" onClick="window.location.replace('/results?run_id=<%=@run.id%>');" <%= @run.showresults ? " class='convoc_biglink' " : " class='convoc_smalllink' " %>><%= @run.showresults ? "RESULTADOS" : "proximamente resultados" %></div>
+							<div onMouseover="jQuery(this).addClass('<%= @run.showphotos ? bgcolordarkgreen : bgcolorgray %>');" onMouseout="jQuery(this).removeClass('<%= @run.showphotos ? bgcolordarkgreen : bgcolorgray %>');" onClick="window.location.replace('/pictures?run=<%=@run.id%>');" <%= @run.showphotos ? " class='convoc_biglink' ".to_s : " class='convoc_smalllink' ".to_s %>><%= @run.showphotos ? "FOTOS" : "proximamente fotos" %> </div>
+							<div onMouseover="jQuery(this).addClass('<%= @run.showvideos ? bgcolordarkgreen : bgcolorgray %>');" onMouseout="jQuery(this).removeClass('<%= @run.showvideos ? bgcolordarkgreen : bgcolorgray %>');" onClick="window.location.replace('/videos?run=<%=@run.id%>');" <%= @run.showvideos ? " class='convoc_biglink' ".to_s : " class='convoc_smalllink' ".to_s %>><%= @run.showvideos ? "VIDEOS" : "proximamente videos" %> </div>
+						<% end %>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<img width="300px" height="150px" src="<%=@run.mainphoto%>" />
+					</td>
+				</tr>
+			</table>
+		</td>
+		
+		<td id="convoclist_run_<%=@run.id%>" style="padding:15px; vertical-align:top; width:150px; background-color:#808080; color:white;">
+			<table id="convoclisttable_run_<%=@run.id%>">
+				<% @convocatoriaunits.each do |unit| %>
+					<tr>
+						<td>
+							<a style="color:white; text-decoration:none;" href="#" onClick="showConvocatoriaData('<%=@run.id%>','<%=unit.id%>');">
+								<%=h unit.name%>
+							</a>
+						</td>
+					</tr>
+				<% end %>
+			</table>
+			<div id="convocatoriaunitbottomcontainer_run_<%=@run.id%>">
+				<% if false %>
+					<div onMouseover="$(this).addClass('bgcolorred');" onMouseout="$(this).removeClass('bgcolorred');" class="convoc_bottomlink">MAP</div>
+				<% end %>
+			</div>
+		</td>
+		
+		<td style="padding:15px; vertical-align:top; width:350px;">
+		
+			<div id="convocatoriaunitdata_run_<%=@run.id%>">
+				<div style="font-weight:bold; padding-bottom:10px;" id="convocatoriaunitdata_title_run_<%=@run.id%>">
+					<%=h @convocatoriaunits.first.name if @convocatoriaunits && @convocatoriaunits.count > 0%>
+				</div>
+				<div id="convocatoriaunitdata_content_run_<%=@run.id%>">
+					<%=h @convocatoriaunits.first.description if @convocatoriaunits && @convocatoriaunits.count > 0%>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		init_convoc('<%=@run.id%>');
+	});
+</script>

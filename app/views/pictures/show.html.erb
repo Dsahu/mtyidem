@@ -1,0 +1,38 @@
+<p>
+  <b>Name:</b>
+  <%=h @picture.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @picture.description %>
+</p>
+
+<p>
+  <b>Upload by user:</b>
+  <%=h @picture.upload_by_user_id %>
+</p>
+
+<p>
+  <b>Path:</b>
+  <%=h @picture.path %>
+</p>
+
+<p>
+  <b>Run:</b>
+  <%=h @picture.run_id %>
+</p>
+
+<p>
+  <b>Visible:</b>
+  <%=h @picture.visible %>
+</p>
+
+<p>
+  <b>Counter:</b>
+  <%=h @picture.counter %>
+</p>
+
+
+<%= link_to 'Edit', edit_picture_path(@picture) %> |
+<%= link_to 'Back', pictures_path %>

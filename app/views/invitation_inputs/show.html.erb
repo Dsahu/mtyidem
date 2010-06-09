@@ -1,0 +1,13 @@
+<p>
+  <b>User:</b>
+  <%=h @invitation_input.user_id %>
+</p>
+
+<p>
+  <b>Input:</b>
+  <%=h @invitation_input.input %>
+</p>
+
+
+<%= link_to 'Edit', edit_invitation_input_path(@invitation_input) %> |
+<%= link_to 'Back', invitation_inputs_path %>

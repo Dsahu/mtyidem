@@ -1,0 +1,8 @@
+<div style="font-family:Verdana"><h1><%=@message%></h1>
+<h3><%=@title%></h3>
+
+<p>Alguien inscripbió para recibir las noticias de idemsport.com</p>
+
+Saludos,<br/>
+tu sistema idem ;)
+</div>

@@ -1,0 +1,33 @@
+<div style="padding:10px; padding-left:30px;">
+	<h1>Encontrar Amigos</h1>
+	
+	<%= form_remote_tag :url => "/friendfinder/search/0" %>
+	
+		<table>
+			<tr>
+				<td>Nombre</td>
+				<td>Apellido</td>
+				<td>Email</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="text" name="search[firstname]" />
+				</td>
+				<td>
+					<input type="text" name="search[lastname]" />
+				</td>
+				<td>
+					<input type="text" name="search[email]" />
+				</td>
+				<td>
+					<input type="submit" name="commit" value="Buscar" />
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+	<div id="results" style="padding-top:30px;">
+		
+	</div>
+	<br/><br/><br/><br/>
+</div>

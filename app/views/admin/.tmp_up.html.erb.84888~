@@ -1,0 +1,134 @@
+<% unless params[:id] %>
+
+<% else %>
+
+	<script type="text/javascript" language="JavaScript">
+		function toggle_custom() {
+			if ($('#custom_custom').is(":checked") == false) {
+				$('.custs').each(function(){
+					$(this).attr("disabled", true);
+				});
+			} else {
+				$('.custs').each(function(){
+					$(this).removeAttr("disabled");
+				});
+			}
+		}
+	</script>
+
+
+	<br/><h1><%=@run.name%></h1>
+
+	<table width="100%">
+		<tr>
+			<td width="50%">
+				<% form_remote_tag :url => '/admin/getuser/0' do -%>
+					# <input type="text" name="user[id]" />
+					<input type="submit" name="commit" value="BUSCAR" />
+				<% end -%>
+				
+			</td>
+			<td width="50%">
+				<% form_remote_tag :url => '/admin/findusers/0' do -%>
+					<table width="100%">
+						<tr>
+							<td width="50%">
+								Nombre <input type="text" name="search[firstname]" /><br/>
+								Apellido <input type="text" name="search[lastname]" /><br/>
+								Email <input type="text" name="search[email]" /><br/>
+								
+								
+							</td>
+							<td width="50%">
+								<input type="submit" name="commit" value="BUSCAR" /><br/>
+								<input type="reset" />
+
+							</td>
+						</tr>
+					</table>
+				<% end -%>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="display:none;" id="findusersresults">
+				
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="border-top:1px solid black;">
+				<br/><br/><br/>
+				 <% form_for :inscription, @inscription, :url => "/admin/maninsc/#{@run.id}" do |f| %>
+				
+					<%= f.hidden_field :run_id, :value => @run.id.to_s %>
+					<%= f.hidden_field :user_id, :value => "0" %>
+					
+					<table>
+						<tr>
+							<td>
+								<table>
+									<tr>
+										<td><%= f.label :runevent_id, "Evento"%></td>
+										<td><%= f.collection_select :runevent_id, @runevents, :id, :name %></td>
+									</tr>
+									<tr>
+										<td><%= f.label :dresssize, "Talla" %></td>
+										<td><%= @inscription.dresssizes %></td>
+									</tr>
+									<tr>
+										<td><%=f.label :firstname, "Nombre" %></td>
+										<td><%= f.text_field :firstname, :class => "custs" %></td>
+										
+									</tr>
+									<tr>
+										<td><%= f.label :lastname, "Apellido"%></td>
+										<td><%= f.text_field :lastname, :class => "custs"%></td>
+										
+									</tr>
+									<tr>
+										<td><%= f.label :email %></td>
+										<td><%= f.text_field :email, :class => "custs"%></td>
+									</tr>
+									<tr>
+										<td><%= f.label :age, "Edad" %></td>
+										<td><%= f.text_field :age, :class => "custs"%></td>
+									</tr>
+									<tr>
+										<td><%= f.label :sex, "Sexo" %></td>
+										<td>
+											<select id="inscription_sex" name="inscription[sex]">
+												<option value="1">Hombre</option>
+												<option value="0">Mujer</option>
+											</select>
+										</td>
+									</tr>
+									
+									<tr>
+										<td colspan="4" style="text-align:right;"></td>
+									</tr>
+								</table>
+							</td>
+							<td style="vertical-align:top; padding-left:30px;">
+								<table>
+									<tr>
+										<td>
+											<input type="checkbox" name="custom[check]" id="custom_custom" /> Usuario aun no existe <br /><br />
+											<input type="checkbox" name="custom[noemail]" /> No tiene Email
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<br/><br/><br/><%= f.submit 'ALTA', :style => "height: 80px; width: 100px" %> <input type="reset" />
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>	
+						
+					
+				<% end %>
+			</td>
+		</tr>
+	</table>
+
+<% end %>

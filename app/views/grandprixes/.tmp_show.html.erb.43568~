@@ -1,0 +1,128 @@
+<p>
+  <b>Name:</b>
+  <%=h @grandprix.name %>
+</p>
+
+<p>
+  <b>Name1:</b>
+  <%=h @grandprix.name1 %>
+</p>
+
+<p>
+  <b>Name2:</b>
+  <%=h @grandprix.name2 %>
+</p>
+
+<p>
+  <b>Name3:</b>
+  <%=h @grandprix.name3 %>
+</p>
+
+<p>
+  <b>Name4:</b>
+  <%=h @grandprix.name4 %>
+</p>
+
+<p>
+  <b>Name5:</b>
+  <%=h @grandprix.name5 %>
+</p>
+
+<p>
+  <b>Name6:</b>
+  <%=h @grandprix.name6 %>
+</p>
+
+<p>
+  <b>Name7:</b>
+  <%=h @grandprix.name7 %>
+</p>
+
+<p>
+  <b>Name8:</b>
+  <%=h @grandprix.name8 %>
+</p>
+
+<p>
+  <b>Name9:</b>
+  <%=h @grandprix.name9 %>
+</p>
+
+<p>
+  <b>Name10:</b>
+  <%=h @grandprix.name10 %>
+</p>
+
+<p>
+  <b>Name11:</b>
+  <%=h @grandprix.name11 %>
+</p>
+
+<p>
+  <b>Name12:</b>
+  <%=h @grandprix.name12 %>
+</p>
+
+<p>
+  <b>Name13:</b>
+  <%=h @grandprix.name13 %>
+</p>
+
+<p>
+  <b>Name14:</b>
+  <%=h @grandprix.name14 %>
+</p>
+
+<p>
+  <b>Name15:</b>
+  <%=h @grandprix.name15 %>
+</p>
+
+<p>
+  <b>Name16:</b>
+  <%=h @grandprix.name16 %>
+</p>
+
+<p>
+  <b>Name17:</b>
+  <%=h @grandprix.name17 %>
+</p>
+
+<p>
+  <b>Name18:</b>
+  <%=h @grandprix.name18 %>
+</p>
+
+<p>
+  <b>Name19:</b>
+  <%=h @grandprix.name19 %>
+</p>
+
+<p>
+  <b>Name20:</b>
+  <%=h @grandprix.name20 %>
+</p>
+
+<p>
+  <b>Name21:</b>
+  <%=h @grandprix.name21 %>
+</p>
+
+<p>
+  <b>Name22:</b>
+  <%=h @grandprix.name22 %>
+</p>
+
+<p>
+  <b>Name23:</b>
+  <%=h @grandprix.name23 %>
+</p>
+
+<p>
+  <b>Name24:</b>
+  <%=h @grandprix.name24 %>
+</p>
+
+
+<%= link_to 'Edit', edit_grandprix_path(@grandprix) %> |
+<%= link_to 'Back', grandprixes_path %>

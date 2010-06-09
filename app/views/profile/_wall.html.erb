@@ -1,0 +1,89 @@
+<%
+    if event_response && event_response == true
+        with_response = true
+    else
+        with_response = false
+    end   
+%>
+
+<table id="wallevents">
+    <% show_responses_by_default = true %>
+	<% wallevents.each do |we| %>
+		<tr>
+			<td style="padding-top:10px; vertical-align:top;">
+				<%=
+					if we.we_type == Wallevent::GENERAL_NEWUSER
+						"<img src='/images/new_member.jpg' width='40px' />"
+					elsif we.we_type == Wallevent::INSCRIPTION_SUCCESS
+						"<img src='/images/new_inscription_event.jpg' width='40px' />"
+					elsif we.we_type == Wallevent::PICTURE_TAGGED_OTHER || we.we_type == Wallevent::PICTURE_TAGGED_SELF || we.we_type == Wallevent::PICTURE_TAGGED_BY
+						"<img src='/images/hand_black.gif' width='40px' />"
+					elsif we.we_type == Wallevent::VIDEO_TAGGED_OTHER || we.we_type == Wallevent::VIDEO_TAGGED_SELF || we.we_type == Wallevent::VIDEO_TAGGED_BY || we.we_type == Wallevent::VIDEO_TAGGED_SYSTEM
+						"<img src='/images/video_event.jpg' width='40px' />"
+					elsif we.we_type == Wallevent::FRIEND_ACCEPTED
+						"<img src='/images/2runners.jpg' width='40px' />"
+                    elsif we.we_type == Wallevent::WALL_COMMENT
+                        "<a href='#{we.other.profile_path}'><img src='#{we.other.s_profilepic}' width='40px' /></a>"
+                    elsif we.we_type == Wallevent::WALL_COMMENT_DONE
+                        "<img src='/images/pencil.gif' width='40px' />"
+					end
+				%>
+			</td>
+			<td style="padding-top:10px;">
+				<table class="walleventtable">
+					<tr>
+						<td <%= "class='blackback'" if colormode == "white" %> <%="style='font-weight:bold; color:#{colormode};'" if colormode.length > 0 %>>
+							<%=
+								
+								if we.we_type == Wallevent::INSCRIPTION_SUCCESS
+									"<a onClick='loadBoxyConvoc(#{we.run_id})' class='wall_event_title_link' href='#' style='font-weight:bold;'>#{we.name}</a>"
+								elsif we.we_type == Wallevent::WALL_COMMENT
+									"<a class='userlink' href='#{we.otheruser.profile_path}'>#{we.otheruser.full_name}</a> escribió:"
+								else
+									"<b>#{we.name}</b>"
+								end
+							%>
+						</td>
+					</tr>
+					<tr>
+						<td style="font-weight:normal; padding-left:20px;">
+                            <% if we.description %>
+							    <div style="padding-left:10px; border-left:1px solid #ccc;"><p><%= we.description %></p></div>
+                            <% end %>
+
+                            <table>
+                              <tr>
+                                <td>
+                                  <div style="float:left; color:gray; position:relative; left:-20px; font-style:italic;"><%= we.created_at.strftime("%H:%M %d/%m/%Y") %></div>
+                                </td>
+                                <td>
+                                  <% if with_response %>
+                                    <div style="width:300px" id="wallevent_<%=we.id%>_response">
+
+                                      <% if we.we_type != Wallevent::WALL_COMMENT_DONE  %>
+                                            <a class="wallevent_toggle_responses" onClick="$('#wallevent_<%=we.id%>_responses').slideToggle();">Comentarios (<span id="wallevent_<%=we.id%>_responsecount"><%=we.responses.length%></span>)</a> <a class="wallevent_toggle_responses"  onClick="$('#wallevent_<%=we.id%>_responses').slideToggle();">Comentar algo</a>
+                                      <% else %>
+                                            <a class="userlink" href="<%=we.other.profile_path%>">Ver Comentarios</a>
+                                      <% end %>
+                                    </div>
+
+                                      <% if we.we_type != Wallevent::WALL_COMMENT_DONE  %>
+
+                                         <%= render :partial => 'responses/response_list', :locals => {:responses => we.responses, :wallevent => we, :options => {:open => show_responses_by_default, :default_text => "Escribe aqui..."}} %>
+                                         <% show_responses_by_default = false %>
+                                          
+                                      <% end %>
+                                  <% end %>
+                                </td>
+                              </tr>
+                            </table>
+
+
+
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<% end %>
+</table>

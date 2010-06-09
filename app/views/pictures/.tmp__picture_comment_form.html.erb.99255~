@@ -1,0 +1,25 @@
+<table width="100%" id="picturecomments">
+	<% picturecomments.each do |pc| %>
+		<%= render :partial => 'picturecomments/one_comment', :locals => {:picturecomment => pc} %>
+	<% end %>
+</table>
+			
+<!-- COMMENT FORM -->
+<% if current_user %>
+	<% remote_form_for(Picturecomment.new) do |f| %>
+		<table>
+			<tr>
+				<td>
+					<%= hidden_field_tag "format", "js" %>
+					<%= f.hidden_field :picture_id, :value => picture.id.to_s %>
+					<%= f.text_area :description, :rows => 2 %><br/>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">
+					<%= f.submit 'Comentar' %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+<% end %>

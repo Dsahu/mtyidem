@@ -1,0 +1,128 @@
+class Inscription < ActiveRecord::Base
+
+  belongs_to :ins_store
+  belongs_to :run
+  belongs_to :runevent
+  has_many :runevents, :through => :run
+  belongs_to :user
+  belongs_to :runner_category
+  has_many :runner_categories, :through => :run
+  
+  # PAIDFROM
+  ONLINE = 1  # the normal typical inscription online on the page
+  OFFLINE = 2 # inscription in sport offices etc
+  BYADMIN = 3 # last day when people at Run location are doing inscription
+  
+  DEFAULT_AGE = 0
+  DEFAULT_RETURN_URL = "http://www.idemsport.com"
+  DEFAULT_NOTIFY_URL = "http://www.idemsport.com/payment_notifications"
+  DRESS_SIZES = {:NA => 0, :chico => 1, :medium => 2, :grande => 3, :extragrande => 4}
+  
+  def paypal_url(user_age = DEFAULT_AGE, notify_url = DEFAULT_NOTIFY_URL, return_url = DEFAULT_RETURN_URL)
+    its_run = self.run
+    its_runevent = self.runevent
+    
+    values = {
+      :business => CGI::escape('ventas@idemsport.com'),
+      :cmd => '_cart',
+      :upload => 1,
+      :return => CGI::escape(return_url),
+      :invoice => id,
+      :currency_code => 'MXN',
+      :notify_url => CGI::escape(DEFAULT_NOTIFY_URL),
+      
+      :amount_1 => (its_runevent ? its_runevent.get_amount(user_age, (self.sex ? self.sex : (self.user ? self.user.sex : false))) : 200),
+      :item_name_1 => CGI::escape(its_run.name),
+      :item_number_1 => its_run.id,
+      :item_quantity_1 => 1
+    }
+    
+    "https://www.paypal.com/cgi-bin/webscr?" + values.map {|k,v| "#{k}=#{v}" }.join("&")
+    
+  end
+  
+  def get_runevent
+
+	if self.runevent_id == 0
+  		return Runevent.new(:name => "")
+  	end
+  	return self.runevent
+  	
+  end
+  
+  def get_completed_at
+  	if self.paidfrom_id == 2
+  		self.ins_date
+  	else
+  		self.completed_at
+  	end
+  end
+  
+  def get_age
+    if self.age
+      return self.age
+    else
+      if self.user
+        return self.user.age
+      end
+    end
+    return 0
+  end
+
+  def get_color
+    if self.runner_category_id
+      runner_category.color
+    else
+      (color ? color : "")
+    end
+  end
+
+  def full_name
+    if self.user
+      self.user.full_name
+    else
+      "#{self.firstname.strip.capitalize} #{self.lastname.strip.capitalize}"
+    end
+  end
+  
+  def dresssizes
+    tag = "<select id='inscription_dress_size' name='inscription[dresssize]'>"
+      tag << "<option value='1'>Chico</option>"
+      tag << "<option value='2'>Medium</option>"
+      tag << "<option value='3'>Grande</option>"
+      tag << "<option value='4'>Extragrande</option>"
+    tag << "</select>"
+  end
+  
+  def runevents_select(user_age=0)
+    its_run = self.run
+    its_runevents = its_run.runevents
+    all_payconds = its_run.payconds
+
+    allowed_runevent_ids = [];
+
+    tag = "<script type='text/javascript' language='JavaScript'>"
+      tag << "var payconds = ["
+        all_payconds.each do |pc| 
+          if (user_age >= pc.from_age && user_age <= pc.to_age) || user_age == 0
+            if self.sex.nil?
+              self.user.sex? ? user_sexmode = 2 : user_sexmode = 3
+            else
+              self.sex ? user_sexmode = 2 : user_sexmode = 3
+            end
+            
+            if pc.sexmode == 1 || user_sexmode == pc.sexmode
+              allowed_runevent_ids << pc.runevent_id
+              tag << "{runevent_id: #{pc.runevent_id.to_s}, paycond_id: #{pc.id.to_s}, amount: #{pc.amount.to_s}, amount_extra: #{pc.amount_extra.to_s}, from_age: #{pc.from_age.to_s}, to_age: #{pc.to_age.to_s}},"
+            end
+          end
+        end
+        tag = tag[0, tag.length-1] if tag[tag.length-1, tag.length-1] == ","
+      tag << "];"
+    tag << "</script>"
+
+    tag << "<select onChange='change_inscription_amount(this.value);' id='inscription_runevent_id' name='inscription[runevent_id]'>"
+    its_runevents.each { |re| tag << "<option value='#{re.id.to_s}'>#{re.name}</option>" if allowed_runevent_ids.include?(re.id) }
+    tag << "</select>"
+  end
+end

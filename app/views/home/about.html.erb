@@ -1,0 +1,377 @@
+<script type="text/javascript" language="JavaScript">
+	$(document).ready(function() {
+		// initialize scrollable and return the programming API
+		var api = $("#scroll").scrollable({
+			items: '#tools',
+			size: 1,
+			clickable: false
+		// use the navigator plugin
+		}).navigator({api: true});
+		 
+		// this callback does the special handling of our "intro page"
+		api.onStart(function(e, i) {
+			// when on the first item: hide the intro
+			if (i) {
+				$("#intro").fadeOut("slow");
+			// otherwise show the intro
+			} else {
+				$("#intro").fadeIn(1000);
+			}
+			// toggle activity for the intro thumbnail
+			$("#t0").toggleClass("active", i == 0);
+		});
+		 
+		// a dedicated click event for the intro thumbnail
+		$("#t0").click(function() {
+			// seek to the beginning (the hidden first item)
+			$("#scroll").scrollable().begin();
+		});	
+	});
+	
+</script>
+
+<br/><br/><h1 class="fh1b" style="margin-left:30px;">Nosotros</h1><br/>
+
+<div id="scroll"> 
+<!-- scrollable items --> 
+
+	<div id="tools"> 
+		<!-- empty slot --> 
+		<div class="tool">&nbsp;</div> 
+	 
+
+		<!-- historia --> 
+		<div class="tool" style="background:url(/images/toolscroll/idemsport.jpg)">
+	 
+			<div class="details"><span class="bigred">Nuestra</span><span class="bigblack"> Historia</span><br/><br/> 
+				Desde hace más de 10 años, IDEM SPORT se especializa en la creación, desarrollo e implementación de eventos deportivos. Nuestra experiencia permite satisfacer las necesidades de cada cliente organizando actividades atractivas para los deportistas y herramientas eficaces de comunicación y promoción para las instituciones y empresas.
+				<br/><br/>Con sede en Monterrey Nuevo León, somos lideres en servicios para eventos deportivos masivos en el norte de México, el vasto currículum de eventos realizados, avala su lugar. Además, somos una empresa comprometida con la sociedad, al promover la calidad de vida y el mejoramiento del medio ambiente a través del deporte.
+			</div> 
+	 
+		</div> 
+	 
+
+		<!-- servicios --> 
+		<div class="tool" style="background:url(/images/toolscroll/servicios.jpg)">
+	 
+			<div class="details"><span class="bigred">Nuestros</span><span class="bigblack"> Servicios</span><br/><br/> 
+				Ofrecemos los servicios de logística y la infraestructura necesaria para la realización de eventos deportivos masivos, ya sean festivos o competitivos. Además del sistema de cronometraje electrónico IPICO SPORTS.
+				<br/><br/>
+				<ul>
+					<li>Servicios de Logistica</li>
+					<li>Proveedores</li>
+					<li>Marketing Deportivo</li>
+					<li>Infraestructura</li>
+					<li>Cronometraje Electronico</li>
+				</ul>
+			</div> 
+	 
+
+		</div> 
+	 
+			
+		<!-- infraestructura --> 
+		<div class="tool" style="background:url(/images/toolscroll/infraestructura.jpg)"> 
+		 
+			<div class="details2"><span class="bigred">Servicios e</span><span class="bigblack"> Infraestructura</span><br/><br/> 
+				<div class="leftabout">
+					<ul>
+						<li>Diseño y medición de rutas</li>
+						<li>Gestión de permisos</li>
+						<li>Elaboración de convocatoria</li>
+						<li>Diseño de zonas de recuperación</li>
+						<li>Atención a participantes</li>
+						<li>Personal calificado para cubrir los requerimientos del evento</li>
+						<li>Entrega de números previo a la competencia</li>
+						<li>Difusión previa del evento</li>
+					</ul>
+				</div>
+		
+				<div class="centerabout">
+					<ul>
+						<li>Premiación, Áreas VIP</li>
+						<li>Toldos, mesas, sillas</li>
+						<li>Puentes de salida y meta </li>
+						<li>Señales de distancia en recorrido </li>
+						<li>Estructuras para publicidad </li>
+						<li>Podiums, escenarios, gradas</li>
+						<li>Sonido</li>
+						<li>Barreras, conos</li>
+					</ul>
+				</div>
+
+				<div class="rightabout"><br/>
+					Contamos con proveedores confiables en 
+					calidad, precio y puntualidad para artículos como camisetas, 
+					medallas, trofeos, bolsas, y servicios como paramédicos, 
+					ambulancias, masajistas, diseño e impresión de publicidad, 
+					hidratación, atención VIP, entre otros.
+				</div>
+
+			</div> 
+	 
+
+		</div> 
+	 
+			
+		<!-- cronometraje --> 
+		<div class="tool" style="background:url(/images/toolscroll/cronometraje.jpg)">
+		 
+			<div class="details"><span class="bigred">Servicio de</span><span class="bigblack"> Cronometraje</span><br/><br/> 
+				Tapetes delgados funcionan como antenas que envían y reciben un campo magnético. Las antenas son conectadas a unos dispositivos controladores cada vez que un chip cruza los tapetes, este se energiza y envía su ID. 
+				<br/><br/>El numero ID y el correspondiente tiempo, son registrados por el Reader y transferidos a una computadora para posterior procesamiento.
+				<br/><br/><img src="/images/toolscroll/diagrama.jpg">
+			</div> 
+
+		</div> 
+	 
+			
+		<!-- clientes --> 
+		<div class="tool" style="background:url(/images/toolscroll/clientes.jpg)">
+
+		</div> 
+	 
+			
+		<!-- plus --> 
+		<div class="tool" style="background:url(/images/toolscroll/plus.jpg)"> 
+		 
+			<div class="details"> <span class="bigred">Beneficios unicos con</span><span class="bigblack"> IDEM Sport</span><br/><br/> 
+				<ul>
+					<li>Resultados por Chip</li>
+					<li>Galería de Fotos por corredor</li>
+					<li>Galería de Videos</li>
+					<li>Sistema de Registro en línea</li>
+					<li>Sistema de pago con Tarjeta de Credito</li>
+				</ul>
+			</div> 
+			 
+		</div> 
+	 
+	</div> 
+	 
+		
+
+	<!-- intro --> 
+	<div id="intro" class="tool" style="background:url(/images/toolscroll/index.jpg)"> 
+		<div class="details"><span class="bigred">IDEM</span><span class="bigblack"> Sport</span><br/><br/>
+			<strong>Experiencia, creatividad e innovación</strong> se conjugan para ofrecer un servicio integral que comprende la planeación, organización, ejecución y evaluación  de eventos deportivos.
+		</div> 
+	</div> 
+	 
+		
+
+	<!-- required for IE6/IE7 --> 
+	<br clear="all" /> 
+	 
+
+
+	<!-- thumbnails --> 
+	<div id="thumbs" class="t"> 
+	 
+	<!-- intro page navi button --> 
+		<a id="t0" class="active"></a> 
+	 
+	<!-- scrollable navigator root element --> 
+		<div class="navi"> 
+			<a style="display:none"></a> 
+			<a id="t1"></a> 
+			<a id="t2"></a> 
+			<a id="t3"></a> 
+			<a id="t4"></a> 
+			<a id="t5"></a> 
+			<a id="t6"></a> 
+		</div> 
+	</div> 
+	 
+</div> 
+<!-- END OF SCROLL -->
+
+
+
+
+
+
+
+<!--<a href="#" onClick="hideallfromaboutandshowother('principal');">Principal</a> 
+<a href="#" onClick="hideallfromaboutandshowother('offering');">Offering</a> 
+<a href="#" onClick="hideallfromaboutandshowother('chip');">Chip</a> 
+<a href="#" onClick="hideallfromaboutandshowother('services');">Servicios</a> 
+
+<br/><br/><br/>
+
+<div class="aboutcontentdiv" id="principal" style="width:1000px;">
+	<div style="font-weight:bold; width:600px;">
+		// Desde hace más de 10 años, IDEM SPORT se especializa en la creación, 
+		desarrollo e implementación de eventos deportivos. Nuestra experiencia 
+		permite satisfacer las necesidades de cada cliente organizando actividades 
+		atractivas para los deportistas y herramientas eficaces de comunicación 
+		y promoción para las instituciones y empresas. 
+	</div>
+	<br/>
+	<div style="width:600px;">
+		Con sede en Monterrey Nuevo León, somos lideres en servicios para eventos 
+		deportivos masivos en el norte de México, el vasto currículum de eventos 
+		realizados, avala su lugar. Además, somos una empresa comprometida con la 
+		sociedad, al promover la calidad de vida y el mejoramiento del medio 
+		ambiente a través del deporte.
+	</div>
+	<br/>
+	<div style="width:400px; color:white; background-color:green;">
+		Experiencia, creatividad e innovación se conjugan 
+		para ofrecer un servicio integral que comprende la 
+		planeación, organización, ejecución y evaluación 
+		de eventos deportivos tales como: 
+	</div>
+</div>
+
+<div class="aboutcontentdiv" id="offering" style="width:1000px; display:none;">
+	<table width="100%">
+		<tr>
+			<td style="vertical-align:top; text-align:left;">
+				<div style="width:600px;float:left;">
+					<b>// IDEM SPORT</b> ofrece los servicios de logística y la infraestructura 
+					necesaria para la realización de eventos deportivos masivos, ya sean 
+					festivos o competitivos. Además del sistema de cronometraje 
+					electrónico <b>IPICO SPORTS</b>.
+				</div>
+				<br/><br/><br/><br/><br/><br/><br/>
+
+				<div style="width:300px; float:left; background-color:black; color:white; font-weight:bold; padding:5px;">// SERVICOS DE LOGISTICA</div><br/><br/>
+				<div style="width:300px; float:left; background-color:black; color:white; font-weight:bold; padding:5px;">// PROVEEDORES</div><br/><br/>
+				<div style="width:300px; float:left; background-color:black; color:white; font-weight:bold; padding:5px;">// MARKETING DEPORTIVO</div><br/><br/>
+				<div style="width:300px; float:left; background-color:black; color:white; font-weight:bold; padding:5px;">// INFRASTRUCTURA</div><br/><br/>
+				<div style="width:300px; float:left; background-color:black; color:white; font-weight:bold; padding:5px;">// CRONOMETRAJE ELECTRONICO</div><br/><br/>
+				
+				<br/><br/><br/>
+				<img style="border:none;" src="/images/ipicosportslogo.jpg" />
+			</td>
+			<td style="text-align:right; vertical-align:top;">
+				<div style="float:right;">
+					<img src="/images/nosotorsservicespic1.jpg" style="border:none;" />
+				</div>
+			</td>
+		</tr>
+	</table>
+		
+</div>
+
+<div class="aboutcontentdiv" id="chip" style="width:1000px; display:none;">
+	<table width="100%">
+		<tr>
+			<td width="550px">
+				<img width="500px" style="border:none;" src="/images/zaptatoconchip.jpg" />
+			</td>
+			<td>
+				<div>
+					- Transreceptor en un encapsulado plástico<br/>
+					- Puede ser usado en cualquier condición ambiental (humedad, calor, nieve)<br/>
+					- No requiere de baterías<br/>
+					- Código de identificación único (ID)<br/>
+				</div><br/><br/>
+				<div style="font-weight:bold; text-align:left;">
+					Tapetes delgados funcionan como antenas que envían y reciben un campo magnético. 
+					Las antenas son conectadas a unos dispositivos controladores cada vez que un 
+					chip cruza los tapetes, este se energiza y envía su ID.
+				</div><br/><br/>
+				<div style="text-align:right;">
+					El numero ID y el correspondiente tiempo, son registrados por el Reader y 
+					transferidos a una computadora para posterior procesamiento.
+				</div>
+				<img style="border:none;" src="/images/chipdescription.png" />
+			</td>
+		</tr>
+		
+	</table>
+	<br/><br/><br/><br/>
+	<table width="100%">
+		<tr>
+			<td width="60%" style="vertical-align:top;">
+				<h2>BENEFICIOS DEL USO DE CHIP</h2>
+				<b>A los Organizadores</b><br/>
+				<ul>
+					<li>Rapidez y exactitud en los resultados.</li>
+					<li>Servicios de alto nivel, al proveer tiempos netos e intermedios por cada participante.</li>
+					<li>Servicio de tiempos intermedios para prensa, TV e Internet, y puntos de verificación.</li>
+					<li>Permite una línea de Meta libre, preferida por los patrocinadores.</li>
+				</ul><br/><br/><br/>
+				<b>A los Participantes</b><br/>
+				<ul>
+					<li> Resultados rápidos y exactos en cada evento.</li>
+					<li>Tiempos netos: IPICO SPORTS registra el tiempo individual, aun cuando la posición de arranque sea al final de grupo.</li>
+					<li>Tiempo intermedio, de transición en Triatlón, de cada vuelta para circuitos.</li>
+					<li>Flujo libre en línea de meta.</li>
+ 				</ul>
+			</td>
+			<td style="vertical-align:top;">
+				<img width="60%" style="border:none;" src="/images/chipbenefitpic1.jpg" />
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="aboutcontentdiv" id="services" style="display:none; width:800px;">
+
+	<table>
+		<tr>
+			<td width="450px" style="vertical-align:top;">
+		
+					<div style="color:white; background-color:black; font-weight:bold; width:170px; padding:5px;">// SERVICIOS DE LOGISTICA</div>
+		
+			</td>
+			<td width="350px" style="vertical-align:top;">
+		
+					<div style="color:white; background-color:black; font-weight:bold; width:130px; padding:5px;">// INFRASTRUCTURA</div>
+		
+			</td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;">
+				_Diseño y medición de rutas<br/>
+				_Gestión de permisos<br/>
+				_Elaboración de convocatoria<br/>
+				_Diseño de zonas de recuperación<br/>
+				_Atención a participantes<br/>
+				_Personal calificado para cubrir los requerimientos del evento<br/>
+				_Entrega de números previo a la competencia<br/>
+				_Difusión previa del evento<br/>
+				_Premiación<br/>
+				_Coordinación general del evento<br/>
+			</td>
+			<td style="vertical-align:top;">
+				_Barreras, conos<br/>
+				_Toldos, mesas, sillas<br/>
+				_Puentes de salida y meta<br/>
+				_Área VIP<br/>
+				_Motocicletas<br/>
+				_Cronómetro <br/>
+				_Señales de distancia en recorrido<br/>
+				_Estructuras para publicidad <br/>
+				_Podiums<br/>
+				_Escenarios<br/>
+				_Gradas<br/>
+				_Sonido<br/><br/><br/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div style="color:white; background-color:black; font-weight:bold; width:170px; padding:5px;">// PROVEEDORES</div>
+			</td>
+			<td>
+				<div style="color:white; background-color:black; font-weight:bold; width:170px; padding:5px;">// MARKETING DEPORTIVO</div>
+			</td>
+		</tr>
+		<tr>
+			<td style="vertical-align:top;">
+				<b>IDEM SPORT</b> ofrece una cartera de proveedores confiables en 
+				calidad, precio y puntualidad para artículos como camisetas, 
+				medallas, trofeos, bolsas, y servicios como paramédicos, 
+				ambulancias, masajistas, diseño e impresión de publicidad, 
+				hidratación, atención VIP, entre otros.
+			</td>
+			<td style="vertical-align:top;">
+				<b>IDEM SPORT cuenta con personal capacitado para exponer su marca en diferentes espacios y eventos.</b>
+			</td>
+		</tr>
+	</table>
+</div>
+-->

@@ -1,0 +1,34 @@
+<h1>Listing diploma_elements</h1>
+
+<table>
+  <tr>
+    <th>Font size</th>
+    <th>Font weight</th>
+    <th>Font-family</th>
+    <th>Pos x</th>
+    <th>Pos y</th>
+    <th>Is italic</th>
+    <th>Column name</th>
+    <th>Diploma schema</th>
+  </tr>
+
+<% @diploma_elements.each do |diploma_element| %>
+  <tr>
+    <td><%=h diploma_element.font_size %></td>
+    <td><%=h diploma_element.font_weight %></td>
+    <td><%=h diploma_element.font-family %></td>
+    <td><%=h diploma_element.pos_x %></td>
+    <td><%=h diploma_element.pos_y %></td>
+    <td><%=h diploma_element.is_italic %></td>
+    <td><%=h diploma_element.column_name %></td>
+    <td><%=h diploma_element.diploma_schema_id %></td>
+    <td><%= link_to 'Show', diploma_element %></td>
+    <td><%= link_to 'Edit', edit_diploma_element_path(diploma_element) %></td>
+    <td><%= link_to 'Destroy', diploma_element, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New diploma_element', new_diploma_element_path %>
