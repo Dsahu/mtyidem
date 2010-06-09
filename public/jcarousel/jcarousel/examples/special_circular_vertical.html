@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us">
+<head>
+<title>jCarousel Examples</title>
+<link href="../style.css" rel="stylesheet" type="text/css" />
+
+<!--
+  jQuery library
+-->
+<script type="text/javascript" src="../lib/jquery-1.2.3.pack.js"></script>
+
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="../lib/jquery.jcarousel.js"></script>
+
+<!--
+  jCarousel core stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../lib/jquery.jcarousel.css" />
+
+<!--
+  jCarousel skin stylesheet
+-->
+<link rel="stylesheet" type="text/css" href="../skins/tango/skin.css" />
+
+<script type="text/javascript">
+
+var mycarousel_itemList;
+
+function mycarousel_itemVisibleInCallback(carousel, item, i, state, evt)
+{
+
+    // The index() method calculates the index from a
+    // given index who is out of the actual item range.
+
+	var idx = carousel.index(i, mycarousel_itemList.length);
+	var middleidx = (idx-2);
+	if (middleidx < 0)
+		middleidx = (mycarousel_itemList.length-1);
+
+	$('#testimg').fadeOut("fast").attr('src', mycarousel_itemList[middleidx].imgbigobj.attr('src')).fadeIn("fast");
+	carousel.add(i, mycarousel_getItemHTML(mycarousel_itemList[idx - 1]));
+};
+
+function mycarousel_itemVisibleOutCallback(carousel, item, i, state, evt)
+{
+	carousel.remove(i);
+};
+
+/**
+ * Item html creation helper.
+ */
+function mycarousel_getItemHTML(item)
+{
+	return item.imgsmallobj;
+};
+
+jQuery(document).ready(function() {
+
+	mycarousel_itemList = [
+		{url: 'http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg', title: 'Flower1', imgsmallobj: $('#smallpic_1').clone(), imgbigobj: $('#bigpic_1').clone() },
+		{url: 'http://static.flickr.com/75/199481072_b4a0d09597_s.jpg', title: 'Flower2', imgsmallobj: $('#smallpic_2').clone(), imgbigobj: $('#bigpic_2').clone() },
+		{url: 'http://static.flickr.com/57/199481087_33ae73a8de_s.jpg', title: 'Flower3', imgsmallobj: $('#smallpic_3').clone(), imgbigobj: $('#bigpic_3').clone() },
+		{url: 'http://static.flickr.com/77/199481108_4359e6b971_s.jpg', title: 'Flower4', imgsmallobj: $('#smallpic_4').clone(), imgbigobj: $('#bigpic_4').clone() },
+		{url: 'http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg', title: 'Flower5', imgsmallobj: $('#smallpic_5').clone(), imgbigobj: $('#bigpic_5').clone() },
+		{url: 'http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg', title: 'Flower6', imgsmallobj: $('#smallpic_6').clone(), imgbigobj: $('#bigpic_6').clone() },
+		{url: 'http://static.flickr.com/58/199481218_264ce20da0_s.jpg', title: 'Flower7', imgsmallobj: $('#smallpic_7').clone(), imgbigobj: $('#bigpic_7').clone() },
+		{url: 'http://static.flickr.com/69/199481255_fdfe885f87_s.jpg', title: 'Flower8', imgsmallobj: $('#smallpic_8').clone(), imgbigobj: $('#bigpic_8').clone() },
+		{url: 'http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg', title: 'Flower9', imgsmallobj: $('#smallpic_9').clone(), imgbigobj: $('#bigpic_9').clone() },
+		{url: 'http://static.flickr.com/70/229228324_08223b70fa_s.jpg', title: 'Flower10', imgsmallobj: $('#smallpic_10').clone(), imgbigobj: $('#bigpic_10').clone() }
+	];
+
+
+    jQuery('#mycarousel').jcarousel({
+        wrap: 'circular',
+		vertical: true,
+        scroll: 1,
+		auto: 3,
+        itemVisibleInCallback: {onBeforeAnimation: mycarousel_itemVisibleInCallback},
+        itemVisibleOutCallback: {onAfterAnimation: mycarousel_itemVisibleOutCallback}
+    });
+});
+
+</script>
+</head>
+<body>
+<div id="wrap">
+  <h1>jCarousel</h1>
+  <h2>Riding carousels with jQuery</h2>
+
+  <h3>Circular carousel</h3>
+  <p>
+    jCarousel has no full support for circular carousels. Instead it provides some basic
+    helper methods to simply create it. This example shows how to do so.
+  </p>
+	<div id="cctest">
+
+	</div>
+	<div id="ctest">
+
+	</div>
+
+
+	<table>
+		<tr>
+			<td><img width="600" height="300" id="testimg" src="#"/></td>
+			<td>
+				<ul id="mycarousel" class="jcarousel-skin-tango">
+					<!-- The content will be dynamically loaded in here -->
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	
+
+	<br/><br/><br/>
+
+  
+
+</div>
+
+<div style="display:none">
+	<img id="smallpic_1" width="100px" height="100px" src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" />
+	<img id="smallpic_2" width="100px" height="100px" src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" />
+	<img id="smallpic_3" width="100px" height="100px" src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" />
+	<img id="smallpic_4" width="100px" height="100px" src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" />
+	<img id="smallpic_5" width="100px" height="100px" src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" />
+	<img id="smallpic_6" width="100px" height="100px" src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" />
+	<img id="smallpic_7" width="100px" height="100px" src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" />
+	<img id="smallpic_8" width="100px" height="100px" src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" />
+	<img id="smallpic_9" width="100px" height="100px" src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" />
+	<img id="smallpic_10" width="100px" height="100px" src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" />
+
+	<img id="bigpic_1" src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" />
+	<img id="bigpic_2" src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" />
+	<img id="bigpic_3" src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" />
+	<img id="bigpic_4" src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" />
+	<img id="bigpic_5" src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" />
+	<img id="bigpic_6" src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" />
+	<img id="bigpic_7" src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" />
+	<img id="bigpic_8" src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" />
+	<img id="bigpic_9" src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" />
+	<img id="bigpic_10" src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" />
+</div>
+</body>
+</html>
